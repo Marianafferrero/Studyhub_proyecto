@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2F3C7E">
-<title>Studyhub Demo</title>
+<title>Studyhub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -32,13 +32,9 @@ button{cursor:pointer}
 h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0.01em}
 .hidden{display:none!important}
 
-/* demo bar */
-.demobar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;gap:12px;justify-content:space-between;padding:8px 16px;background:var(--gold);color:var(--gold-ink);font-size:12.5px;font-weight:600}
-.demobar b{font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
-.demobar button{border:1.5px solid var(--gold-ink);background:transparent;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;color:var(--gold-ink);white-space:nowrap}
 
 /* auth */
-.auth{min-height:calc(100vh - 38px);min-height:calc(100dvh - 38px);display:flex;align-items:center;justify-content:center;padding:32px 16px}
+.auth{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:32px 16px}
 .auth.dark{background:var(--navy);color:#fff;position:relative;overflow:hidden}
 .auth.dark::before,.auth.dark::after{content:"";position:absolute;border-radius:50%;background:var(--navy-d)}
 .auth.dark::before{width:420px;height:420px;top:-160px;right:-120px}
@@ -101,8 +97,8 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .modecard.sel-s{border-color:var(--teal)} .modecard.sel-s .ic{background:var(--teal);color:#fff}
 
 /* app shell */
-.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:calc(100vh - 38px);min-height:calc(100dvh - 38px)}
-.side{background:var(--navy);color:var(--navy-l);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:38px;height:calc(100vh - 38px)}
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.side{background:var(--navy);color:var(--navy-l);display:flex;flex-direction:column;padding:22px 0;position:sticky;top:0;height:100vh;height:100dvh}
 .side .logo{font-family:var(--display);font-weight:800;font-size:21px;color:#fff;padding:0 22px 16px}
 .seg{margin:0 16px 18px;background:var(--navy-d);border-radius:10px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .seg button{border:0;background:transparent;color:var(--navy-l);border-radius:7px;padding:7px 4px;font-size:12px;font-weight:700}
@@ -319,7 +315,6 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 @media (max-width: 480px){
   .quick{grid-template-columns:1fr}
   .card{padding:24px 20px}
-  .demobar span{display:none}
 }
 /* calificaciones */
 .stars{display:inline-flex;gap:2px;vertical-align:-2px}
@@ -367,7 +362,7 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .tabbar,.sheet,.agenda{display:none}
 @media (max-width: 780px){
   .app{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
-  .side{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;position:sticky;top:38px;z-index:20;height:auto}
+  .side{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));position:sticky;top:0;z-index:20;height:auto}
   .side .logo{padding:0;font-size:19px}
   .side .seg{margin:0;width:200px;flex:none}
   .side .nav{display:none}
@@ -409,7 +404,6 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
-<div class="demobar"><div><b>Demo</b><span>Versión de prueba de Studyhub · los datos son de ejemplo</span></div><button type="button" data-a="reset">Reiniciar demo</button></div>
 <div id="root"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -872,7 +866,7 @@ function pTools(){
   const T = [['calendar','Google Calendar','Sincroniza tus bloques y sesiones','cal'],['drive','Google Drive','Adjunta documentos y apuntes','drive'],['chatgpt','Asistente de IA','Resume tus notas y genera práctica','spark'],['notion','Notion','Importa tus páginas de estudio','doc']];
   return head('Herramientas','Conecta lo que ya usas para organizar tu estudio en un solo lugar.') +
   `<div class="tools">${T.map(([k,n,d,icn])=>`<div class="tool"><span class="ti">${ic(icn,22,'#2F3C7E')}</span><div class="grow"><strong>${n}</strong><small>${d}</small></div>${S.tools[k]?`<button class="btn btn-sm on-badge" data-a="tool" data-v="${k}" aria-pressed="true">${ic('check',14,'var(--green)',2.6)} Conectado</button>`:`<button class="btn btn-accent btn-sm" data-a="tool" data-v="${k}" aria-pressed="false">Conectar</button>`}</div>`).join('')}</div>
-  <p class="small muted" style="margin-top:16px">En la demo, conectar solo cambia el estado. Haz clic en “Conectado” para desconectar.</p>`;
+  <p class="small muted" style="margin-top:16px">Haz clic en “Conectado” para desconectar una herramienta.</p>`;
 }
 
 /* ---------- notebooks ---------- */
@@ -995,7 +989,7 @@ document.addEventListener('click', e=>{
   const a = el.dataset.a, v = el.dataset.v;
   if(a==='task'){ const t=S.tasks.find(x=>x.id==v); t.done=el.checked; render(); return; }
   switch(a){
-    case 'reset': S = fresh(); render(); toast('Demo reiniciada'); break;
+    case 'reset': S = fresh(); render(); toast('Cerraste sesión'); break;
     case 'to': S.errors={}; go({screen:v}); break;
     case 'confirmed': go({screen:'mode'}); toast('Correo confirmado'); break;
     case 'resend': toast('Te reenviamos el correo'); break;

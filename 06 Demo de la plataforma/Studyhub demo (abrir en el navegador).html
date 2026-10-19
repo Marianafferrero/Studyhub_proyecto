@@ -236,6 +236,15 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin-top:12px}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .addform{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:18px}
+.kindpick{grid-column:1/-1;border:0;padding:0;margin:0 0 4px}
+.kindpick legend{font-size:12.5px;font-weight:700;color:var(--ink-2);margin-bottom:8px;padding:0}
+.kindpick .opts{display:flex;gap:8px;flex-wrap:wrap;margin:0}
+.kindpick label{position:relative}
+.kindpick input{position:absolute;opacity:0;pointer-events:none}
+.kindpick span{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;background:var(--paper)}
+.kindpick span i{width:12px;height:12px;border-radius:3px;flex:none;box-shadow:inset 0 0 0 1px rgba(20,26,51,.22)}
+.kindpick input:checked+span{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy);color:var(--ink)}
+.kindpick input:focus-visible+span{outline:2.5px solid var(--gold);outline-offset:2px}
 
 /* home */
 .tasks{display:flex;flex-direction:column;gap:8px}
@@ -454,6 +463,7 @@ const CANDS = [
    quote:'Me sirve más explicar que estudiar en silencio.',
    exchange:'Pago por sesión ($20.000 COP)', avail:'Sábados en la mañana', style:'Tipo tutoría'}
 ];
+const KINDS = [['class','Clase','var(--line-2)','Ej: Cálculo II — clase magistral'],['study','Estudio personal','var(--teal-soft)','Ej: Estadística — taller 2'],['session','Sesión acompañada','var(--coral)','Ej: Economía con María José']];
 const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const LEVELS = ['Apenas empiezo','Voy bien','Puedo explicarla','La domino'];
 const RDIMS = [['Compromiso','Llegó a tiempo y cumplió lo acordado'],['Concentración','La sesión no se volvió conversación'],['Nivel','Su nivel te sirvió para avanzar']];
@@ -819,19 +829,21 @@ function pHorarios(){
     cells += `<div class="t">${sl}</div>`;
     DAYS.forEach((d,di)=>{
       const b = S.blocks.find(x=>x.day===di&&x.slot===si);
-      cells += b ? `<div class="c"><div class="blk ${b.kind}">${esc(b.title)}<small>${esc(b.sub)}</small>${b.kind==='study'?`<button class="x" data-a="delblock" data-v="${b.id}" aria-label="Quitar bloque ${esc(b.title)}">×</button>`:''}</div></div>`
+      cells += b ? `<div class="c"><div class="blk ${b.kind}">${esc(b.title)}<small>${esc(b.sub)}</small>${!b.fromMatch?`<button class="x" data-a="delblock" data-v="${b.id}" aria-label="Quitar bloque ${esc(b.title)}">×</button>`:''}</div></div>`
         : `<button class="c free" data-a="cellclick" data-d="${di}" data-s="${si}" aria-label="Agregar bloque ${d} ${sl}">+ Agregar</button>`;
     });
   });
   const f = S.addBlock;
+  const fk = f ? (f.kind || 'study') : 'study';
   const form = f ? `<form class="panel addform" id="f-block">
-      <div class="field" style="margin:0"><label for="bl-title">Qué vas a estudiar</label><input class="input" id="bl-title" value="${esc(f.title||'')}" placeholder="Ej: Estadística — taller 2"></div>
+      <fieldset class="kindpick"><legend>¿Qué tipo de bloque es?</legend><div class="opts">${KINDS.map(([k,l,col])=>`<label><input type="radio" name="bl-kind" value="${k}" ${fk===k?'checked':''}><span><i style="background:${col}"></i>${l}</span></label>`).join('')}</div></fieldset>
+      <div class="field" style="margin:0"><label for="bl-title">${fk==='class'?'Qué clase es':fk==='session'?'Qué van a estudiar y con quién':'Qué vas a estudiar'}</label><input class="input" id="bl-title" value="${esc(f.title||'')}" placeholder="${KINDS.find(x=>x[0]===fk)[3]}"></div>
       <div class="field" style="margin:0"><label for="bl-day">Día</label><select class="select" id="bl-day">${DAYS.map((d,i)=>`<option value="${i}" ${i===f.day?'selected':''}>${d}</option>`).join('')}</select></div>
       <div class="field" style="margin:0"><label for="bl-slot">Hora</label><select class="select" id="bl-slot">${SLOTS.map((d,i)=>`<option value="${i}" ${i===f.slot?'selected':''}>${d}</option>`).join('')}</select></div>
       <div style="display:flex;gap:8px"><button class="btn btn-accent btn-sm" type="submit">Guardar</button><button class="btn btn-line btn-sm" type="button" data-a="cancelblock">Cancelar</button></div>
     </form>` : '';
-  return head('Tu horario de estudio', solo?'Planea tus bloques de estudio personal. Haz clic en un espacio libre para agregar uno.':'Tus clases, bloques de estudio y sesiones acompañadas en un solo lugar.', `<button class="btn btn-accent" data-a="newblock">${ic('plus',16,'#fff',2.4)} Nuevo bloque de estudio</button>`) + form +
-  `<div class="agenda">${DAYS.map((d,di)=>{const bs=S.blocks.filter(b=>b.day===di).sort((a,b)=>a.slot-b.slot);return `<div class="aday"><h4>${d}</h4>${bs.length?bs.map(b=>`<div class="blk ${b.kind}"><span class="slot">${SLOTS[b.slot]}</span>${esc(b.title)}<small>${esc(b.sub)}</small>${b.kind==='study'?`<button class="x" data-a="delblock" data-v="${b.id}" aria-label="Quitar bloque ${esc(b.title)}">×</button>`:''}</div>`).join(''):'<p class="none" style="margin:0 0 8px">Sin bloques.</p>'}<button class="addday" data-a="cellclick" data-d="${di}" data-s="${(SLOTS.findIndex((_,si)=>!bs.some(b=>b.slot===si))+SLOTS.length)%SLOTS.length}">+ Agregar bloque</button></div>`}).join('')}</div>
+  return head('Tu horario de estudio', solo?'Planea tus bloques de estudio personal. Haz clic en un espacio libre para agregar uno.':'Tus clases, bloques de estudio y sesiones acompañadas en un solo lugar.', `<button class="btn btn-accent" data-a="newblock">${ic('plus',16,'#fff',2.4)} Nuevo bloque</button>`) + form +
+  `<div class="agenda">${DAYS.map((d,di)=>{const bs=S.blocks.filter(b=>b.day===di).sort((a,b)=>a.slot-b.slot);return `<div class="aday"><h4>${d}</h4>${bs.length?bs.map(b=>`<div class="blk ${b.kind}"><span class="slot">${SLOTS[b.slot]}</span>${esc(b.title)}<small>${esc(b.sub)}</small>${!b.fromMatch?`<button class="x" data-a="delblock" data-v="${b.id}" aria-label="Quitar bloque ${esc(b.title)}">×</button>`:''}</div>`).join(''):'<p class="none" style="margin:0 0 8px">Sin bloques.</p>'}<button class="addday" data-a="cellclick" data-d="${di}" data-s="${(SLOTS.findIndex((_,si)=>!bs.some(b=>b.slot===si))+SLOTS.length)%SLOTS.length}">+ Agregar bloque</button></div>`}).join('')}</div>
   <div class="calwrap"><div class="cal"><div class="h"></div>${DAYS.map(d=>`<div class="h">${d}</div>`).join('')}${cells}</div></div>
   <div class="legend"><span><i style="background:var(--line-2)"></i>Clase</span><span><i style="background:var(--teal-soft)"></i>Estudio personal</span><span><i style="background:var(--coral)"></i>Sesión acompañada</span></div>`;
 }
@@ -1037,6 +1049,7 @@ document.addEventListener('click', e=>{
   }
 });
 document.addEventListener('input', e=>{
+  if(e.target.name==='bl-kind' && S.addBlock){ S.addBlock.kind=e.target.value; S.addBlock.title=(document.getElementById('bl-title')||{}).value||''; S.addBlock.day=+(document.getElementById('bl-day')||{}).value||0; S.addBlock.slot=+(document.getElementById('bl-slot')||{}).value||0; render(); }
   if(e.target.id==='rt-c' && S.rating){ S.rating.comment=e.target.value; }
   if(S.draft && e.target.dataset.d){ S.draft[e.target.dataset.d]=e.target.value; }
   if(S.draft && e.target.dataset.sub!==undefined){ const x=S.draft.subjects[+e.target.dataset.sub]; x[e.target.dataset.f]= e.target.dataset.f==='lvl' ? +e.target.value : e.target.value; }
@@ -1074,14 +1087,15 @@ document.addEventListener('submit', e=>{
     const c=cand(), day=+val('sc-day'), slot=+val('sc-slot'), place=(S.chat.filter(m=>m.type==='place'&&m.status==='accepted').pop()||{}).text||'Por acordar';
     const deal=(S.chat.filter(m=>m.type==='prop'&&m.status==='accepted').pop()||{}).forWhat||'';
     S.blocks = S.blocks.filter(b=>!(b.day===day&&b.slot===slot));
-    S.blocks.push({id:Date.now(), day, slot, title:subjName(), sub:`Con ${c.name}`, kind:'session'});
+    S.blocks.push({id:Date.now(), day, slot, title:subjName(), sub:`Con ${c.name}`, kind:'session', fromMatch:true});
     S.sessions.push({id:Date.now(), cid:c.id, subject:subjName(), with:c.name, av:c.av, pct:c.pct, day, slot, place, deal, done:false, rating:null});
     go({step:'confirmed'}); toast('Sesión agregada a tu horario');
   }
   if(f==='f-block'){
     const title=val('bl-title').trim()||'Bloque de estudio', day=+val('bl-day'), slot=+val('bl-slot');
     if(S.blocks.some(b=>b.day===day&&b.slot===slot)){ toast('Ya tienes algo en ese horario. Elige otro.'); return; }
-    S.blocks.push({id:Date.now(), day, slot, title, sub:'Estudio personal', kind:'study'}); S.addBlock=null; render(); toast('Bloque agregado');
+    const kind=(document.querySelector('input[name="bl-kind"]:checked')||{}).value||'study', K=KINDS.find(x=>x[0]===kind);
+    S.blocks.push({id:Date.now(), day, slot, title: val('bl-title').trim()||K[1], sub:K[1], kind}); S.addBlock=null; render(); toast({class:'Clase agregada al horario', study:'Bloque de estudio agregado al horario', session:'Sesión acompañada agregada al horario'}[kind]);
   }
   if(f==='f-task'){ const t=val('task-new').trim(); if(!t) return; S.tasks.unshift({id:Date.now(),text:t,time:'Hoy',done:false}); render(); }
   if(f==='f-link'){ const t=val('ln-t').trim(); if(!t){toast('Escribe un nombre para el link'); return;} S.links.unshift({t, s:val('ln-s'), k:val('ln-k')}); render(); toast('Link guardado'); }

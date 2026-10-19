@@ -312,6 +312,48 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
   .card{padding:24px 20px}
   .demobar span{display:none}
 }
+/* calificaciones */
+.stars{display:inline-flex;gap:2px;vertical-align:-2px}
+.stars svg{flex:none}
+.rate{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.rate small{font-weight:600;color:var(--ink-3)}
+.starpick{display:flex;gap:4px}
+.starpick button{border:0;background:transparent;padding:4px;border-radius:8px;min-width:40px;min-height:40px;display:grid;place-items:center}
+.starpick button:hover{background:var(--gold-soft)}
+.rdim{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.rdim:last-of-type{border-bottom:0}
+.rdim span{font-weight:700;font-size:13.5px}
+.rdim small{display:block;font-weight:500;color:var(--ink-3);font-size:12px}
+.yn{display:flex;gap:8px;flex-wrap:wrap}
+.review{border-top:1px solid var(--line-2);padding:12px 0 0;margin-top:12px;font-size:13px;color:var(--ink-2)}
+.review small{display:block;color:var(--ink-3);font-size:11.5px;margin-top:4px}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(20,26,51,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{background:var(--paper);border-radius:18px;width:min(520px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:24px}
+.modal h2{font-size:22px}
+/* perfil */
+.lvl{font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.lvl-0{background:var(--coral-soft);color:#a3262c}
+.lvl-1{background:var(--gold-soft);color:var(--gold-ink)}
+.lvl-2{background:var(--teal-soft);color:#04545c}
+.lvl-3{background:var(--green-soft);color:var(--green)}
+.subrow{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.subrow .top{display:flex;gap:8px}
+.subrow .top .input{flex:1;min-width:0}
+.seglvl{display:flex;flex-wrap:wrap;gap:6px}
+.seglvl label{position:relative}
+.seglvl input{position:absolute;opacity:0;pointer-events:none}
+.seglvl span{display:inline-flex;align-items:center;min-height:34px;padding:0 12px;border-radius:999px;border:1.5px solid var(--line);font-size:12.5px;font-weight:700;color:var(--ink-2);cursor:pointer}
+.seglvl input:checked+span{border-color:var(--navy);background:var(--navy);color:#fff}
+.seglvl input:focus-visible+span{outline:2.5px solid var(--gold);outline-offset:2px}
+.iconbtn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);display:grid;place-items:center;flex:none;color:var(--ink-3)}
+.iconbtn:hover{border-color:var(--coral);color:var(--coral)}
+.knows{display:flex;flex-direction:column;gap:10px}
+.know{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.know strong{display:block;font-size:14px}
+.know small{color:var(--ink-3)}
+.dimrow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700}
+.dimrow .bar{grid-column:1/-1}
+
 /* celular: barra inferior y hoja "Más" */
 .tabbar,.sheet,.agenda{display:none}
 @media (max-width: 780px){
@@ -413,6 +455,11 @@ const CANDS = [
    exchange:'Pago por sesión ($20.000 COP)', avail:'Viernes, mañana', style:'Tipo tutoría'}
 ];
 const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const LEVELS = ['Apenas empiezo','Voy bien','Puedo explicarla','La domino'];
+const RDIMS = [['Compromiso','Llegó a tiempo y cumplió lo acordado'],['Concentración','La sesión no se volvió conversación'],['Nivel','Su nivel te sirvió para avanzar']];
+const star = (on, s=16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" fill="${on?'#F9C74F':'none'}" stroke="${on?'#d9a520':'#c4c8d8'}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+const stars = (n, s=14) => `<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(i=>star(i<=Math.round(n),s)).join('')}</span>`;
+const rateTag = (r, n) => `<span class="rate">${stars(r)} ${r.toFixed(1)} <small>· ${n} calificacion${n===1?'':'es'}</small></span>`;
 const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4:00 pm','4:00–6:00 pm'];
 const PLACES = ['Biblioteca central, piso 2','Sala de estudio, bloque C','Virtual (videollamada)'];
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
@@ -453,7 +500,24 @@ function fresh(){
       {t:'Plantilla de ensayo argumentativo',s:'Español',k:'Guía'}
     ],
     linkQ:'',
-    prefs:['Compromiso alto','Silencio'], give:['Te invito el almuerzo','Te ayudo con otra materia']
+    prefs:['Compromiso alto','Silencio'], give:['Te invito el almuerzo','Te ayudo con otra materia'],
+    me:{career:'Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
+      subjects:[
+        {name:'Estadística', lvl:3, topics:'Probabilidad, regresión lineal'},
+        {name:'Español', lvl:2, topics:'Ensayo argumentativo, ortografía'},
+        {name:'Economía', lvl:1, topics:'Oferta y demanda'},
+        {name:'Cálculo II', lvl:0, topics:'Integrales por partes, series'}
+      ]},
+    editProfile:false, draft:null,
+    myRev:{r:4.7, n:6, dims:{'Compromiso':4.8,'Concentración':4.6,'Nivel':4.7}, rev:[
+      {t:'Llegó puntual y con los ejercicios listos. Explica muy claro.', by:'Mateo · Estadística'},
+      {t:'Buena sesión, nos enfocamos y avanzamos mucho.', by:'Laura · Español'}]},
+    cr:{
+      mj:{r:4.9, n:14, rev:[{t:'Súper comprometida, no sacó el celular en toda la sesión.', by:'Andrés · Cálculo II'},{t:'Explica paso a paso y con paciencia.', by:'Sara · Economía'}]},
+      val:{r:4.5, n:9, rev:[{t:'Muy cumplida. Le gusta explicar en voz alta, tenlo en cuenta.', by:'Juan · Narrativas'}]},
+      jac:{r:4.1, n:5, rev:[{t:'Sabe mucho, pero va más rápido que yo.', by:'Camila · Finanzas'}]}
+    },
+    rating:null
   };
 }
 let S = fresh();
@@ -547,7 +611,7 @@ const MORE = [['links','Links','link'],['herramientas','Herramientas','tool'],['
 const NAV = [['home','Home page','home'],['horarios','Horarios','cal'],['links','Links','link'],['match','Match','match'],['herramientas','Herramientas','tool'],['cuadernos','Cuadernos','book']];
 function vApp(){
   const solo = S.mode==='solo';
-  const nav = NAV.map(([id,label,icn]) => `<button class="${S.page===id?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.length&&!solo?`<span class="badge">${S.sessions.length}</span>`:''}</button>`).join('');
+  const nav = NAV.map(([id,label,icn]) => `<button class="${S.page===id?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('');
   return `<div class="app ${solo?'mode-solo':''}">
     <aside class="side">
       <div class="logo">Studyhub</div>
@@ -557,8 +621,8 @@ function vApp(){
       </div>
       <nav class="nav">${nav}<button class="bottom ${S.page==='perfil'?'on':''}" data-a="nav" data-v="perfil">${ic('user')}<span>Perfil</span></button></nav>
     </aside>
-    <main class="main">${page()}</main>
-    <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.length&&!solo?`<span class="badge">${S.sessions.length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
+    <main class="main">${page()}</main>${S.rating?vRate():''}
+    <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
     <div class="sheet ${S.more?'open':''}" data-a="closemore"><div class="box" role="dialog" aria-label="Más opciones"><div class="grab"></div>${MORE.map(([id,label,icn])=>`<button class="it" data-a="nav" data-v="${id}">${ic(icn,20,'var(--accent)')}${label}</button>`).join('')}</div></div>
   </div>`;
 }
@@ -579,7 +643,7 @@ function page(){
 
 /* ---------- home ---------- */
 function pHomeAcomp(){
-  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div><span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span></div>`).join('')
+  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div>${s.rating?`<span class="rate">${stars(s.rating.stars)}</span>`:s.done?`<button class="btn btn-gold btn-sm" data-a="rate" data-v="${s.id}">Calificar</button>`:`<span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span><button class="btn btn-line btn-sm" data-a="finish" data-v="${s.id}">Ya estudiamos</button>`}</div>`).join('')
     : `<div class="empty">Todavía no tienes sesiones acompañadas.<br><button class="btn btn-accent btn-sm" style="margin-top:12px" data-a="startmatch">Buscar compañero</button></div>`;
   const studyCount = S.blocks.filter(b=>b.kind!=='class').length;
   return head(`Hola, ${esc(first())}`, 'Tu semana de estudio de un vistazo.') +
@@ -641,6 +705,7 @@ function mResults(){
   const cards = list.length ? list.map(c=>`<article class="cand">
       <div class="who"><span class="avatar" style="background:${c.av}">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.sem)}</small></div></div>
       <div class="pct" style="color:${c.color}">${c.pct}%</div>
+      ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
       <div class="bar"><i style="width:${c.pct}%;background:${c.color}"></i></div>
       <div class="small muted">${esc(c.reason)}</div>
       <div class="tagrow">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
@@ -660,7 +725,10 @@ function mProfile(){
       <h2 style="font-size:22px">${esc(c.name)}</h2><span class="small muted">${esc(c.sem)}</span>
       <div class="ring" style="background:conic-gradient(${c.color} 0 ${c.pct}%, var(--line-2) ${c.pct}% 100%)"><div>${c.pct}%</div></div>
       <span class="small muted">compatible contigo en ${esc(subjName())}</span>
+      ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
       <button class="btn btn-primary btn-block" style="margin-top:14px" data-a="request">Solicitar sesión de estudio</button>
+      <div style="text-align:left;width:100%;margin-top:10px"><p class="label-caps" style="margin:6px 0 0">Lo que dicen quienes estudiaron con ${esc(c.name.split(' ')[0])}</p>
+        ${S.cr[c.id].rev.slice(0,3).map(r=>`<div class="review">“${esc(r.t)}”<small>${esc(r.by)}</small></div>`).join('')}</div>
     </div>
     <div class="panel"><h3>Desglose de compatibilidad</h3><div class="brk">${rows}</div>
       <div class="quote" style="margin-top:20px">“${esc(c.quote)}”</div>
@@ -724,6 +792,7 @@ function mConfirmed(){
     </div>
     <div class="note" style="margin-top:14px">Ambos se comprometieron a asistir. Te recordamos una hora antes.</div>
     <div class="actions"><button class="btn btn-accent" data-a="nav" data-v="horarios">Ver en mi horario</button><button class="btn btn-line" data-a="startmatch">Buscar otra sesión</button></div>
+    <div class="panel" style="margin-top:18px;background:var(--gold-soft);border-color:#f2dc9a"><strong>Después de la sesión</strong><p class="small" style="margin:4px 0 12px;color:var(--gold-ink)">Te pediremos calificar a ${esc(s.with)}. Así los demás saben con quién sí funciona estudiar.</p><button class="btn btn-gold btn-sm" data-a="finish" data-v="${s.id}">Simular que ya estudiamos y calificar</button></div>
   </div>
   <div class="panel"><h3>Así queda tu semana</h3>${miniWeek()}</div></div>`;
 }
@@ -799,20 +868,85 @@ function pBooks(){
 
 /* ---------- profile ---------- */
 function pPerfil(){
+  if(S.editProfile) return pPerfilEdit();
   const P = ['Compromiso alto','Silencio','Mismo nivel','Me gusta explicar','Sesiones cortas'];
-  return head('Tu perfil','Esto es lo que usamos para calcular tu compatibilidad.') +
-  `<div class="grid2"><div class="panel">
-    <div class="who" style="margin-bottom:18px"><span class="avatar" style="background:var(--navy);width:56px;height:56px;font-size:22px">${esc(first()[0]||'E')}</span><div><strong style="font-size:17px">${esc(S.user.name)}</strong><small>${esc(S.user.email)}</small></div></div>
-    <p class="label-caps">Cómo estudias</p><div class="chips">${P.map(p=>`<button class="chip ${S.prefs.includes(p)?'on':''}" data-a="pref" data-v="${p}" aria-pressed="${S.prefs.includes(p)}">${p}</button>`).join('')}</div>
-    <p class="label-caps">Qué puedes ofrecer a cambio</p><div class="chips">${OFFERS.map(p=>`<button class="chip ${S.give.includes(p)?'on':''}" data-a="give" data-v="${esc(p)}" aria-pressed="${S.give.includes(p)}">${esc(p)}</button>`).join('')}</div>
+  const M = S.me, help = M.subjects.filter(x=>x.lvl>=2), need = M.subjects.filter(x=>x.lvl<2);
+  const know = l => l.length ? l.map(x=>`<div class="know"><div><strong>${esc(x.name)}</strong><small>${esc(x.topics||'Sin temas agregados')}</small></div><span class="lvl lvl-${x.lvl}">${LEVELS[x.lvl]}</span></div>`).join('') : '<p class="small muted" style="margin:0">Nada por ahora.</p>';
+  const R = S.myRev;
+  return head('Tu perfil','Esto es lo que ven los demás y lo que usamos para calcular tu compatibilidad.', `<button class="btn btn-accent" data-a="editprof">Editar perfil</button>`) +
+  `<div class="grid2"><div style="display:flex;flex-direction:column;gap:20px">
+    <div class="panel">
+      <div class="who" style="margin-bottom:14px"><span class="avatar" style="background:var(--navy);width:56px;height:56px;font-size:22px">${esc(first()[0]||'E')}</span><div><strong style="font-size:17px">${esc(S.user.name)}</strong><small>${esc(M.sem)} · ${esc(M.career)}</small></div></div>
+      ${M.bio?`<div class="quote">“${esc(M.bio)}”</div>`:''}
+      <div class="facts" style="margin-top:14px"><div class="fact"><small>Disponibilidad</small>${esc(M.avail||'Sin definir')}</div><div class="fact"><small>Correo</small><span style="overflow-wrap:anywhere">${esc(S.user.email)}</span></div></div>
+    </div>
+    <div class="panel"><h3>Puedo ayudar en</h3><div class="knows">${know(help)}</div>
+      <h3 style="margin-top:20px">Quiero reforzar</h3><div class="knows">${know(need)}</div></div>
+    <div class="panel">
+      <p class="label-caps">Cómo estudias</p><div class="chips">${P.map(p=>`<button class="chip ${S.prefs.includes(p)?'on':''}" data-a="pref" data-v="${p}" aria-pressed="${S.prefs.includes(p)}">${p}</button>`).join('')}</div>
+      <p class="label-caps">Qué puedes ofrecer a cambio</p><div class="chips" style="margin-bottom:0">${OFFERS.map(p=>`<button class="chip ${S.give.includes(p)?'on':''}" data-a="give" data-v="${esc(p)}" aria-pressed="${S.give.includes(p)}">${esc(p)}</button>`).join('')}</div>
+    </div>
   </div>
-  <div class="panel"><h3>Cuenta</h3><p class="small muted">Modo actual: <strong>${S.mode==='solo'?'Solo':'Acompañado'}</strong></p><button class="btn btn-line btn-block" data-a="reset">Cerrar sesión</button></div></div>`;
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div class="panel"><h3>Cómo te califican</h3>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div class="stat"><b>${R.r.toFixed(1)}</b></div><div>${stars(R.r,18)}<div class="small muted">${R.n} sesiones calificadas</div></div></div>
+      ${Object.entries(R.dims).map(([k,v])=>`<div class="dimrow"><span>${k}</span><span>${v.toFixed(1)}</span><div class="bar"><i style="width:${v/5*100}%;background:var(--green)"></i></div></div>`).join('')}
+      ${R.rev.map(r=>`<div class="review">“${esc(r.t)}”<small>${esc(r.by)}</small></div>`).join('')}
+    </div>
+    <div class="panel"><h3>Cuenta</h3><p class="small muted">Modo actual: <strong>${S.mode==='solo'?'Solo':'Acompañado'}</strong></p><button class="btn btn-line btn-block" data-a="reset">Cerrar sesión</button></div>
+  </div></div>`;
+}
+function pPerfilEdit(){
+  const D = S.draft;
+  const sems = ['1.er semestre','2.º semestre','3.er semestre','4.º semestre','5.º semestre','6.º semestre','7.º semestre','8.º semestre','9.º semestre','10.º semestre'];
+  const rows = D.subjects.map((x,i)=>`<div class="subrow">
+      <div class="top"><label class="hidden" for="ps-n${i}">Materia</label><input class="input" id="ps-n${i}" data-sub="${i}" data-f="name" list="subj-list" value="${esc(x.name)}" placeholder="Nombre de la materia"><button type="button" class="iconbtn" data-a="delsub" data-v="${i}" aria-label="Quitar ${esc(x.name||'materia')}">×</button></div>
+      <div class="seglvl" role="radiogroup" aria-label="Nivel en ${esc(x.name||'la materia')}">${LEVELS.map((l,li)=>`<label><input type="radio" name="lvl${i}" value="${li}" data-sub="${i}" data-f="lvl" ${x.lvl===li?'checked':''}><span>${l}</span></label>`).join('')}</div>
+      <label class="hidden" for="ps-t${i}">Temas que dominas</label><input class="input" id="ps-t${i}" data-sub="${i}" data-f="topics" value="${esc(x.topics)}" placeholder="Temas que dominas o quieres reforzar, separados por comas">
+    </div>`).join('');
+  return `<button class="back" data-a="canceledit">${ic('back',16)} Volver al perfil</button>` + head('Editar perfil','Mientras más claro seas, mejor te emparejamos con gente que estudia como tú.') +
+  `<form id="f-profile" novalidate><div class="grid2">
+    <div class="panel"><h3>Sobre ti</h3>
+      <div class="field"><label for="pf-name">Nombre</label><input class="input" id="pf-name" data-d="name" value="${esc(D.name)}">${err('pname')}</div>
+      <div class="field"><label for="pf-career">Carrera</label><input class="input" id="pf-career" data-d="career" value="${esc(D.career)}" placeholder="Ej: Economía"></div>
+      <div class="field"><label for="pf-sem">Semestre</label><select class="select" id="pf-sem" data-d="sem">${sems.map(x=>`<option ${x===D.sem?'selected':''}>${x}</option>`).join('')}</select></div>
+      <div class="field"><label for="pf-avail">Cuándo puedes estudiar</label><input class="input" id="pf-avail" data-d="avail" value="${esc(D.avail)}" placeholder="Ej: martes y jueves, 3:00–5:00 pm"></div>
+      <div class="field"><label for="pf-bio">Cómo te describirías estudiando</label><textarea class="input" id="pf-bio" data-d="bio" rows="3" maxlength="160" placeholder="Ej: prefiero sesiones cortas, con pausas cada 50 minutos">${esc(D.bio)}</textarea><span class="hint">Máximo 160 caracteres. Aparece en tu perfil.</span></div>
+    </div>
+    <div class="panel"><h3>Tus materias</h3><p class="small muted" style="margin:-4px 0 14px">Marca tu nivel en cada una. Lo que domines aparece en "Puedo ayudar en"; lo demás, en "Quiero reforzar".</p>
+      ${rows || '<div class="empty" style="margin-bottom:10px">Agrega al menos una materia.</div>'}
+      <button type="button" class="btn btn-line btn-sm btn-block" data-a="addsub">${ic('plus',16)} Agregar materia</button>
+      <datalist id="subj-list">${SUBJECTS.map(x=>`<option value="${esc(x.name)}">`).join('')}</datalist>
+    </div>
+  </div>
+  <div class="actions"><button class="btn btn-primary" type="submit">Guardar cambios</button><button class="btn btn-line" type="button" data-a="canceledit">Cancelar</button></div></form>`;
+}
+
+/* ---------- calificar sesión ---------- */
+function vRate(){
+  const R = S.rating, se = S.sessions.find(x=>x.id===R.id);
+  const pick = (k, val) => `<div class="starpick" role="radiogroup" aria-label="${esc(k)}">${[1,2,3,4,5].map(i=>`<button type="button" role="radio" aria-checked="${val===i}" aria-label="${i} de 5" data-a="rstar" data-k="${esc(k)}" data-v="${i}">${star(i<=val,26)}</button>`).join('')}</div>`;
+  return `<div class="modal" data-a="rclose"><div class="box" role="dialog" aria-modal="true" aria-labelledby="rt-title">
+    <div class="kicker" style="color:var(--coral)">Sesión terminada</div>
+    <h2 id="rt-title" style="margin:4px 0 6px">¿Cómo te fue con ${esc(se.with)}?</h2>
+    <p class="small muted" style="margin:0 0 14px">${esc(se.subject)} · ${DAYS[se.day]} · ${SLOTS[se.slot]}</p>
+    <p class="label-caps" style="margin:0 0 4px">En general</p>${pick('_all', R.stars)}
+    <p class="label-caps" style="margin:18px 0 0">Por partes</p>
+    ${RDIMS.map(([k,d])=>`<div class="rdim"><div><span>${k}</span><small>${d}</small></div>${pick(k, R.dims[k]||0)}</div>`).join('')}
+    <p class="label-caps" style="margin:18px 0 8px">¿Volverías a estudiar con ${esc(se.with.split(' ')[0])}?</p>
+    <div class="yn">${['Sí','No'].map(o=>`<button type="button" class="chip ${R.again===o?'on':''}" data-a="ragain" data-v="${o}" aria-pressed="${R.again===o}">${o}</button>`).join('')}</div>
+    <div class="field" style="margin:18px 0 6px"><label for="rt-c">Comentario (opcional)</label><textarea class="input" id="rt-c" rows="3" placeholder="Ej: llegó puntual y explicó muy bien las integrales">${esc(R.comment)}</textarea></div>
+    <p class="hint" style="margin:0 0 16px">Tu calificación se suma a su promedio. El comentario aparece en su perfil con tu nombre y la materia.</p>
+    <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="rsubmit" ${R.stars?'':'disabled style="opacity:.5;cursor:not-allowed"'}>Enviar calificación</button><button class="btn btn-line" data-a="rcancel">Ahora no</button></div>
+  </div></div>`;
 }
 
 /* ---------- render ---------- */
 function render(){
   const v = {welcome:vWelcome, signup:vSignup, login:vLogin, confirm:vConfirm, mode:vMode, app:vApp}[S.screen];
+  const mb = document.querySelector('.modal .box'), keep = mb ? mb.scrollTop : 0;
   root.innerHTML = v();
+  const nb = document.querySelector('.modal .box'); if(nb && keep) nb.scrollTop = keep;
   const m = document.getElementById('msgs'); if(m) m.scrollTop = m.scrollHeight;
 }
 
@@ -843,7 +977,7 @@ document.addEventListener('click', e=>{
       if(S.mode==='acompanado'){ S.page='match'; S.step='materia'; } else { S.page='home'; }
       go({}); break;
     case 'setmode': S.mode=v; S.pickMode=v; render(); toast(v==='solo'?'Modo Solo activado':'Modo Acompañado activado'); break;
-    case 'nav': S.openBook=null; S.addBlock=null; S.more=false; go({page:v}); break;
+    case 'nav': S.openBook=null; S.addBlock=null; S.more=false; S.editProfile=false; S.draft=null; go({page:v}); break;
     case 'more': S.more=!S.more; render(); break;
     case 'closemore': if(e.target===el){ S.more=false; render(); } break;
     case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[]}); break;
@@ -868,11 +1002,27 @@ document.addEventListener('click', e=>{
     case 'tool': S.tools[v]=!S.tools[v]; render(); toast(S.tools[v]?'Herramienta conectada':'Herramienta desconectada'); break;
     case 'openbook': go({openBook:+v}); break;
     case 'closebook': go({openBook:null}); break;
+    case 'editprof': S.draft = JSON.parse(JSON.stringify({name:S.user.name, ...S.me})); S.errors={}; go({editProfile:true}); break;
+    case 'canceledit': go({editProfile:false, draft:null}); break;
+    case 'addsub': S.draft.subjects.push({name:'', lvl:1, topics:''}); render(); setTimeout(()=>{const i=document.getElementById('ps-n'+(S.draft.subjects.length-1)); i&&i.focus();},0); break;
+    case 'delsub': S.draft.subjects.splice(+v,1); render(); break;
+    case 'finish': { const se=S.sessions.find(x=>x.id==v); se.done=true; S.rating={id:se.id, stars:0, dims:{}, again:null, comment:''}; render(); break; }
+    case 'rate': S.rating={id:+v, stars:0, dims:{}, again:null, comment:''}; render(); break;
+    case 'rstar': if(el.dataset.k==='_all') S.rating.stars=+v; else S.rating.dims[el.dataset.k]=+v; render(); break;
+    case 'ragain': S.rating.again=v; render(); break;
+    case 'rcancel': S.rating=null; render(); toast('Puedes calificar después desde el inicio'); break;
+    case 'rclose': if(e.target===el){ S.rating=null; render(); } break;
+    case 'rsubmit': { const R=S.rating; if(!R.stars) return; const se=S.sessions.find(x=>x.id===R.id); se.rating={...R};
+      const c=S.cr[se.cid]; if(c){ c.r=(c.r*c.n+R.stars)/(c.n+1); c.n++; if(R.comment.trim()) c.rev.unshift({t:R.comment.trim(), by:`${first()} · ${se.subject}`}); }
+      S.rating=null; render(); toast(`Gracias. Tu calificación ya cuenta en el perfil de ${se.with}`); break; }
     case 'pref': S.prefs = S.prefs.includes(v)? S.prefs.filter(x=>x!==v):[...S.prefs,v]; render(); break;
     case 'give': S.give = S.give.includes(v)? S.give.filter(x=>x!==v):[...S.give,v]; render(); break;
   }
 });
 document.addEventListener('input', e=>{
+  if(e.target.id==='rt-c' && S.rating){ S.rating.comment=e.target.value; }
+  if(S.draft && e.target.dataset.d){ S.draft[e.target.dataset.d]=e.target.value; }
+  if(S.draft && e.target.dataset.sub!==undefined){ const x=S.draft.subjects[+e.target.dataset.sub]; x[e.target.dataset.f]= e.target.dataset.f==='lvl' ? +e.target.value : e.target.value; }
   if(e.target.id==='link-q'){ S.linkQ=e.target.value; document.getElementById('linklist').innerHTML=linkList(); }
 });
 document.addEventListener('submit', e=>{
@@ -901,7 +1051,7 @@ document.addEventListener('submit', e=>{
     const deal=(S.chat.filter(m=>m.type==='prop'&&m.status==='accepted').pop()||{}).forWhat||'';
     S.blocks = S.blocks.filter(b=>!(b.day===day&&b.slot===slot));
     S.blocks.push({id:Date.now(), day, slot, title:subjName(), sub:`Con ${c.name}`, kind:'session'});
-    S.sessions.push({subject:subjName(), with:c.name, av:c.av, pct:c.pct, day, slot, place, deal});
+    S.sessions.push({id:Date.now(), cid:c.id, subject:subjName(), with:c.name, av:c.av, pct:c.pct, day, slot, place, deal, done:false, rating:null});
     go({step:'confirmed'}); toast('Sesión agregada a tu horario');
   }
   if(f==='f-block'){
@@ -912,6 +1062,12 @@ document.addEventListener('submit', e=>{
   if(f==='f-task'){ const t=val('task-new').trim(); if(!t) return; S.tasks.unshift({id:Date.now(),text:t,time:'Hoy',done:false}); render(); }
   if(f==='f-link'){ const t=val('ln-t').trim(); if(!t){toast('Escribe un nombre para el link'); return;} S.links.unshift({t, s:val('ln-s'), k:val('ln-k')}); render(); toast('Link guardado'); }
   if(f==='f-book'){ const n=val('book-in').trim(); if(!n) return; S.books.push({id:Date.now(), name:n, notes:[]}); render(); toast('Cuaderno creado'); }
+  if(f==='f-profile'){
+    const D=S.draft; if(!D.name.trim()){ S.errors={pname:'Escribe tu nombre.'}; render(); return; }
+    S.user.name=D.name.trim();
+    S.me={career:D.career.trim(), sem:D.sem, avail:D.avail.trim(), bio:D.bio.trim(), subjects:D.subjects.filter(x=>x.name.trim()).map(x=>({name:x.name.trim(), lvl:x.lvl, topics:x.topics.trim()}))};
+    S.errors={}; go({editProfile:false, draft:null}); toast('Perfil actualizado');
+  }
   if(f==='f-note'){ const t=val('note-in').trim(); if(!t) return; S.books.find(b=>b.id===S.openBook).notes.unshift({d:'Ahora',t}); render(); }
 });
 render();

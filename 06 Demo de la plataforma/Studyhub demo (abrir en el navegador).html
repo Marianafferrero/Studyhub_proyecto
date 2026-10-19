@@ -221,7 +221,7 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 
 /* calendar */
 .calwrap{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:14px}
-.cal{display:grid;grid-template-columns:92px repeat(5,minmax(120px,1fr));min-width:700px}
+.cal{display:grid;grid-template-columns:92px repeat(7,minmax(104px,1fr));min-width:820px}
 .cal .h{padding:12px 8px;font-size:12px;font-weight:800;text-align:center;border-bottom:1px solid var(--line);color:var(--ink-2)}
 .cal .t{padding:10px;font-size:11px;color:var(--ink-3);border-bottom:1px solid var(--line-2);font-variant-numeric:tabular-nums}
 .cal .c{border-left:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:6px;min-height:78px}
@@ -275,7 +275,7 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .notecard small{color:var(--ink-3);display:block;margin-bottom:4px}
 
 /* tools */
-.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;max-width:900px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .tool{display:flex;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}
 .tool .ti{width:44px;height:44px;border-radius:10px;background:#F4F5FB;display:grid;place-items:center;flex-shrink:0}
 .tool .grow{flex:1;min-width:0}
@@ -452,16 +452,16 @@ const CANDS = [
    reason:'Nivel de conocimiento distinto', tags:['Silencio'],
    brk:[['Compromiso',.7,'Parcial'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.4,'Difiere']],
    quote:'Me sirve más explicar que estudiar en silencio.',
-   exchange:'Pago por sesión ($20.000 COP)', avail:'Viernes, mañana', style:'Tipo tutoría'}
+   exchange:'Pago por sesión ($20.000 COP)', avail:'Sábados en la mañana', style:'Tipo tutoría'}
 ];
-const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const LEVELS = ['Apenas empiezo','Voy bien','Puedo explicarla','La domino'];
 const RDIMS = [['Compromiso','Llegó a tiempo y cumplió lo acordado'],['Concentración','La sesión no se volvió conversación'],['Nivel','Su nivel te sirvió para avanzar']];
 const star = (on, s=16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 17l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z" fill="${on?'#F9C74F':'none'}" stroke="${on?'#d9a520':'#c4c8d8'}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
 const stars = (n, s=14) => `<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(i=>star(i<=Math.round(n),s)).join('')}</span>`;
 const rateTag = (r, n) => `<span class="rate">${stars(r)} ${r.toFixed(1)} <small>· ${n} calificacion${n===1?'':'es'}</small></span>`;
 const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4:00 pm','4:00–6:00 pm'];
-const PLACES = ['Biblioteca central, piso 2','Sala de estudio, bloque C','Virtual (videollamada)'];
+const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada'};
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
 const REPLIES = ['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los ejercicios del parcial pasado.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
 
@@ -470,13 +470,14 @@ function fresh(){
     screen:'welcome', user:{name:'Valentina Gómez', email:'valentina.gomez@universidad.edu.co'},
     mode:'acompanado', pickMode:'acompanado', page:'home', firstEntry:true,
     step:'materia', subject:'calc', customSubject:'', showCustom:false, filters:[], cand:null,
-    chat:[], prop:null, showOffers:false, scheduling:false,
+    chat:[], prop:null, showOffers:false, scheduling:false, placeMode:false,
     sessions:[], replyIx:0, errors:{},
     blocks:[
       {id:1,day:0,slot:1,title:'Cálculo II',sub:'Clase',kind:'class'},
       {id:2,day:2,slot:2,title:'Diseño Estratégico',sub:'Clase',kind:'class'},
       {id:3,day:1,slot:3,title:'Economía',sub:'Capítulo 4',kind:'study'},
-      {id:4,day:3,slot:0,title:'Cálculo II',sub:'Integrales',kind:'study'}
+      {id:4,day:3,slot:0,title:'Cálculo II',sub:'Integrales',kind:'study'},
+      {id:5,day:5,slot:1,title:'Estadística',sub:'Repaso del parcial',kind:'study'}
     ],
     addBlock:null,
     tasks:[
@@ -754,14 +755,24 @@ function mChat(){
       else if(m.status==='replaced'){ foot = `<div class="state muted">Reemplazada por otra propuesta</div>`; }
       return `<div class="prop"><div class="t">PROPUESTA DE INTERCAMBIO · ${mine?'TÚ':esc(c.name.toUpperCase())}</div><p><strong>Ofrece:</strong> ${esc(m.offers)}</p><p><strong>A cambio de:</strong> ${esc(m.forWhat)}</p>${foot}</div>`;
     }
+    if(m.type==='place'){
+      const mine = m.from==='me';
+      let foot='';
+      if(m.status==='pending' && !mine) foot = `<div class="acts"><button class="btn btn-gold btn-sm" data-a="placeok">Me sirve</button><button class="btn btn-line btn-sm" data-a="placeother">Proponer otro lugar</button></div>`;
+      else if(m.status==='waiting') foot = `<div class="state" style="color:var(--gold-ink)">Esperando respuesta de ${esc(c.name)}…</div>`;
+      else if(m.status==='accepted') foot = `<div class="state" style="color:var(--green)">${ic('check',14,'var(--green)',2.6)} Lugar acordado</div>`;
+      else if(m.status==='replaced') foot = `<div class="state muted">Reemplazado por otra propuesta</div>`;
+      return `<div class="prop"><div class="t">PROPUESTA DE LUGAR · ${mine?'TÚ':esc(c.name.toUpperCase())}</div><p>${ic('pin',14)} <strong>${esc(m.text)}</strong></p>${foot}</div>`;
+    }
     return `<div class="msg ${m.from}">${esc(m.text)}</div>`;
   }).join('');
   const agreed = S.chat.some(m=>m.type==='prop'&&m.status==='accepted');
-  const sched = agreed ? `<form class="sched" id="f-sched"><h3>Agenda la sesión</h3>
-    <div class="row3">
+  const placeMsg = S.chat.filter(m=>m.type==='place'&&m.status==='accepted').pop();
+  const sched = agreed && placeMsg ? `<form class="sched" id="f-sched"><h3>Agenda la sesión</h3>
+    <p class="small" style="margin:0 0 12px;display:flex;gap:8px;align-items:center">${ic('pin',16,'var(--green)')} <span><strong>Lugar acordado en el chat:</strong> ${esc(placeMsg.text)}</span></p>
+    <div class="row3" style="grid-template-columns:repeat(2,minmax(0,1fr))">
       <div class="field" style="margin:0"><label for="sc-day">Día</label><select class="select" id="sc-day">${DAYS.map((d,i)=>`<option value="${i}" ${i===1?'selected':''}>${d}</option>`).join('')}</select></div>
       <div class="field" style="margin:0"><label for="sc-slot">Hora</label><select class="select" id="sc-slot">${SLOTS.map((d,i)=>`<option value="${i}" ${i===3?'selected':''}>${d}</option>`).join('')}</select></div>
-      <div class="field" style="margin:0"><label for="sc-place">Lugar</label><select class="select" id="sc-place">${PLACES.map((d,i)=>`<option value="${i}">${d}</option>`).join('')}</select></div>
     </div>
     <button class="btn btn-primary" type="submit">Confirmar sesión</button></form>` : '';
   return `<button class="back" data-a="step" data-v="profile">${ic('back',16)} Volver al perfil</button>` + head('Chat con tu match','Pónganse de acuerdo en cómo, cuándo y qué se da a cambio.') + stepper() +
@@ -774,7 +785,7 @@ function mChat(){
       <div class="thead"><span class="avatar" style="background:${c.av};width:40px;height:40px">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><span class="small muted">${esc(subjName())}</span></div><span class="pill">${c.pct}% compatible</span></div>
       <div class="msgs" id="msgs">${msgs}</div>
       ${sched}
-      <form class="compose" id="f-msg"><label class="hidden" for="msg-in">Mensaje</label><input id="msg-in" placeholder="Escribe un mensaje…" autocomplete="off"><button class="send" type="submit" aria-label="Enviar">${ic('send',16,'#fff',2.2)}</button></form>
+      <form class="compose" id="f-msg"><label class="hidden" for="msg-in">Mensaje</label><input id="msg-in" placeholder="${S.placeMode?'Escribe el lugar que propones, ej: cafetería del bloque A':'Escribe un mensaje…'}" autocomplete="off"><button class="send" type="submit" aria-label="Enviar">${ic('send',16,'#fff',2.2)}</button></form>
     </div>
   </div>`;
 }
@@ -797,7 +808,7 @@ function mConfirmed(){
   <div class="panel"><h3>Así queda tu semana</h3>${miniWeek()}</div></div>`;
 }
 function miniWeek(){
-  return `<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">${DAYS.map((d,i)=>`<div><div class="small" style="font-weight:800;text-align:center;margin-bottom:6px">${d.slice(0,3)}</div>${S.blocks.filter(b=>b.day===i).sort((a,b)=>a.slot-b.slot).map(b=>`<div class="blk ${b.kind}" style="margin-bottom:6px;font-size:10.5px">${esc(b.title)}</div>`).join('')}</div>`).join('')}</div>`;
+  return `<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">${DAYS.map((d,i)=>`<div><div class="small" style="font-weight:800;text-align:center;margin-bottom:6px">${d.slice(0,3)}</div>${S.blocks.filter(b=>b.day===i).sort((a,b)=>a.slot-b.slot).map(b=>`<div class="blk ${b.kind}" style="margin-bottom:6px;font-size:10.5px">${esc(b.title)}</div>`).join('')}</div>`).join('')}</div>`;
 }
 
 /* ---------- horarios ---------- */
@@ -953,6 +964,10 @@ function render(){
 /* ---------- actions ---------- */
 function addChat(msg){ S.chat.push(msg); }
 function theyReply(text, after){ setTimeout(()=>{ if(S.step!=='chat') return; addChat({from:'them',text}); if(after) after(); render(); }, 900); }
+function askPlace(){
+  const c=cand();
+  theyReply('Perfecto. ¿Dónde nos vemos?', ()=>{ addChat({type:'place', from:'them', text:PLACE_SUGGEST[c.id]||'Biblioteca central', status:'pending'}); });
+}
 function startChat(){
   const c = cand();
   S.chat = [
@@ -961,7 +976,7 @@ function startChat(){
     {from:'them', text:'Ya la vi el semestre pasado, te puedo explicar sin problema. Eso sí, ¿lo hacemos a cambio de algo?'},
     {type:'prop', from:'them', offers:`Explicación de ${subjName()}`, forWhat:c.exchange, status:'pending'}
   ];
-  S.showOffers=false;
+  S.showOffers=false; S.placeMode=false;
 }
 document.addEventListener('click', e=>{
   const el = e.target.closest('[data-a]'); if(!el) return;
@@ -988,11 +1003,13 @@ document.addEventListener('click', e=>{
     case 'viewcand': go({cand:v, step:'profile'}); break;
     case 'step': go({step:v}); break;
     case 'request': startChat(); go({step:'chat'}); break;
-    case 'accept': { const p=S.chat.filter(m=>m.type==='prop').pop(); p.status='accepted'; addChat({from:'sys',text:'Acuerdo cerrado. Ahora agenden la sesión.'}); S.showOffers=false; render(); break; }
+    case 'accept': { const p=S.chat.filter(m=>m.type==='prop').pop(); p.status='accepted'; addChat({from:'sys',text:'Acuerdo cerrado. Ahora acuerden el lugar.'}); S.showOffers=false; render(); askPlace(); break; }
+    case 'placeok': { const pm=S.chat.filter(m=>m.type==='place'&&m.status==='pending').pop(); pm.status='accepted'; addChat({from:'me',text:'¡Me sirve! Nos vemos ahí.'}); addChat({from:'sys',text:'Lugar acordado. Elige el día y la hora.'}); render(); break; }
+    case 'placeother': S.placeMode=true; render(); setTimeout(()=>{const i=document.getElementById('msg-in'); i&&i.focus();},0); break;
     case 'counter': S.showOffers=!S.showOffers; render(); break;
     case 'offer': { const c=cand(); S.chat.filter(m=>m.type==='prop'&&m.status==='pending').forEach(m=>m.status='replaced');
       const np={type:'prop', from:'me', offers:`Tú me explicas ${subjName()}`, forWhat:v, status:'waiting'}; addChat(np); S.showOffers=false; render();
-      theyReply('Me parece justo, trato hecho.', ()=>{ np.status='accepted'; addChat({from:'sys',text:'Acuerdo cerrado. Ahora agenden la sesión.'}); });
+      theyReply('Me parece justo, trato hecho.', ()=>{ np.status='accepted'; addChat({from:'sys',text:'Acuerdo cerrado. Ahora acuerden el lugar.'}); setTimeout(askPlace,0); });
       break; }
     case 'cellclick': S.addBlock={day:+el.dataset.d, slot:+el.dataset.s}; render(); setTimeout(()=>{const i=document.getElementById('bl-title'); if(i){ i.scrollIntoView({block:'center'}); i.focus({preventScroll:true}); }},0); break;
     case 'newblock': S.addBlock={day:0,slot:0}; render(); setTimeout(()=>{const i=document.getElementById('bl-title'); i&&i.focus();},0); break;
@@ -1045,9 +1062,16 @@ document.addEventListener('submit', e=>{
     S.errors={}; S.user.email=email; go({screen:'mode'});
   }
   if(f==='f-subj'){ const q=val('subj-q').trim(); if(!q) return; const m=SUBJECTS.find(s=>s.name.toLowerCase().includes(q.toLowerCase())); if(m){S.subject=m.id;} else {S.subject='custom'; S.customSubject=q;} render(); }
-  if(f==='f-msg'){ const t=val('msg-in').trim(); if(!t) return; addChat({from:'me',text:t}); render(); const r=REPLIES[S.replyIx++ % REPLIES.length]; theyReply(r); }
+  if(f==='f-msg'){ const t=val('msg-in').trim(); if(!t) return;
+    if(S.placeMode){
+      S.chat.filter(m=>m.type==='place'&&m.status==='pending').forEach(m=>m.status='replaced');
+      const pm={type:'place', from:'me', text:t, status:'waiting'}; addChat(pm); S.placeMode=false; render();
+      theyReply('Dale, ahí nos vemos.', ()=>{ pm.status='accepted'; addChat({from:'sys',text:'Lugar acordado. Elige el día y la hora.'}); });
+      return;
+    }
+    addChat({from:'me',text:t}); render(); const r=REPLIES[S.replyIx++ % REPLIES.length]; theyReply(r); }
   if(f==='f-sched'){
-    const c=cand(), day=+val('sc-day'), slot=+val('sc-slot'), place=PLACES[+val('sc-place')];
+    const c=cand(), day=+val('sc-day'), slot=+val('sc-slot'), place=(S.chat.filter(m=>m.type==='place'&&m.status==='accepted').pop()||{}).text||'Por acordar';
     const deal=(S.chat.filter(m=>m.type==='prop'&&m.status==='accepted').pop()||{}).forWhat||'';
     S.blocks = S.blocks.filter(b=>!(b.day===day&&b.slot===slot));
     S.blocks.push({id:Date.now(), day, slot, title:subjName(), sub:`Con ${c.name}`, kind:'session'});

@@ -1,0 +1,407 @@
+¡Sí! Si el cuestionario es para tu proyecto de Studyhub, puedo ayudarte a convertir las hipótesis que veníamos trabajando en preguntas que realmente sirvan para investigar al usuario, sin hacer preguntas que ya estén asumiendo la respuesta.
+Para hacerlo bien, te propongo dividirlo en 5 bloques:
+
+1. Perfil del estudiante
+¿Qué carrera estudias?
+¿En qué semestre estás?
+¿Cómo describirías tu carga académica actual?
+Muy baja / Baja / Media / Alta / Muy alta
+¿Cuántas horas aproximadamente dedicas a estudiar fuera de clase durante una semana?
+¿Dónde sueles estudiar con mayor frecuencia?
+Casa
+Universidad
+Biblioteca
+Cafetería
+Otro: ___
+2. Cómo estudia actualmente
+Cuando tienes que estudiar para una materia, ¿cómo sueles organizarte?
+¿Qué herramientas utilizas para organizar tus actividades académicas?
+Calendario
+Notas del celular
+Agenda física
+Apps de productividad
+Excel/Sheets
+No utilizo ninguna
+Otra: ___
+¿Cómo decides qué tarea o actividad hacer primero?
+¿Qué haces cuando tienes varias entregas o exámenes cercanos?
+¿Con qué frecuencia sientes que tienes demasiadas cosas académicas por hacer?
+Nunca → Siempre
+3. Dificultades y frustraciones
+¿Cuál es la principal dificultad que tienes para organizar tus responsabilidades académicas?
+¿Qué suele impedirte cumplir con lo que planeas estudiar?
+Cuéntanos sobre la última vez que tuviste dificultades para organizar una entrega, examen o trabajo. ¿Qué pasó?
+¿Qué parte de tu proceso de estudio te resulta más frustrante?
+¿Alguna vez has olvidado una entrega, examen o actividad importante? ¿Qué ocurrió?
+Cuando estás atrasado/a con tus actividades, ¿qué haces normalmente?
+4. Uso de herramientas digitales
+¿Qué aplicaciones o plataformas utilizas actualmente para tus actividades universitarias?
+¿Hay alguna herramienta que hayas dejado de utilizar para organizarte? ¿Por qué?
+¿Qué es lo que más valoras de una herramienta para estudiantes?
+Facilidad de uso
+Organización
+Recordatorios
+Personalización
+Integración con otras plataformas
+Seguimiento del progreso
+Otra: ___
+¿Qué características te molestan o dificultan el uso de las herramientas que utilizas actualmente?
+Si pudieras cambiar una cosa de las herramientas que utilizas para estudiar, ¿qué cambiarías?
+5. Necesidades y oportunidades para Studyhub
+Aquí no les preguntaría directamente “¿usarías Studyhub?”, porque puede sesgar las respuestas.
+Si pudieras tener una herramienta que te ayudara con tu vida universitaria, ¿qué te gustaría que hiciera?
+¿Qué tipo de apoyo académico te sería más útil actualmente?
+¿En qué momentos sentirías que una herramienta de este tipo realmente te ayudaría?
+¿Qué tendría que tener una herramienta para que decidieras utilizarla regularmente?
+¿Qué te haría dejar de utilizarla?
+¿Qué tan importante sería para ti que una herramienta reuniera en un solo lugar diferentes aspectos de tu vida académica?
+Nada importante → Muy importante
+¿Qué tan dispuesto/a estarías a probar una nueva herramienta para organizar tu vida universitaria?
+Nada dispuesto/a → Muy dispuesto/a
+¿Qué esperarías obtener de una herramienta así que actualmente no obtienes de las que utilizas?
+⭐ Las 5 que yo considero MÁS importantes
+Si el cuestionario debe ser corto, me quedaría especialmente con estas:
+¿Cómo organizas actualmente tus responsabilidades académicas?
+¿Cuál es la principal dificultad que tienes para organizarte como estudiante?
+Cuéntanos sobre la última vez que tuviste dificultades para organizar una entrega, examen o trabajo. ¿Qué pasó?
+¿Qué herramientas utilizas actualmente para resolver esa dificultad y qué te hace elegirlas?
+Si pudieras cambiar o mejorar una cosa de la forma en que actualmente gestionas tu vida universitaria, ¿qué sería?
+Estas preguntas son mejores para investigación porque buscan comportamientos y experiencias reales, no solamente opiniones o respuestas que el usuario cree que queremos escuchar.
+Today 10:06 PM
+
+Proyecto Usabilidad.docx
+Document
+necesito que analises esta bitácora del trabajo, ahi tengo la guía de preguntas y las respuestas a dos entrevistados (Juan Martín y Valentina), me faltan aún tres personas por entrevistar, entonces necesito que respondas como 3 entrevistados diferentes de perfil universitario
+Sí. Para esta parte de la bitácora, yo lo organizaría por cada benchmark, pero no solo describiendo qué hace la plataforma: hay que mirar qué nos permite aprender frente al problema de Studyhub.
+Tomando los 3 benchmarks que ya definieron —Study Together, Studuo y Studocu— y las necesidades que encontraron en las entrevistas, quedaría así:
+
+Benchmark 1 — Study Together
+¿Qué hace?
+Conecta estudiantes en salas virtuales de estudio 24/7. Permite estudiar solo o acompañado, establecer metas, hacer sesiones grupales y hacer seguimiento del progreso.
+Frases importantes
+“Estudiar acompañado ayuda a mantener la motivación.”
+“La compañía puede ayudar a concentrarse.”
+“No necesariamente necesito conocer personalmente a las personas con las que estudio.”
+Comportamientos
+Los usuarios entran a sesiones para sentirse acompañados mientras estudian.
+Pueden estudiar junto a otras personas sin necesidad de trabajar directamente con ellas.
+Se utilizan metas y seguimiento para incentivar la constancia.
+Problemas
+Estar acompañado virtualmente no garantiza que la persona esté realmente aprendiendo.
+Puede resolver la sensación de estar solo, pero no necesariamente la necesidad de encontrar a alguien que estudie de una manera compatible.
+No está enfocada en organizar toda la experiencia académica.
+Necesidades
+Motivación.
+Concentración.
+Sentirse acompañado.
+Mantener una rutina de estudio.
+Contradicciones
+Estudiar acompañado ≠ estudiar colaborativamente.
+Una persona puede querer compañía para concentrarse, pero no necesariamente quiere hablar, compartir conocimientos o hacer un trabajo grupal.
+Sorpresa
+La compañía en sí misma puede ser parte del valor, incluso cuando no existe interacción directa entre estudiantes.
+Benchmark 2 — Studuo
+¿Qué hace?
+Hace matching entre estudiantes que estudian la misma materia y los pone en una sala con temporizador Pomodoro compartido, tareas y chat/video.
+Frases importantes
+“Encuentra a alguien que estudie lo mismo que tú.”
+“Estudiar con otra persona genera responsabilidad mutua.”
+Comportamientos
+El estudiante indica qué está estudiando.
+La plataforma busca personas con intereses académicos similares.
+Los usuarios estudian juntos utilizando una sesión compartida.
+El temporizador ayuda a estructurar el tiempo.
+Problemas
+Compartir una materia no significa necesariamente que dos estudiantes sean compatibles.
+No necesariamente contempla personalidad, concentración, responsabilidad o metodología.
+Está muy centrado en la sesión de estudio.
+Necesidades
+Encontrar compañeros.
+Tener objetivos comunes.
+Mantener la concentración.
+Sentirse responsable frente a otra persona.
+Contradicciones
+Aquí aparece algo MUY interesante para Studyhub:
+Tener la misma materia no significa necesariamente estudiar bien juntos.
+Esto conecta directamente con tu hipótesis de que tener horarios similares tampoco garantiza que un grupo funcione.
+Sorpresa
+El matching puede ser útil, pero el verdadero reto podría no ser “¿quién estudia lo mismo que yo?”, sino “¿con quién estudio bien?”.
+Benchmark 3 — Studocu
+¿Qué hace?
+Permite encontrar y compartir apuntes y materiales de cursos, además de generar quizzes, flashcards y resúmenes con IA.
+Frases importantes
+“Puedo encontrar material de otros estudiantes.”
+“No tengo que empezar desde cero.”
+“Puedo estudiar a partir de recursos que ya existen.”
+Comportamientos
+Los estudiantes buscan apuntes de otros compañeros.
+Comparan diferentes recursos para estudiar.
+Utilizan herramientas de apoyo para prepararse para evaluaciones.
+Problemas
+Tener acceso a recursos no significa tener con quién estudiar.
+Puede solucionar la necesidad de información, pero no necesariamente la de motivación o acompañamiento.
+El estudiante sigue teniendo que organizar su proceso.
+Necesidades
+Acceso a información.
+Recursos de estudio.
+Preparación para exámenes.
+Compartir conocimiento entre estudiantes.
+Contradicciones
+Tener mejores recursos no necesariamente significa estudiar mejor.
+Un estudiante puede tener apuntes, resúmenes y quizzes y aun así necesitar que alguien le explique un tema o lo ayude a mantenerse motivado.
+
+Sorpresa
+Los propios estudiantes se convierten en proveedores de contenido para otros estudiantes. Esto muestra que la comunidad puede ser un recurso académico, no solamente un espacio social.
+🔎 Comparación final
+Esta sería la parte que yo pondría después de los tres benchmarks, porque empieza a convertir la investigación en insights:
+Study Together	Studuo	Studocu
+Principal necesidad	Acompañamiento	Encontrar compañero	Recursos
+Solución	Salas de estudio	Matching	Contenido académico
+Ayuda a estudiar en grupo	🟢	🟢	🟡
+Ayuda a encontrar personas	🟡	🟢	🟡
+Organización académica	🟡	🟡	🟡
+Compatibilidad entre estudiantes	🔴	🟡	🔴
+Recursos académicos	🔴	🟡	🟢
+💡 Lo que empieza a aparecer para Studyhub
+Los benchmarks + las entrevistas muestran algo interesante:
+El problema parece ser más complejo que simplemente “encontrar alguien con quien estudiar”.
+
+Juan Martín, por ejemplo, encuentra que estudiar acompañado puede ser abrumante y afectar su concentración, aunque reconoce que otras personas pueden ayudarlo a pensar desde diferentes perspectivas.
+
+Valentina, por otro lado, sí encuentra valor en estudiar con alguien responsable que le marque el ritmo, pero también reconoce que puede terminar hablando y desconcentrándose.
+
+Y eso abre una pregunta MUY buena para el proyecto:
+
+¿El reto de Studyhub realmente es encontrar compañeros, o encontrar el tipo de compañero adecuado para cada forma de estudiar?
+Esa pregunta les puede servir muchísimo para pasar de datos → patrones → insight → oportunidad de diseño.
+ahora, basándonoslos en toda esta información debemos hacer : 1. Research organizado 
+2. User Persona 
+3. Mapa de empatía 
+4. User Journey 
+5. 3 oportunidades de diseño
+Sí. Con todo lo que tienen hasta ahora —hipótesis, “lo que necesitamos descubrir”, entrevistas de Juan Martín y Valentina, los tres perfiles adicionales que construimos y el benchmark— ya podemos armar la siguiente fase del proceso UX.
+Voy a mantenerlo aterrizado a los hallazgos de la bitácora y sin asumir que Studyhub necesariamente debe ser una plataforma de estudio grupal, porque justamente eso todavía es algo que la investigación debe terminar de validar.
+
+1. Research organizado
+🎯 Objetivo de investigación
+Comprender cómo los universitarios organizan y desarrollan sus procesos de estudio, especialmente cuando estudian con otras personas, para identificar las principales barreras, necesidades y oportunidades que una solución como Studyhub podría abordar.
+Lo que queríamos descubrir
+Pregunta	Hallazgos
+¿Qué opinan de estudiar en grupo?	No existe una preferencia única. Algunos encuentran motivación y diferentes perspectivas; otros pierden concentración.
+¿Cómo encuentran compañeros?	Principalmente recurren a amigos, compañeros conocidos o grupos existentes.
+¿Qué buscan en un compañero?	Responsabilidad, concentración, compromiso y formas de estudiar compatibles.
+¿Qué dificultades aparecen?	Distracciones, coordinación de horarios, falta de compromiso y dificultad para encontrar personas compatibles.
+¿Qué importancia tienen los horarios?	Son importantes, pero no parecen ser suficientes para garantizar que el grupo funcione.
+¿Existe confianza con desconocidos?	Aparece como una posible barrera: conocer cómo es la persona y su compromiso puede ser importante.
+¿Qué herramientas utilizan?	WhatsApp, Canva, Calendar, Drive, Notion y herramientas de IA.
+¿Qué problema tienen las herramientas actuales?	Muchas veces cada herramienta resuelve una parte diferente del proceso.
+¿Todos necesitan una nueva plataforma?	No. Esto es importante: algunos estudiantes sienten que las herramientas actuales son suficientes.
+🔎 Hallazgos principales
+1. Estudiar acompañado no siempre significa estudiar mejor.
+Juan Martín encuentra que el estudio grupal puede ser abrumador y afectar su concentración, aunque reconoce que otras personas pueden ayudar a encontrar nuevas perspectivas.
+
+2. La compatibilidad parece ser más importante que la simple disponibilidad.
+
+No basta con que dos estudiantes tengan la misma materia o estén libres a la misma hora. Importan aspectos como responsabilidad, concentración y metodología.
+
+3. El estudio grupal tiene un doble efecto.
+
+Puede generar motivación, resolver dudas y aportar diferentes perspectivas; pero también puede generar distracciones y hacer sentir que se está perdiendo el tiempo.
+
+4. Las herramientas están fragmentadas.
+
+Los estudiantes utilizan diferentes aplicaciones para calendario, comunicación, archivos, apuntes y estudio.
+
+5. Hay una tensión entre personalización y simplicidad.
+
+Los estudiantes pueden querer muchas funciones, pero al mismo tiempo buscan que la herramienta sea sencilla y rápida de utilizar.
+
+2. User Persona
+A partir de los patrones encontrados, yo construiría un usuario principal híbrido, no copiando literalmente a una sola persona entrevistada.
+👩🏻‍🎓 Sofía — “La estudiante que quiere estudiar acompañada, pero bien”
+Edad: 20 años
+Carrera: Diseño Estratégico
+Semestre: 5.º
+Contexto: Tiene varias entregas y trabajos simultáneamente.
+🎯 Objetivos
+Organizar mejor sus responsabilidades.
+Encontrar personas con las que realmente pueda estudiar.
+Aprovechar el estudio grupal sin perder concentración.
+Entender mejor temas difíciles.
+Evitar perder tiempo coordinando grupos.
+🧠 Motivaciones
+Sentir que está avanzando.
+Aprender de otras perspectivas.
+Tener alguien que la ayude a mantenerse comprometida.
+Sentirse organizada frente a sus responsabilidades.
+😩 Frustraciones
+No saber cuánto tiempo realmente le tomará una tarea.
+Coordinar horarios con otras personas.
+Encontrar compañeros que tengan el mismo nivel de compromiso.
+Tener información repartida entre varias aplicaciones.
+Que estudiar en grupo termine convirtiéndose en una conversación.
+💻 Comportamientos
+Utiliza calendarios y listas para organizarse.
+Estudia sola cuando necesita concentración.
+Busca compañía cuando necesita resolver dudas o mantenerse motivada.
+Utiliza diferentes herramientas dependiendo de la necesidad.
+💬 Frase
+“No quiero simplemente encontrar a alguien que estudie lo mismo que yo; quiero encontrar a alguien con quien realmente pueda estudiar bien.”
+3. Mapa de empatía
+👀 ¿QUÉ VE?
+Muchas plataformas diferentes para organizar la universidad.
+Grupos de WhatsApp llenos de mensajes.
+Compañeros que tienen diferentes niveles de compromiso.
+Fechas y trabajos repartidos en diferentes lugares.
+Amigos que estudian de maneras diferentes.
+👂 ¿QUÉ OYE?
+“¿Cuándo nos reunimos?”
+“Yo no puedo ese día.”
+“Después hacemos el trabajo.”
+Recomendaciones de compañeros.
+Profesores recordando entregas y exámenes.
+💭 ¿QUÉ PIENSA Y SIENTE?
+“Tengo demasiadas cosas pendientes.”
+“Necesito organizarme mejor.”
+“Con alguien podría entender esto más fácil.”
+“Pero si estudio con ellos me voy a distraer.”
+“¿Será que esta persona sí va a cumplir?”
+🗣️ ¿QUÉ DICE?
+“Prefiero estudiar sola porque me concentro más.”
+“Con alguien responsable sí me gusta estudiar.”
+“Me ayuda escuchar otros puntos de vista.”
+“No quiero perder tiempo.”
+🏃‍♀️ ¿QUÉ HACE?
+Organiza sus tareas en diferentes herramientas.
+Pregunta a amigos cuando tiene dudas.
+Estudia sola para concentrarse.
+Se reúne con compañeros cuando necesita ayuda.
+Busca recursos en internet o utiliza IA.
+😣 PAINS — Dolores
+Distracciones.
+Falta de compromiso.
+Dificultad para coordinar.
+Herramientas fragmentadas.
+Desconfianza frente a desconocidos.
+Sentir que una sesión grupal no fue productiva.
+❤️ GAINS — Necesidades/deseos
+Encontrar compañeros compatibles.
+Tener claridad sobre qué hará el grupo.
+Aprovechar mejor el tiempo.
+Compartir conocimientos.
+Sentirse acompañado sin perder concentración.
+Tener una experiencia sencilla.
+4. User Journey
+Vamos a poner al usuario en una situación muy concreta: tiene un parcial próximo y está buscando cómo prepararse.
+Etapa	Acción	Pensamiento / emoción	Problema
+1. Se da cuenta de la necesidad	Recuerda que tiene un parcial.	“Tengo que empezar a estudiar.” 😰	Puede sentirse abrumada.
+2. Se organiza	Revisa fechas y materiales.	“¿Por dónde empiezo?”	La información está repartida.
+3. Decide cómo estudiar	Evalúa estudiar sola o acompañada.	“Con alguien podría entender mejor, pero me puedo distraer.” 🤔	Duda sobre qué modalidad le conviene.
+4. Busca compañeros	Escribe a amigos / compañeros.	“¿Quién puede estudiar conmigo?”	Horarios y disponibilidad no coinciden.
+5. Elige con quién estudiar	Selecciona a alguien conocido.	“Espero que sí sea juicioso/a.”	No conoce realmente la compatibilidad.
+6. Se reúne	Estudia con esa persona.	“Esto sí me está ayudando.” / “Nos estamos distrayendo.”	La experiencia depende mucho del compañero.
+7. Termina	Evalúa lo aprendido.	“Entendí cosas que sola no había entendido.”	Puede sentir que perdió tiempo si la sesión no funcionó.
+8. Próxima vez	Decide si volver a estudiar acompañado.	“Lo haría otra vez, pero con alguien así.”	No existe una forma clara de repetir una buena experiencia.
+⭐ Momento crítico
+El punto más importante parece estar entre:
+“Necesito estudiar con alguien” → “¿Con quién estudio?”
+
+Pero también hay un segundo momento crítico:
+
+“Encontré a alguien” → “¿Realmente funcionamos bien estudiando juntos?”
+
+Ahí es donde el concepto de compatibilidad se vuelve especialmente interesante.
+
+5. Tres oportunidades de diseño
+Aquí no las formularía como funcionalidades todavía. Primero deben ser oportunidades abiertas para que ustedes puedan idear después.
+🟣 Oportunidad 1 — Facilitar la conexión entre estudiantes compatibles
+¿Cómo podríamos ayudar a los estudiantes a encontrar compañeros de estudio compatibles, más allá de compartir una materia u horario?
+Porque los hallazgos apuntan a que características como responsabilidad, concentración y metodología pueden afectar la experiencia.
+🟢 Oportunidad 2 — Hacer que estudiar acompañado sea realmente productivo
+¿Cómo podríamos ayudar a los estudiantes a mantener el enfoque y aprovechar las ventajas de estudiar con otras personas sin convertir la sesión en una distracción?
+Esta oportunidad nace de la contradicción más fuerte que encontraron:
+El grupo puede ayudar a aprender → pero también puede impedir que el estudiante se concentre.
+
+Juan Martín y Valentina muestran precisamente esa tensión desde experiencias diferentes.
+
+🟠 Oportunidad 3 — Simplificar la experiencia académica sin agregar otra herramienta complicada
+¿Cómo podríamos centralizar lo necesario para estudiar y organizarse sin obligar al estudiante a aprender otra plataforma compleja?
+Esto es importante porque las entrevistas muestran que ya utilizan varias herramientas, mientras que una de las cosas que todavía no pueden asumir es que una nueva plataforma vaya a solucionar el problema.
+🔥 El insight que yo llevaría a la siguiente etapa
+De toda la investigación, hay una idea que me parece especialmente potente:
+Los estudiantes no necesariamente necesitan estudiar con más personas; necesitan que, cuando decidan estudiar con alguien, esa experiencia realmente les aporte.
+Eso cambia bastante el enfoque de Studyhub.
+No sería simplemente:
+
+“Una plataforma para encontrar grupos de estudio.”
+
+Sino que la investigación empieza a apuntar hacia:
+
+“Una experiencia que ayuda al estudiante a encontrar la compañía adecuada para la forma en que necesita estudiar.”
+
+Y eso les da mucho más espacio para idear una solución UX sin casarse todavía con una app de “matching”.
+pero no deberíamos hacer dos user personas, la que quiere estudiar en compañía y el que prefiere hacerlo solo 
+Sí, totalmente. De hecho, viendo las respuestas de las entrevistas, creo que hacer dos User Personas es más fiel a lo que encontraron que crear una sola persona híbrida.
+La investigación muestra una contradicción importante: no todos los universitarios quieren estudiar acompañados. Juan Martín prefiere estudiar solo porque le cuesta concentrarse, y Valentina también prefiere estudiar sola, aunque encuentra valor en hacerlo con una persona muy responsable.
+
+Entonces yo haría dos perfiles:
+
+👩‍🎓 Persona 1: La que estudia en compañía
+Sofía, 20 años — 5.º semestre de Diseño
+Objetivo: encontrar personas con las que pueda estudiar de manera productiva.
+
+Motivaciones:
+
+Resolver dudas.
+Escuchar otras perspectivas.
+Mantenerse motivada.
+Sentir responsabilidad frente al grupo.
+Frustraciones:
+Personas que no cumplen.
+Dificultad para coordinar horarios.
+Que el grupo se distraiga.
+No saber si una persona es compatible antes de estudiar con ella.
+Necesita:
+Encontrar compañeros compatibles.
+Saber cómo estudian los demás.
+Coordinar fácilmente.
+Mantener el enfoque durante las sesiones.
+Frase:
+“Me gusta estudiar acompañada, pero necesito que la otra persona realmente quiera estudiar.”
+👨‍🎓 Persona 2: El que prefiere estudiar solo
+Mateo, 21 años — 6.º semestre de Ingeniería
+Objetivo: estudiar de manera autónoma y aprovechar su tiempo.
+
+Motivaciones:
+
+Concentrarse.
+Avanzar a su propio ritmo.
+Tener control sobre su tiempo.
+Evitar distracciones.
+Frustraciones:
+Las conversaciones cuando estudia con amigos.
+Tener que adaptarse al ritmo de otras personas.
+Demasiadas herramientas/plataformas.
+Sentirse obligado a trabajar en grupo cuando podría hacerlo solo.
+Necesita:
+Organización.
+Acceso rápido a recursos.
+Resolver dudas puntuales sin tener que integrarse a un grupo.
+Flexibilidad.
+Frase:
+“Si puedo entenderlo solo y avanzar más rápido, prefiero hacerlo así.”
+🔥 Y esto cambia algo MUY importante del proyecto
+No deberían plantear:
+❌ “Nuestro usuario necesita encontrar un grupo de estudio.”
+Porque la investigación todavía no demuestra eso.
+Más interesante sería:
+
+✅ “Los estudiantes tienen diferentes formas de estudiar: algunos buscan compañía para aprender y mantenerse motivados, mientras otros priorizan autonomía y concentración.”
+Entonces Studyhub podría tener que adaptarse a ambos comportamientos, en lugar de obligar a todos a estudiar en grupo.
+Incluso podrían tener una tercera categoría conceptual:
+
+“Estudio flexible” → solo cuando quiero + acompañado cuando lo necesito.
+
+Esto además encaja muy bien con Valentina: prefiere estudiar sola, pero para determinados momentos sí encuentra valor en estudiar con una persona responsable.
+
+Y para el User Journey, ahí sí podríamos hacer dos journeys paralelos: “estudiante que busca compañía” vs. “estudiante que busca estudiar solo”. Eso les daría una lectura mucho más potente para sacar las 3 oportunidades de diseño.

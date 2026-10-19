@@ -1,0 +1,10 @@
+STUDYHUB — CARPETA DEL PROYECTO
+
+00 Resumen del proyecto.pdf   Todo el proceso en un documento: reto, preguntas, hipótesis, investigación, benchmark, hallazgos, insights, personas, oportunidades, problema, propuesta de valor, decisiones de diseño y búsquedas del moodboard.
+01 Material de origen         Brief, guía de preguntas, transcripciones de entrevistas, la entrega de referencia y tus bocetos a mano.
+02 Investigacion              Bitácora en PowerPoint (research, personas, mapas de empatía, journeys, oportunidades).
+03 Crazy 8                    Las 8 ideas rápidas de la pantalla de compatibilidad.
+04 Bocetos 2.0                Wireframes de escritorio: camino Acompañado (9 pantallas) y camino Solo (4 pantallas).
+05 User Flow                  Diagrama del flujo con la bifurcación Acompañado / Solo.
+06 Demo de la plataforma      Doble clic para abrirla en el navegador. Funciona sin internet (con internet carga la tipografía final).
+Links del proyecto.txt        Links a Canva, al canvas de diseño y a la demo publicada.

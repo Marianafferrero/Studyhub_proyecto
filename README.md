@@ -1,6 +1,6 @@
 # Studyhub
 
-**Proyecto de Usabilidad**: una plataforma de escritorio que conecta a estudiantes universitarios para estudiar. Muestra la compatibilidad antes de comprometerse y también sirve a quienes prefieren estudiar solos.
+**Proyecto de Usabilidad**: una plataforma web para computador y celular que conecta a estudiantes universitarios para estudiar. Muestra la compatibilidad antes de comprometerse y también sirve a quienes prefieren estudiar solos.
 
 > **Propuesta de valor:** Studyhub ayuda a los estudiantes universitarios a saber, antes de comprometerse, si alguien realmente estudia como ellos, para que estudiar acompañado deje de ser una apuesta a ciegas y se convierta en una decisión informada.
 
@@ -35,7 +35,7 @@ Además, 3 de 5 prefieren estudiar solos **por elección**, no por falta de opci
 
 ## Diseño
 
-Plataforma de escritorio con dos modos que el usuario elige al entrar y puede cambiar cuando quiera:
+Plataforma web para computador y celular, con dos modos que el usuario elige al entrar y puede cambiar cuando quiera:
 
 - **Acompañado:** materia → resultados con % de compatibilidad → perfil con desglose → chat para acordar qué se da a cambio → sesión confirmada en el horario.
 - **Solo:** Home con tareas del día, Horarios, Cuadernos y Herramientas, sin elementos de match.

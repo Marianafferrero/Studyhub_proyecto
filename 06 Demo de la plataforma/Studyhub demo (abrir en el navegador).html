@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2F3C7E">
 <title>Studyhub Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -307,6 +312,49 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
   .card{padding:24px 20px}
   .demobar span{display:none}
 }
+/* celular: barra inferior y hoja "Más" */
+.tabbar,.sheet,.agenda{display:none}
+@media (max-width: 780px){
+  .app{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .side{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;position:sticky;top:38px;z-index:20;height:auto}
+  .side .logo{padding:0;font-size:19px}
+  .side .seg{margin:0;width:200px;flex:none}
+  .side .nav{display:none}
+  .tabbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--paper);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px;min-height:52px;font-size:11px;font-weight:700;color:var(--ink-3);border-radius:10px;position:relative}
+  .tabbar button.on{color:var(--navy)}
+  .tabbar button.on svg{stroke:var(--accent)}
+  .tabbar .badge{position:absolute;top:2px;left:calc(50% + 6px);background:var(--coral);color:#fff;border-radius:999px;font-size:10px;font-weight:800;padding:0 6px}
+  .sheet.open{display:block;position:fixed;inset:0;z-index:45;background:rgba(20,26,51,.4)}
+  .sheet .box{position:absolute;left:0;right:0;bottom:0;background:var(--paper);border-radius:18px 18px 0 0;padding:10px 16px calc(84px + env(safe-area-inset-bottom,0px))}
+  .sheet .grab{width:40px;height:4px;border-radius:4px;background:var(--line);margin:4px auto 12px}
+  .sheet button.it{display:flex;align-items:center;gap:14px;width:100%;border:0;background:transparent;padding:14px 8px;font-size:15px;font-weight:700;color:var(--ink);border-bottom:1px solid var(--line-2);text-align:left}
+  .sheet button.it:last-child{border-bottom:0}
+  .main{padding:22px 16px 32px}
+  .stepper{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px}
+  .stepper span{white-space:nowrap}
+  .calwrap{display:none}
+  .agenda{display:flex;flex-direction:column;gap:12px}
+  .aday{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .aday h4{margin:0 0 10px;font-family:var(--display);font-size:15px}
+  .aday .blk{margin-bottom:8px;padding:10px 32px 10px 12px;font-size:13px}
+  .aday .slot{display:block;font-weight:600;opacity:.8;font-size:11.5px;margin-bottom:2px}
+  .aday .none{font-size:12.5px;color:var(--ink-3)}
+  .aday .addday{border:1.5px dashed var(--line);background:transparent;border-radius:8px;width:100%;padding:9px;font-size:12.5px;font-weight:700;color:var(--ink-3);margin-top:2px}
+  .chat{min-height:0}
+  .msgs{max-height:52vh}
+  .msg{max-width:85%}
+  .thead{padding:12px 14px}
+  .compose{padding:12px 14px}
+  .sched{padding:14px}
+  .hero-cta .btn{width:100%}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width: 480px){
+  .addform{grid-template-columns:1fr}
+  .side .seg{width:172px}
+  .modecard{padding:22px 18px}
+}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
@@ -494,6 +542,8 @@ function vMode(){
 }
 
 /* ---------- app shell ---------- */
+const TABS = [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['cuadernos','Cuadernos','book']];
+const MORE = [['links','Links','link'],['herramientas','Herramientas','tool'],['perfil','Perfil','user']];
 const NAV = [['home','Home page','home'],['horarios','Horarios','cal'],['links','Links','link'],['match','Match','match'],['herramientas','Herramientas','tool'],['cuadernos','Cuadernos','book']];
 function vApp(){
   const solo = S.mode==='solo';
@@ -508,6 +558,8 @@ function vApp(){
       <nav class="nav">${nav}<button class="bottom ${S.page==='perfil'?'on':''}" data-a="nav" data-v="perfil">${ic('user')}<span>Perfil</span></button></nav>
     </aside>
     <main class="main">${page()}</main>
+    <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.length&&!solo?`<span class="badge">${S.sessions.length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
+    <div class="sheet ${S.more?'open':''}" data-a="closemore"><div class="box" role="dialog" aria-label="Más opciones"><div class="grab"></div>${MORE.map(([id,label,icn])=>`<button class="it" data-a="nav" data-v="${id}">${ic(icn,20,'var(--accent)')}${label}</button>`).join('')}</div></div>
   </div>`;
 }
 function head(title, desc, extra=''){
@@ -699,7 +751,8 @@ function pHorarios(){
       <div style="display:flex;gap:8px"><button class="btn btn-accent btn-sm" type="submit">Guardar</button><button class="btn btn-line btn-sm" type="button" data-a="cancelblock">Cancelar</button></div>
     </form>` : '';
   return head('Tu horario de estudio', solo?'Planea tus bloques de estudio personal. Haz clic en un espacio libre para agregar uno.':'Tus clases, bloques de estudio y sesiones acompañadas en un solo lugar.', `<button class="btn btn-accent" data-a="newblock">${ic('plus',16,'#fff',2.4)} Nuevo bloque de estudio</button>`) + form +
-  `<div class="calwrap"><div class="cal"><div class="h"></div>${DAYS.map(d=>`<div class="h">${d}</div>`).join('')}${cells}</div></div>
+  `<div class="agenda">${DAYS.map((d,di)=>{const bs=S.blocks.filter(b=>b.day===di).sort((a,b)=>a.slot-b.slot);return `<div class="aday"><h4>${d}</h4>${bs.length?bs.map(b=>`<div class="blk ${b.kind}"><span class="slot">${SLOTS[b.slot]}</span>${esc(b.title)}<small>${esc(b.sub)}</small>${b.kind==='study'?`<button class="x" data-a="delblock" data-v="${b.id}" aria-label="Quitar bloque ${esc(b.title)}">×</button>`:''}</div>`).join(''):'<p class="none" style="margin:0 0 8px">Sin bloques.</p>'}<button class="addday" data-a="cellclick" data-d="${di}" data-s="${(SLOTS.findIndex((_,si)=>!bs.some(b=>b.slot===si))+SLOTS.length)%SLOTS.length}">+ Agregar bloque</button></div>`}).join('')}</div>
+  <div class="calwrap"><div class="cal"><div class="h"></div>${DAYS.map(d=>`<div class="h">${d}</div>`).join('')}${cells}</div></div>
   <div class="legend"><span><i style="background:var(--line-2)"></i>Clase</span><span><i style="background:var(--teal-soft)"></i>Estudio personal</span><span><i style="background:var(--coral)"></i>Sesión acompañada</span></div>`;
 }
 
@@ -790,7 +843,9 @@ document.addEventListener('click', e=>{
       if(S.mode==='acompanado'){ S.page='match'; S.step='materia'; } else { S.page='home'; }
       go({}); break;
     case 'setmode': S.mode=v; S.pickMode=v; render(); toast(v==='solo'?'Modo Solo activado':'Modo Acompañado activado'); break;
-    case 'nav': S.openBook=null; S.addBlock=null; go({page:v}); break;
+    case 'nav': S.openBook=null; S.addBlock=null; S.more=false; go({page:v}); break;
+    case 'more': S.more=!S.more; render(); break;
+    case 'closemore': if(e.target===el){ S.more=false; render(); } break;
     case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[]}); break;
     case 'subject': S.subject=v; render(); break;
     case 'focussearch': { const i=document.getElementById('subj-q'); i && i.focus(); break; }
@@ -805,7 +860,7 @@ document.addEventListener('click', e=>{
       const np={type:'prop', from:'me', offers:`Tú me explicas ${subjName()}`, forWhat:v, status:'waiting'}; addChat(np); S.showOffers=false; render();
       theyReply('Me parece justo, trato hecho.', ()=>{ np.status='accepted'; addChat({from:'sys',text:'Acuerdo cerrado. Ahora agenden la sesión.'}); });
       break; }
-    case 'cellclick': S.addBlock={day:+el.dataset.d, slot:+el.dataset.s}; render(); setTimeout(()=>{const i=document.getElementById('bl-title'); i&&i.focus();},0); break;
+    case 'cellclick': S.addBlock={day:+el.dataset.d, slot:+el.dataset.s}; render(); setTimeout(()=>{const i=document.getElementById('bl-title'); if(i){ i.scrollIntoView({block:'center'}); i.focus({preventScroll:true}); }},0); break;
     case 'newblock': S.addBlock={day:0,slot:0}; render(); setTimeout(()=>{const i=document.getElementById('bl-title'); i&&i.focus();},0); break;
     case 'cancelblock': S.addBlock=null; render(); break;
     case 'delblock': S.blocks=S.blocks.filter(b=>b.id!=v); render(); toast('Bloque eliminado'); break;

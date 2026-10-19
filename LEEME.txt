@@ -6,5 +6,5 @@ STUDYHUB — CARPETA DEL PROYECTO
 03 Crazy 8                    Las 8 ideas rápidas de la pantalla de compatibilidad.
 04 Bocetos 2.0                Wireframes de escritorio: camino Acompañado (9 pantallas) y camino Solo (4 pantallas).
 05 User Flow                  Diagrama del flujo con la bifurcación Acompañado / Solo.
-06 Demo de la plataforma      Doble clic para abrirla en el navegador. Funciona sin internet (con internet carga la tipografía final).
+06 Demo de la plataforma      Doble clic para abrirla en el navegador. Se adapta a computador y celular. Funciona sin internet (con internet carga la tipografía final).
 Links del proyecto.txt        Links a Canva, al canvas de diseño y a la demo publicada.

@@ -16,6 +16,7 @@ Formato: **Decisión** · por qué · evidencia · alternativa descartada. Usa l
 | 2026-10-19 | **Editar perfil** y **calificar sesiones** | Medir el compromiso después del encuentro | [[Las 3 capas de compatibilidad]] | Autoevaluación únicamente |
 | 2026-10-19 | **Lugar acordado** en el chat; sábado y domingo en el horario | Completar el acuerdo de la sesión; se estudia el fin de semana | Commit | — |
 | 2026-10-19 | Horario con **tipo de bloque**: clase, estudio personal o sesión acompañada | Unir los dos modos en una sola agenda | Commit | Horarios separados por modo |
+| 2026-10-20 | **Sincronización en vivo** con GitHub: todo se sube solo, menos la bitácora cruda | El repo es público y el avance debe verse sin depender de acordarse de subirlo | Commit "Sincronización automática" (`.claude/hooks/sincronizar_github.sh`) | Subir la bitácora completa o hacer el repo privado (se pierde GitHub Pages gratis) |
 
 > 🧠 Las filas sin fecha vienen del PDF resumen. Si recuerdas cuándo tomaste esas decisiones, complétalas: la secuencia también cuenta la historia del proceso.
 > ⚠️ El PDF resumen todavía dice "plataforma de escritorio (no app móvil)". Hay que actualizarlo.

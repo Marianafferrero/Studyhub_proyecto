@@ -3,3 +3,5 @@
 Notas/Bitacora/
 .claude/.bitacora_estado.json
 Untitled*.base
+.obsidian/plugins/*/main.js
+.obsidian/plugins/*/styles.css

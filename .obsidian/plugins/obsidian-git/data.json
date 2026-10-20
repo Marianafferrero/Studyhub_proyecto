@@ -1,0 +1,13 @@
+{
+  "autoSaveInterval": 5,
+  "autoPushInterval": 0,
+  "autoPullInterval": 5,
+  "autoPullOnBoot": true,
+  "differentIntervalCommitAndPush": false,
+  "autoBackupAfterFileChange": false,
+  "syncMethod": "rebase",
+  "pullBeforePush": true,
+  "disablePush": false,
+  "autoCommitMessage": "Obsidian: {{date}}",
+  "commitMessage": "Obsidian: {{date}}"
+}

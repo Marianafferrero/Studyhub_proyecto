@@ -1,0 +1,8 @@
+{
+  "newFileLocation": "folder",
+  "newFileFolderPath": "Notas",
+  "alwaysUpdateLinks": true,
+  "userIgnoreFilters": [
+    "index.html"
+  ]
+}

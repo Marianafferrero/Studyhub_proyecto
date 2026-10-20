@@ -1,0 +1,58 @@
+{
+  "collapse-filter": true,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": true,
+  "colorGroups": [
+    {
+      "query": "path:\"Notas/1 Fuentes\"",
+      "color": {
+        "a": 1,
+        "rgb": 163984
+      }
+    },
+    {
+      "query": "path:\"Notas/2 Interpretacion\"",
+      "color": {
+        "a": 1,
+        "rgb": 16369487
+      }
+    },
+    {
+      "query": "path:\"Notas/3 Decisiones\"",
+      "color": {
+        "a": 1,
+        "rgb": 16343399
+      }
+    },
+    {
+      "query": "path:\"Notas/4 Metacognicion\"",
+      "color": {
+        "a": 1,
+        "rgb": 10182117
+      }
+    },
+    {
+      "query": "file:Inicio",
+      "color": {
+        "a": 1,
+        "rgb": 3095678
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": 0,
+  "nodeSizeMultiplier": 1,
+  "lineSizeMultiplier": 1,
+  "collapse-forces": true,
+  "centerStrength": 0.518713248970312,
+  "repelStrength": 10,
+  "linkStrength": 1,
+  "linkDistance": 250,
+  "scale": 2.9722038680809946,
+  "close": true
+}

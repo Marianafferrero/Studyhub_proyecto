@@ -14,3 +14,8 @@ Proyecto académico de **Usabilidad** (UX). Studyhub es una plataforma web (comp
 - Cada decisión nueva de diseño va en `Notas/3 Decisiones/Registro de decisiones.md` con el formato: decisión, por qué, evidencia y alternativa descartada.
 - Antes de afirmar que algo está "validado", revisa `Notas/4 Metacognicion/Supuestos vs evidencia.md` y `Limites y sesgos.md`.
 - Las plantillas para notas nuevas están en `Notas/Plantillas/`.
+
+## Sistema de agentes y mejora continua
+- Mapa: `Notas/5 Estrategia/Sistema de agentes.md`. Prioridades: `Notas/5 Estrategia/Matriz de posibilidades.md`.
+- Agentes en `.claude/agents/`. El ciclo completo se corre con la skill `ciclo-de-mejora`.
+- El hook `Stop` anexa cada turno a `Notas/Bitacora/`. Esa carpeta está en `.gitignore` porque el repositorio es público.

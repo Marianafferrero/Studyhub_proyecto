@@ -17,7 +17,10 @@ El conocimiento está en **capas**. Cada capa se apoya en la anterior. Si una id
 | **1 · Fuentes** | ¿Qué dicen los datos, tal cual? | `Notas/1 Fuentes` |
 | **2 · Interpretación** | ¿Qué entiendo a partir de los datos? | `Notas/2 Interpretacion` |
 | **3 · Decisiones** | ¿Qué diseñé y por qué? | `Notas/3 Decisiones` |
-| **4 · Metacognición** | ¿Cómo pensé, qué asumí y qué me falta? | `Notas/4 Metacognicion` |
+| **4 · Metacognición** | ¿Cómo pensé, qué asumí y qué me falta? | `Notas/4 Metacognicion` · `Notas/Bitacora` |
+| **5 · Estrategia** | ¿Hacia dónde mejorar y quién se encarga? | [[Matriz de posibilidades]] · [[Sistema de agentes]] · [[Indice del proyecto]] |
+| **6 · Mejoras** | ¿Qué proponen los agentes de pilar? | `Notas/6 Mejoras` |
+| **7 · Auditoría** | ¿El proceso es correcto y honesto? | `Notas/7 Auditoria` |
 
 ```mermaid
 flowchart LR
@@ -40,6 +43,7 @@ flowchart LR
 - ✅ Crazy 8, Bocetos 2.0, User Flow y demo interactiva publicada.
 - ⚠️ La evidencia tiene huecos: ver [[Limites y sesgos]] y [[Preguntas abiertas]].
 - ⏭️ Próximo paso natural: test de usabilidad de la demo con estudiantes reales.
+- 🤖 Mejora continua: `/ciclo-de-mejora` (ver [[Sistema de agentes]]).
 
 ## Archivos originales (sin mover)
 

@@ -747,13 +747,49 @@ function mMateria(){
   <div class="subjects">${cards}<button class="subj add ${S.subject==='custom'?'on':''}" data-a="focussearch">${ic('plus',20)}<strong style="font-size:13px">${S.subject==='custom'?esc(S.customSubject):'Otra materia'}</strong></button></div>
   <div class="actions"><button class="btn btn-primary" data-a="find">Buscar compatibles en ${esc(subjName())}</button></div>`;
 }
+const VERIFIED = `<span class="tag ver">${ic('check',11,'currentColor',3)} Correo institucional verificado</span>`;
+function matchSwitch(){
+  return `<div class="segsw" role="group" aria-label="Tipo de sesión">${[['uno','Con una persona'],['grupo','En grupo pequeño']].map(([k,l])=>`<button data-a="mtype" data-v="${k}" aria-pressed="${S.matchType===k}">${l}</button>`).join('')}</div>`;
+}
+function groupCard(g, mine){
+  const ms = g.members.map(id=>CANDS.find(c=>c.id===id)).filter(Boolean);
+  const free = g.cap - ms.length - (mine?1:0);
+  const low = g.brk.slice().sort((a,b)=>a[1]-b[1])[0];
+  const col = g.pct>=80?'var(--green)':g.pct>=70?'#B7860B':'var(--coral)';
+  return `<article class="cand">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div class="members">${ms.map(c=>`<span class="avatar" style="background:${c.av}" title="${esc(c.name)}">${esc(c.name[0])}</span>`).join('')}${mine?`<span class="avatar" style="background:var(--navy)">${esc(first()[0])}</span>`:''}${Array.from({length:Math.max(free,0)},()=>'<span class="avatar slot" aria-hidden="true">+</span>').join('')}</div><span class="small muted">${ms.length+(mine?1:0)}/${g.cap}</span></div>
+    <div><strong style="font-size:15px">${esc(g.name)}</strong><div class="small muted">${ms.map(c=>esc(c.name)).join(', ')||'Solo tú por ahora'}</div></div>
+    ${mine?'':`<div class="pct" style="color:${col}">${g.pct}%</div><div class="small muted">compatibilidad del grupo contigo · capa más baja: <strong>${esc(low[0].toLowerCase())}</strong> (${esc(low[2].toLowerCase())})</div>`}
+    <div class="gmeta"><span>${ic('cal',14)} ${DAYS[g.day]} · ${SLOTS[g.slot]}</span><span>${ic('pin',14)} ${esc(g.place)}</span><span>${ic('check',14)} Regla: ${esc(g.rule)}</span></div>
+    ${mine?`<span class="tag ver">Tu grupo · te avisamos cuando alguien se una</span>`:free>0?`<button class="btn btn-primary btn-sm" data-a="joingroup" data-v="${g.id}">Unirme al grupo</button>`:`<span class="tag">Grupo completo</span>`}
+  </article>`;
+}
+function mGroups(){
+  const list = GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id));
+  const mine = S.myGroups.filter(g=>g.subject===subjName());
+  const form = S.newGroup ? `<form class="panel" id="f-group" style="margin-bottom:18px;max-width:720px"><h3>Crear un grupo de ${esc(subjName())}</h3>
+      <div class="field"><label for="gr-name">Nombre del grupo</label><input class="input" id="gr-name" placeholder="Ej: Repaso del parcial 2"></div>
+      <div class="field"><label for="gr-goal">Objetivo de la sesión</label><input class="input" id="gr-goal" placeholder="Ej: resolver los talleres 3 y 4"></div>
+      <div class="sched" style="padding:0;border:0;background:none"><div class="row3">
+        <div class="field" style="margin:0"><label for="gr-cap">Cupo</label><select class="select" id="gr-cap"><option value="3">3 personas</option><option value="4" selected>4 personas</option></select></div>
+        <div class="field" style="margin:0"><label for="gr-day">Día</label><select class="select" id="gr-day">${DAYS.map((d,i)=>`<option value="${i}" ${i===2?'selected':''}>${d}</option>`).join('')}</select></div>
+        <div class="field" style="margin:0"><label for="gr-slot">Hora</label><select class="select" id="gr-slot">${SLOTS.map((d,i)=>`<option value="${i}" ${i===3?'selected':''}>${d}</option>`).join('')}</select></div>
+      </div></div>
+      <div class="field"><label for="gr-place">Lugar</label><input class="input" id="gr-place" value="Biblioteca central, sala grupal" placeholder="Un lugar público del campus"></div>
+      <div class="field"><label for="gr-rule">Regla del grupo</label><select class="select" id="gr-rule"><option>Pomodoro 50/10 y celulares guardados</option><option>Pomodoro 25/5 y celulares guardados</option><option>Cada quien trae ejercicios resueltos</option></select></div>
+      <div class="actions" style="margin-top:6px"><button class="btn btn-primary" type="submit">Crear grupo</button><button class="btn btn-line" type="button" data-a="newgroup">Cancelar</button></div></form>` : '';
+  return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), 'Grupos de 3 o 4 personas. La compatibilidad del grupo considera a todos sus integrantes, y te mostramos cuál capa es la más baja.') + stepper() + matchSwitch() + form +
+  `<div class="cands">${mine.map(g=>groupCard(g,true)).join('')}${list.map(g=>groupCard(g,false)).join('')}${S.newGroup?'':`<button class="cand new" data-a="newgroup">${ic('plus',22)}<strong style="font-size:15px">Crear un grupo</strong><span class="small muted">Define el objetivo, el cupo y la regla. Te avisamos cuando se unan personas compatibles.</span></button>`}</div>`;
+}
 function mResults(){
-  const list = CANDS.filter(c=>S.filters.every(f=>c.tags.includes(f)));
+  if(S.matchType==='grupo') return mGroups();
+  const list = CANDS.filter(c=>!S.blocked.includes(c.id) && S.filters.every(f=>c.tags.includes(f)));
   const chips = ['Compromiso alto','Silencio','Mismo nivel'].map(f=>`<button class="chip ${S.filters.includes(f)?'on':''}" data-a="filter" data-v="${f}" aria-pressed="${S.filters.includes(f)}">${f}</button>`).join('');
   const cards = list.length ? list.map(c=>`<article class="cand">
       <div class="who"><span class="avatar" style="background:${c.av}">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.sem)}</small></div></div>
       <div class="pct" style="color:${c.color}">${c.pct}%</div>
       ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
+      <div>${VERIFIED}</div>
       <div class="bar"><i style="width:${c.pct}%;background:${c.color}"></i></div>
       <div class="small muted">${esc(c.reason)}</div>
       <div class="tagrow">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
@@ -761,7 +797,7 @@ function mResults(){
       <button class="btn btn-line btn-sm" data-a="viewcand" data-v="${c.id}">Ver perfil y compatibilidad</button>
     </article>`).join('') : `<div class="empty">Ningún perfil cumple todos los filtros. Quita alguno para ver más opciones.</div>`;
   return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), `${list.length} persona${list.length===1?'':'s'} compatible${list.length===1?'':'s'} ahora. Ordenadas por compatibilidad, no por disponibilidad.`) + stepper() +
-  `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>`;
+  matchSwitch() + `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>`;
 }
 function mProfile(){
   const c = cand();

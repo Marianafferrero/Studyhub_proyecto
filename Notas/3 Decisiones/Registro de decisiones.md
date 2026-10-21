@@ -25,7 +25,12 @@ Formato: **Decisión** · por qué · evidencia · alternativa descartada. Usa l
 | 2026-10-20 | Horario: los demás ven **solo los bloques en común** | Privacidad al juntar desconocidos | [[Cuestionario capa 1]] · hipótesis en [[Supuestos vs evidencia]] | Horario completo visible después de aceptar |
 | 2026-10-20 | WCAG **AA**, tono cercano con **tuteo**, demo pareja en computador y celular | Base de usabilidad para la entrega | [[Cuestionario capa 1]] | AAA (demasiado esfuerzo para el tiempo disponible) |
 | 2026-10-20 | Métrica norte: **retención a 4 semanas**; gamificación sin rankings, castigos ni monedas | El hábito es el riesgo del pilar P7 | [[Cuestionario capa 1]] | Sesiones por semana |
-| 2026-10-20 | ⏸️ *Pendiente (capa 2):* tamaño de grupo (3–4 vs 5–6) y % grupal (capa más baja vs promedio) | La capa 1 contradice la fila «Grupos de 3 o 4» | [[Cuestionario capa 1]] tensión 3 y 5 | — |
+| 2026-10-20 | Se **confirman** los grupos de 3 o 4 con el % de la **capa más baja** (se resuelve la tensión de la capa 1) | El promedio esconde al integrante incompatible | [[Cuestionario capa 2]] | 5–6 personas con promedio de pares |
+| 2026-10-20 | Regla del %: **horario y materias filtran**; % = Conocimiento 30 + Compromiso 35 + Concentración 35 | Conectar el onboarding con [[Las 3 capas de compatibilidad]] | [[Entrevistas]] (las 3 capas salen de entrevistas reales) | Cinco factores con el mismo peso |
+| 2026-10-20 | Medir las capas con **nivel por materia, escenarios y horas reales disponibles**, no con autoevaluación libre | Evitar la autoevaluación complaciente ([[Preguntas abiertas]]) | [[Cuestionario capa 2]] | Escala del 1 al 5 de «qué tan comprometido eres» |
+| 2026-10-20 | Reemplazar la evidencia simulada (Mateo) con una **encuesta en Tally** y un **test presencial con 3 personas** | La preocupación principal es que el evaluador detecte datos inventados | [[Limites y sesgos]] §6 | Solo mencionarlo en general |
+| 2026-10-20 | Se mantiene el **guardado en el navegador** con datos de ejemplo | Ya existe y permite probar el uso repetido | [[Cuestionario capa 2]] | Empezar de cero en cada recarga |
+| 2026-10-20 | Recorte de alcance: Figma solo para las slides, grupos simplificados (tarjeta, «sumar a alguien», grupo por evaluación) e ilustraciones mínimas | Hay entre 6 y 12 h en total hasta la entrega | [[Cuestionario capa 2]] | Figma primero para todo el diseño |
 
 > 🧠 Las filas sin fecha vienen del PDF resumen. Si recuerdas cuándo tomaste esas decisiones, complétalas: la secuencia también cuenta la historia del proceso.
 > ⚠️ El PDF resumen todavía dice "plataforma de escritorio (no app móvil)". Hay que actualizarlo.

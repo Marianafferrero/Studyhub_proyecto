@@ -25,3 +25,7 @@ Saber dónde es débil el conocimiento también es conocimiento.
 
 ## 5. Aún no hay test con usuarios
 - Todo el diseño es una inferencia. Ninguna pantalla se probó con estudiantes.
+
+## 6. Una entrevista simulada
+- La entrevista de **Mateo** fue simulada; las otras 4 son reales ([[Entrevistas]]). La [[Persona - Mateo]] se re-ancla en Juan Martín y Jacobo, que también estudian solos.
+- Plan: reemplazarla con una encuesta en Tally y un test presencial con 3 personas ([[Cuestionario capa 2]]).

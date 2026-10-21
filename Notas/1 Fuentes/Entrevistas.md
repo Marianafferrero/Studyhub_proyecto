@@ -12,13 +12,15 @@ confiabilidad: mixta (ver Limites y sesgos)
 
 ## Los 5 entrevistados
 
-| Quién | Perfil | ¿Solo o acompañado? | Lo central |
-|---|---|---|---|
-| **Juan Martín** | 4.º sem., Diseño Gráfico | Solo | Le cuesta concentrarse en grupo. Valora las otras perspectivas. Se siente abrumado y poco acogido en la universidad. |
-| **Valentina** | 3.er sem., Narrativas Transmedia | Sola, o con alguien que se concentre | No logra quedarse callada en grupo. Pide **cuadernos por materia**, calendario rayable y reloj. |
-| **María José** | 5.º sem., Economía | Acompañada, "no con cualquiera" | Exige **compromiso**. Sus herramientas están dispersas (WhatsApp, Drive, Calendar, Notion). |
-| **Mateo** | 4.º sem., Ingeniería | Solo | En grupo "terminamos hablando". No siente que necesite otra app. |
-| **Jacobo** | 3.er sem., Finanzas | Solo | El **desnivel de conocimiento** frena. Pide programas personalizados. |
+| Quién | Origen | Perfil | ¿Solo o acompañado? | Lo central |
+|---|---|---|---|---|
+| **Juan Martín** | 🟢 real | 4.º sem., Diseño Gráfico | Solo | Le cuesta concentrarse en grupo. Valora las otras perspectivas. Se siente abrumado y poco acogido en la universidad. |
+| **Valentina** | 🟢 real | 3.er sem., Narrativas Transmedia | Sola, o con alguien que se concentre | No logra quedarse callada en grupo. Pide **cuadernos por materia**, calendario rayable y reloj. |
+| **María José** | 🟢 real | 5.º sem., Economía | Acompañada, "no con cualquiera" | Exige **compromiso**. Sus herramientas están dispersas (WhatsApp, Drive, Calendar, Notion). |
+| **Mateo** | 🔴 simulada | 4.º sem., Ingeniería | Solo | En grupo "terminamos hablando". No siente que necesite otra app. |
+| **Jacobo** | 🟢 real | 3.er sem., Finanzas | Solo | El **desnivel de conocimiento** frena. Pide programas personalizados. |
+
+> ⚠️ Origen declarado por la autora el 2026-10-20 ([[Cuestionario capa 2]]): 4 reales y 1 simulada (Mateo). Las frases de Mateo no sostienen decisiones por sí solas. Se reemplazan con la encuesta y el test.
 
 ## Frases que sostienen el diseño
 - Valentina: tiene que ser "con alguien que estén estudiando concentradas".

@@ -46,3 +46,4 @@ Esta nota cruza **los pilares de una plataforma como Studyhub** con su estado re
 | 2026-10-20 | Implementados P4, P5, P6, P8 y la base de P7 en la demo; instrumentos de P1 listos ([[2026-10-20 Mejoras implementadas en la demo]]) | Claude |
 | 2026-10-20 | Correcciones de la [[Auditoria 2026-10-20]]: P6 baja a 🟡, se aclara que el temporizador de P5 es individual y se rehace el mapa | Claude |
 | 2026-10-20 | Capa 1 del cuestionario respondida: entregables = demo + slides; menos de 3 h por semana; entrega en 2 a 4 semanas. P9 baja de prioridad (el PDF no es obligatorio). Ver [[Cuestionario capa 1]] | Claude + Mariana |
+| 2026-10-20 | Capa 2: Mateo es una entrevista simulada (P1 sigue en 🟡); P8 se fija en grupos de 3–4 con la capa más baja; hoja de ruta S1 evidencia → S2 match → S3 test y AA → S4 slides. Ver [[Cuestionario capa 2]] | Claude + Mariana |

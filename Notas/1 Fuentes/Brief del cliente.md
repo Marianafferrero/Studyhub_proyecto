@@ -19,6 +19,6 @@ confiabilidad: alta (documento del cliente)
 ## Lectura crítica
 - El brief ya trae un **diagnóstico** ("horarios") que la investigación después contradice. Ver [[Hallazgos]].
 - Asume que los estudiantes *quieren* estudiar en grupo, cosa que no se cumple para 3 de 5. Ver [[Persona - Mateo]].
-- ⚠️ **Restricción por revisar:** el diseño actual hace match 1 a 1. ¿Cumple la "creación y búsqueda de grupos"? Ver [[Preguntas abiertas]].
+- ✅ **Restricción cumplida (2026-10-20):** además del match 1 a 1, la demo permite buscar, unirse y crear grupos de 3 o 4. Ver [[Registro de decisiones]].
 
 **Alimenta:** [[Supuestos vs evidencia]] · [[Problema y propuesta de valor]]

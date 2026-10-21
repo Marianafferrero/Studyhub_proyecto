@@ -21,7 +21,7 @@ Cada archivo del proyecto, con su capa y los pilares de la [[Matriz de posibilid
 | `04 Bocetos 2.0/Acompanado/` | 9 pantallas del camino Acompañado | 3 | P2, P3, P4 |
 | `04 Bocetos 2.0/Solo/` | 4 pantallas del camino Solo | 3 | P6 |
 | `05 User Flow/User Flow.png` | Flujo con la bifurcación de modos | 3 | P3 |
-| `06 Demo de la plataforma/…html` | Prototipo interactivo y responsive (~90 KB, sin backend) | 3 | P2–P7 |
+| `06 Demo de la plataforma/…html` | Prototipo interactivo y responsive (~113 KB, sin backend) | 3 | P2–P7 |
 | `index.html` | Redirige a la demo (GitHub Pages) | — | P9 |
 | `README.md` · `LEEME.txt` · `Links del proyecto.txt` | Presentación del repositorio y links | 0 | P9 |
 | `Notas/` | Capas de conocimiento 1–7 | — | todos |

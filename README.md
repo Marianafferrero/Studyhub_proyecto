@@ -37,7 +37,8 @@ Además, 3 de 5 prefieren estudiar solos **por elección**, no por falta de opci
 
 Plataforma web para computador y celular, con dos modos que el usuario elige al entrar y puede cambiar cuando quiera:
 
-- **Acompañado:** materia → resultados con % de compatibilidad (**con una persona o en grupo pequeño de 3 o 4**) → perfil con desglose → chat para acordar qué se da a cambio y el lugar → sesión confirmada en el horario → **sesión en vivo** con objetivo y temporizador Pomodoro → calificación.
+- **Acompañado, con una persona:** materia → resultados con % de compatibilidad → perfil con desglose → chat para acordar qué se da a cambio y el lugar → sesión confirmada en el horario → **sesión en vivo** con objetivo y temporizador Pomodoro → calificación.
+- **Acompañado, en grupo pequeño (3 o 4):** materia → grupos con % de compatibilidad grupal y la capa más baja → **unirse o crear un grupo** (objetivo, cupo, día, lugar y regla) → sesión confirmada → sesión en vivo → calificación. Se puede salir del grupo o cancelar la sesión.
 - **Solo:** Home con tareas del día, Horarios, Cuadernos y Herramientas, sin elementos de match. Incluye **bloques de concentración** con el mismo temporizador.
 - **Confianza y seguridad:** cuentas verificadas con correo institucional, **reportar y bloquear** desde el perfil o el chat, consejo de encontrarse en lugares públicos del campus y control de **quién ve tu disponibilidad**.
 - La demo **guarda tu avance** en el navegador; "Cerrar sesión" la reinicia.

@@ -693,7 +693,7 @@ function page(){
 
 /* ---------- home ---------- */
 function pHomeAcomp(){
-  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div>${s.rating?`<span class="rate">${stars(s.rating.stars)}</span>`:s.done?`<button class="btn btn-gold btn-sm" data-a="rate" data-v="${s.id}">Calificar</button>`:`<span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span><button class="btn btn-accent btn-sm" data-a="golive" data-v="${s.id}">Empezar sesión</button>`}</div>`).join('')
+  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div>${s.rating?`<span class="rate">${stars(s.rating.stars)}</span>`:s.done?`<button class="btn btn-gold btn-sm" data-a="rate" data-v="${s.id}">Calificar</button>`:`<span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span><button class="btn btn-accent btn-sm" data-a="golive" data-v="${s.id}">Empezar sesión</button><button class="btn btn-line btn-sm" data-a="cancelsess" data-v="${s.id}">${s.group?'Salir del grupo':'Cancelar'}</button>`}</div>`).join('')
     : `<div class="empty">Todavía no tienes sesiones acompañadas.<br><button class="btn btn-accent btn-sm" style="margin-top:12px" data-a="startmatch">Buscar compañero</button></div>`;
   const studyCount = S.blocks.filter(b=>b.kind!=='class').length;
   return head(`Hola, ${esc(first())}`, 'Tu semana de estudio de un vistazo.') +
@@ -867,7 +867,7 @@ function mChat(){
   `<div class="chat">
     <div class="convs"><h3>Conversaciones</h3>
       <div class="conv on"><span class="avatar" style="background:${c.av}">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><small>${esc(subjName())}</small></div></div>
-      ${CANDS.filter(x=>x.id!==c.id).map(x=>`<div class="conv" style="opacity:.55"><span class="avatar" style="background:${x.av}">${esc(x.name[0])}</span><div><strong>${esc(x.name)}</strong><small>Sin mensajes</small></div></div>`).join('')}
+      ${CANDS.filter(x=>x.id!==c.id && !S.blocked.includes(x.id)).map(x=>`<div class="conv" style="opacity:.55"><span class="avatar" style="background:${x.av}">${esc(x.name[0])}</span><div><strong>${esc(x.name)}</strong><small>Sin mensajes</small></div></div>`).join('')}
     </div>
     <div class="thread">
       <div class="thead"><span class="avatar" style="background:${c.av};width:40px;height:40px">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><span class="small muted">${esc(subjName())}</span></div><span class="pill">${c.pct}% compatible</span><button class="iconbtn" style="width:40px;height:40px" data-a="report" data-v="${c.id}" aria-label="Reportar o bloquear a ${esc(c.name)}" title="Reportar o bloquear">${ic('flag',18)}</button></div>
@@ -891,8 +891,8 @@ function mConfirmed(){
       <div class="xchg"><strong>${s.group?'Regla del grupo':'Acuerdo'}:</strong> ${esc(s.deal)}</div>
     </div>
     <div class="note" style="margin-top:14px">${s.group?'Todos se comprometieron a asistir.':'Ambos se comprometieron a asistir.'} Te recordamos una hora antes.</div>
-    <div class="actions"><button class="btn btn-accent" data-a="golive" data-v="${s.id}">Empezar la sesión</button><button class="btn btn-line" data-a="nav" data-v="horarios">Ver en mi horario</button><button class="btn btn-line" data-a="startmatch">Buscar otra sesión</button></div>
-    <div class="panel" style="margin-top:18px;background:var(--gold-soft);border-color:#f2dc9a"><strong>Durante y después de la sesión</strong><p class="small" style="margin:4px 0 12px;color:var(--gold-ink)">Con "Empezar la sesión" tienen un temporizador compartido y el objetivo a la vista, para que no se vuelva conversación. Al terminar te pediremos calificar${s.group?' la sesión':` a ${esc(s.with)}`}.</p><button class="btn btn-gold btn-sm" data-a="finish" data-v="${s.id}">Simular que ya estudiamos y calificar</button></div>
+    <div class="actions"><button class="btn btn-accent" data-a="golive" data-v="${s.id}">Empezar la sesión</button><button class="btn btn-line" data-a="nav" data-v="horarios">Ver en mi horario</button><button class="btn btn-line" data-a="startmatch">Buscar otra sesión</button><button class="link small" style="color:var(--ink-3)" data-a="cancelsess" data-v="${s.id}">${s.group?'Salir del grupo':'Cancelar la sesión'}</button></div>
+    <div class="panel" style="margin-top:18px;background:var(--gold-soft);border-color:#f2dc9a"><strong>Durante y después de la sesión</strong><p class="small" style="margin:4px 0 12px;color:var(--gold-ink)">Con "Empezar la sesión" tienes el objetivo a la vista y un temporizador con el ritmo que acordaron, para que no se vuelva conversación. Al terminar te pediremos calificar${s.group?' la sesión':` a ${esc(s.with)}`}.</p><button class="btn btn-gold btn-sm" data-a="finish" data-v="${s.id}">Simular que ya estudiamos y calificar</button></div>
   </div>
   <div class="panel"><h3>Así queda tu semana</h3>${miniWeek()}</div></div>`;
 }
@@ -1106,9 +1106,11 @@ setInterval(()=>{
 function render(){
   const v = {welcome:vWelcome, signup:vSignup, login:vLogin, confirm:vConfirm, mode:vMode, app:vApp}[S.screen];
   const mb = document.querySelector('.modal .box'), keep = mb ? mb.scrollTop : 0;
+  const ae = document.activeElement, fkey = ae && ae!==document.body ? (ae.id ? '#'+CSS.escape(ae.id) : ae.dataset && ae.dataset.a ? `[data-a="${ae.dataset.a}"]${ae.dataset.v!==undefined?`[data-v="${CSS.escape(ae.dataset.v)}"]`:''}${ae.dataset.k?`[data-k="${CSS.escape(ae.dataset.k)}"]`:''}` : ae.name ? `[name="${ae.name}"][value="${CSS.escape(ae.value)}"]` : null) : null;
   root.innerHTML = v();
   const nb = document.querySelector('.modal .box'); if(nb && keep) nb.scrollTop = keep;
   if(nb && S.focusModal){ S.focusModal=false; nb.focus(); }
+  else if(fkey){ const el=document.querySelector(fkey); if(el) el.focus({preventScroll:true}); else if(nb) nb.focus(); }
   const m = document.getElementById('msgs'); if(m) m.scrollTop = m.scrollHeight;
   save();
 }
@@ -1178,6 +1180,12 @@ document.addEventListener('click', e=>{
     case 'delsub': S.draft.subjects.splice(+v,1); render(); break;
     case 'finish': { const se=S.sessions.find(x=>x.id==v); se.done=true; openModal({rating:{id:se.id, stars:0, dims:{}, again:null, comment:''}}); break; }
     case 'rate': openModal({rating:{id:+v, stars:0, dims:{}, again:null, comment:''}}); break;
+    case 'cancelsess': { const se=S.sessions.find(x=>x.id==v); if(!se) break;
+      S.sessions=S.sessions.filter(x=>x!==se);
+      S.blocks=S.blocks.filter(b=>!(b.fromMatch && b.day===se.day && b.slot===se.slot));
+      if(se.created) S.myGroups=S.myGroups.filter(g=>g.id!==se.cid);
+      if(S.page==='match' && S.step==='confirmed') S.step='materia';
+      render(); toast(se.group?'Saliste del grupo. Avisamos a los demás integrantes':`Cancelaste la sesión. Le avisamos a ${se.with}`); break; }
     case 'mtype': S.matchType=v; S.newGroup=false; render(); break;
     case 'newgroup': S.newGroup=!S.newGroup; render(); if(S.newGroup) setTimeout(()=>{const i=document.getElementById('gr-name'); i&&i.focus();},0); break;
     case 'joingroup': { const g=GROUPS.find(x=>x.id===v), names=g.members.map(id=>CANDS.find(c=>c.id===id).name).join(', ');
@@ -1295,6 +1303,7 @@ document.addEventListener('keydown', e=>{
   if(e.key!=='Escape') return;
   if(S.report){ S.report=null; render(); }
   else if(S.rating){ S.rating=null; render(); }
+  else if(S.live){ S.live=null; render(); toast('Saliste de la sesión sin terminarla'); }
   else if(S.more){ S.more=false; render(); }
 });
 render();

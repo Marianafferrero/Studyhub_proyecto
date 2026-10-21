@@ -21,7 +21,7 @@ Saber dónde es débil el conocimiento también es conocimiento.
 - Contrapeso: la guía evitó a propósito preguntar "¿usarías Studyhub?".
 
 ## 4. Restricción del brief
-- El brief exige "creación y búsqueda de **grupos**". El diseño hace match 1 a 1. ¿Es una decisión justificada o un incumplimiento? → [[Preguntas abiertas]]
+- El brief exige "creación y búsqueda de **grupos**". ~~El diseño hace match 1 a 1.~~ *Resuelto el 2026-10-20:* la demo ya permite buscar, unirse y crear grupos de 3 o 4 ([[Registro de decisiones]]). Falta probar si el % grupal se entiende.
 
 ## 5. Aún no hay test con usuarios
 - Todo el diseño es una inferencia. Ninguna pantalla se probó con estudiantes.

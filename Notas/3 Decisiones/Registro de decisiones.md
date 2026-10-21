@@ -21,6 +21,11 @@ Formato: **Decisión** · por qué · evidencia · alternativa descartada. Usa l
 | 2026-10-20 | **Sesión en vivo** con objetivo y Pomodoro, también para el modo Solo | Responder la oportunidad #2 (el *durante*) | [[Oportunidades de diseno]] · [[Entrevistas]] | Sala de video integrada (demasiado costosa para el prototipo) |
 | 2026-10-20 | La demo **guarda el avance** en el navegador | Poder probar el uso repetido y no perder lo hecho al recargar | Decisión técnica, sin evidencia de usuarios | Backend real (fuera del alcance del prototipo) |
 | 2026-10-20 | **Sincronización en vivo** con GitHub: todo se sube solo, menos la bitácora cruda | El repo es público y el avance debe verse sin depender de acordarse de subirlo | Commit "Sincronización automática" (`.claude/hooks/sincronizar_github.sh` y el plugin Obsidian Git) | Subir la bitácora completa o hacer el repo privado (se pierde GitHub Pages gratis) |
+| 2026-10-20 | % de compatibilidad con **regla simple visible** (pesos por capa) | Que el % no parezca arbitrario; explicable en la demo en vivo | [[Cuestionario capa 1]] (intención, sin evidencia de usuarios) | Etiquetas alta/media/baja sin % |
+| 2026-10-20 | Horario: los demás ven **solo los bloques en común** | Privacidad al juntar desconocidos | [[Cuestionario capa 1]] · hipótesis en [[Supuestos vs evidencia]] | Horario completo visible después de aceptar |
+| 2026-10-20 | WCAG **AA**, tono cercano con **tuteo**, demo pareja en computador y celular | Base de usabilidad para la entrega | [[Cuestionario capa 1]] | AAA (demasiado esfuerzo para el tiempo disponible) |
+| 2026-10-20 | Métrica norte: **retención a 4 semanas**; gamificación sin rankings, castigos ni monedas | El hábito es el riesgo del pilar P7 | [[Cuestionario capa 1]] | Sesiones por semana |
+| 2026-10-20 | ⏸️ *Pendiente (capa 2):* tamaño de grupo (3–4 vs 5–6) y % grupal (capa más baja vs promedio) | La capa 1 contradice la fila «Grupos de 3 o 4» | [[Cuestionario capa 1]] tensión 3 y 5 | — |
 
 > 🧠 Las filas sin fecha vienen del PDF resumen. Si recuerdas cuándo tomaste esas decisiones, complétalas: la secuencia también cuenta la historia del proceso.
 > ⚠️ El PDF resumen todavía dice "plataforma de escritorio (no app móvil)". Hay que actualizarlo.

@@ -401,6 +401,32 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
   .side .seg{width:172px}
   .modecard{padding:22px 18px}
 }
+/* confianza y seguridad */
+.tag.ver{background:var(--green-soft);color:var(--green)}
+.safety{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);background:var(--green-soft);border-radius:8px;padding:8px 10px;margin-top:10px}
+.choice{display:flex;flex-direction:column;gap:8px}
+.choice label{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;cursor:pointer}
+.choice input{margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex:none}
+.choice label:has(input:checked){border-color:var(--navy);background:#F4F5FB}
+/* grupos */
+.segsw{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--line-2);border-radius:12px;padding:4px;margin-bottom:18px;max-width:100%}
+.segsw button{border:0;background:transparent;border-radius:9px;padding:9px 16px;font-weight:700;font-size:13px;color:var(--ink-2);min-height:40px}
+.segsw button[aria-pressed="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(20,26,51,.12)}
+.members{display:flex;align-items:center}
+.members .avatar{width:34px;height:34px;font-size:13px;border:2.5px solid var(--paper);margin-left:-8px}
+.members .avatar:first-child{margin-left:0}
+.members .avatar.slot{background:var(--line-2);color:var(--ink-3);border-style:dashed;border-color:var(--line)}
+.gmeta{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink-2)}
+.gmeta span{display:flex;gap:6px;align-items:center}
+.cand.new{border-style:dashed;justify-content:center;align-items:flex-start}
+/* sesión en vivo */
+.timer{font-family:var(--display);font-weight:800;font-size:clamp(56px,14vw,76px);line-height:1;text-align:center;font-variant-numeric:tabular-nums;margin:6px 0 2px}
+.phase{text-align:center;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.phase.focus{color:var(--accent)} .phase.break{color:var(--green)}
+.tbar{height:8px;border-radius:4px;background:var(--line-2);overflow:hidden;margin:14px 0 6px}
+.tbar i{display:block;height:100%;background:var(--accent);transition:width 1s linear}
+.rounds{text-align:center;font-size:12.5px;color:var(--ink-3)}
+.modal .box:focus{outline:none}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 
@@ -467,7 +493,17 @@ const rateTag = (r, n) => `<span class="rate">${stars(r)} ${r.toFixed(1)} <small
 const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4:00 pm','4:00–6:00 pm'];
 const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada'};
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
-const REPLIES = ['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los ejercicios del parcial pasado.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
+const REPORT_REASONS = ['No se presentó a la sesión','Comportamiento irrespetuoso o acoso','Perfil falso o no es estudiante','Pide dinero o datos personales','Otro motivo'];
+const RHYTHMS = [[25,5,'25 / 5 min'],[50,10,'50 / 10 min']];
+const GROUPS = [
+  {id:'g1', name:'Repaso para el parcial', members:['mj','val'], cap:4, day:1, slot:3, place:'Biblioteca central, sala grupal 3', pct:84,
+   brk:[['Compromiso',.95,'Coincide'],['Concentración',.72,'Parcial'],['Nivel de conocimiento',.85,'Coincide']],
+   rule:'Pomodoro 50/10 y celulares guardados', goal:'Resolver juntos el parcial del semestre pasado'},
+  {id:'g2', name:'Taller de ejercicios', members:['jac','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
+   brk:[['Compromiso',.8,'Coincide'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.45,'Difiere']],
+   rule:'Cada quien trae 3 ejercicios resueltos', goal:'Practicar ejercicios tipo examen'}
+];
+const REPLIES =['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los ejercicios del parcial pasado.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
 
 function fresh(){
   return {
@@ -522,10 +558,17 @@ function fresh(){
       val:{r:4.5, n:9, rev:[{t:'Muy cumplida. Le gusta explicar en voz alta, tenlo en cuenta.', by:'Juan · Narrativas'}]},
       jac:{r:4.1, n:5, rev:[{t:'Sabe mucho, pero va más rápido que yo.', by:'Camila · Finanzas'}]}
     },
-    rating:null
+    rating:null,
+    blocked:[], reports:[], report:null, privacy:{avail:'matches'},
+    matchType:'uno', myGroups:[], newGroup:false,
+    live:null
   };
 }
 let S = fresh();
+/* Guarda la demo en este navegador para que no se pierda al recargar. */
+const KEY = 'studyhub-demo-v1';
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===1) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:1, s:{...S, rating:null, report:null, live:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;
 const cand = () => CANDS.find(c=>c.id===S.cand);
@@ -626,7 +669,7 @@ function vApp(){
       </div>
       <nav class="nav">${nav}<button class="bottom ${S.page==='perfil'?'on':''}" data-a="nav" data-v="perfil">${ic('user')}<span>Perfil</span></button></nav>
     </aside>
-    <main class="main">${page()}</main>${S.rating?vRate():''}
+    <main class="main">${page()}</main>${S.rating?vRate():''}${S.report?vReport():''}${S.live?vLive():''}
     <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
     <div class="sheet ${S.more?'open':''}" data-a="closemore"><div class="box" role="dialog" aria-label="Más opciones"><div class="grab"></div>${MORE.map(([id,label,icn])=>`<button class="it" data-a="nav" data-v="${id}">${ic(icn,20,'var(--accent)')}${label}</button>`).join('')}</div></div>
   </div>`;
@@ -648,7 +691,7 @@ function page(){
 
 /* ---------- home ---------- */
 function pHomeAcomp(){
-  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div>${s.rating?`<span class="rate">${stars(s.rating.stars)}</span>`:s.done?`<button class="btn btn-gold btn-sm" data-a="rate" data-v="${s.id}">Calificar</button>`:`<span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span><button class="btn btn-line btn-sm" data-a="finish" data-v="${s.id}">Ya estudiamos</button>`}</div>`).join('')
+  const sess = S.sessions.length ? S.sessions.map(s=>`<div class="item"><span class="avatar" style="background:${s.av};width:38px;height:38px;font-size:13px">${esc(s.with[0])}</span><div class="grow"><strong>${esc(s.subject)} con ${esc(s.with)}</strong><small>${DAYS[s.day]} · ${SLOTS[s.slot]} · ${esc(s.place)}</small></div>${s.rating?`<span class="rate">${stars(s.rating.stars)}</span>`:s.done?`<button class="btn btn-gold btn-sm" data-a="rate" data-v="${s.id}">Calificar</button>`:`<span class="tag" style="background:var(--green-soft);color:var(--green)">Confirmada</span><button class="btn btn-accent btn-sm" data-a="golive" data-v="${s.id}">Empezar sesión</button>`}</div>`).join('')
     : `<div class="empty">Todavía no tienes sesiones acompañadas.<br><button class="btn btn-accent btn-sm" style="margin-top:12px" data-a="startmatch">Buscar compañero</button></div>`;
   const studyCount = S.blocks.filter(b=>b.kind!=='class').length;
   return head(`Hola, ${esc(first())}`, 'Tu semana de estudio de un vistazo.') +
@@ -674,7 +717,7 @@ function pHomeSolo(){
       <div class="tasks">${tasks}</div>
       <form class="addrow" id="f-task"><label class="hidden" for="task-new">Nueva tarea</label><input class="input" id="task-new" placeholder="Agregar tarea, por ejemplo: repasar tema 3"><button class="btn btn-accent btn-sm" type="submit">Agregar</button></form>
     </div>
-    <div class="panel"><h3>Próximo bloque</h3>${(()=>{const b=S.blocks.filter(x=>x.kind!=='class').sort((a,c)=>a.day-c.day||a.slot-c.slot)[0];return b?`<div class="item"><span class="avatar" style="background:var(--teal);width:38px;height:38px">${ic('cal',16,'#fff')}</span><div class="grow"><strong>${esc(b.title)}</strong><small>${DAYS[b.day]} · ${SLOTS[b.slot]}</small></div></div>`:'<p class="muted">Sin bloques. Agrega uno en Horarios.</p>'})()}</div>
+    <div class="panel"><h3>Próximo bloque</h3>${(()=>{const b=S.blocks.filter(x=>x.kind!=='class').sort((a,c)=>a.day-c.day||a.slot-c.slot)[0];return b?`<div class="item"><span class="avatar" style="background:var(--teal);width:38px;height:38px">${ic('cal',16,'#fff')}</span><div class="grow"><strong>${esc(b.title)}</strong><small>${DAYS[b.day]} · ${SLOTS[b.slot]}</small></div></div><button class="btn btn-accent btn-sm btn-block" style="margin-top:12px" data-a="gosolo" data-v="${b.id}">Empezar bloque de concentración</button>`:'<p class="muted">Sin bloques. Agrega uno en Horarios.</p>'})()}</div>
   </div>
   <h3 style="margin:26px 0 12px;font-size:16px">Accesos rápidos</h3>
   <div class="quick">
@@ -964,8 +1007,11 @@ function render(){
   const mb = document.querySelector('.modal .box'), keep = mb ? mb.scrollTop : 0;
   root.innerHTML = v();
   const nb = document.querySelector('.modal .box'); if(nb && keep) nb.scrollTop = keep;
+  if(nb && S.focusModal){ S.focusModal=false; nb.focus(); }
   const m = document.getElementById('msgs'); if(m) m.scrollTop = m.scrollHeight;
+  save();
 }
+function openModal(patch){ Object.assign(S, patch, {focusModal:true}); render(); }
 
 /* ---------- actions ---------- */
 function addChat(msg){ S.chat.push(msg); }

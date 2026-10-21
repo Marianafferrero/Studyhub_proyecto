@@ -37,8 +37,10 @@ Además, 3 de 5 prefieren estudiar solos **por elección**, no por falta de opci
 
 Plataforma web para computador y celular, con dos modos que el usuario elige al entrar y puede cambiar cuando quiera:
 
-- **Acompañado:** materia → resultados con % de compatibilidad → perfil con desglose → chat para acordar qué se da a cambio → sesión confirmada en el horario.
-- **Solo:** Home con tareas del día, Horarios, Cuadernos y Herramientas, sin elementos de match.
+- **Acompañado:** materia → resultados con % de compatibilidad (**con una persona o en grupo pequeño de 3 o 4**) → perfil con desglose → chat para acordar qué se da a cambio y el lugar → sesión confirmada en el horario → **sesión en vivo** con objetivo y temporizador Pomodoro → calificación.
+- **Solo:** Home con tareas del día, Horarios, Cuadernos y Herramientas, sin elementos de match. Incluye **bloques de concentración** con el mismo temporizador.
+- **Confianza y seguridad:** cuentas verificadas con correo institucional, **reportar y bloquear** desde el perfil o el chat, consejo de encontrarse en lugares públicos del campus y control de **quién ve tu disponibilidad**.
+- La demo **guarda tu avance** en el navegador; "Cerrar sesión" la reinicia.
 
 ### User flow
 
@@ -70,4 +72,5 @@ Plataforma web para computador y celular, con dos modos que el usuario elige al 
 | [`04 Bocetos 2.0`](04%20Bocetos%202.0) | Wireframes de escritorio (Acompañado y Solo) |
 | [`05 User Flow`](05%20User%20Flow) | Diagrama del flujo |
 | [`06 Demo de la plataforma`](06%20Demo%20de%20la%20plataforma) | Demo interactiva: descárgala y ábrela en el navegador |
+| [`Notas/`](Notas) · [`Inicio.md`](Inicio.md) | Vault de Obsidian: capas de conocimiento, matriz de posibilidades y auditorías |
 | [`Links del proyecto.txt`](Links%20del%20proyecto.txt) | Canva, canvas de diseño y demo publicada |

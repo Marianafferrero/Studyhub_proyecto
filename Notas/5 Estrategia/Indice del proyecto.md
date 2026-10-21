@@ -30,4 +30,5 @@ Cada archivo del proyecto, con su capa y los pilares de la [[Matriz de posibilid
 
 ## Rasgos de la demo (revisión del 2026-10-20)
 - **Tiene:** registro con correo institucional, elección de modo, match con % y desglose, chat, agendar sesión, calificar sesiones, editar perfil, horario con tipos de bloque, cuadernos, herramientas, aria-labels, aria-live y reduced-motion.
-- **No tiene:** reportar o bloquear, sesiones grupales, temporizador o Pomodoro, persistencia (no guarda datos entre visitas), backend.
+- **Agregado el 2026-10-20:** grupos de 3 o 4 (buscar, unirse y crear), reportar y bloquear, verificado visible, privacidad de la disponibilidad, sesión en vivo con Pomodoro, bloque de concentración Solo, guardado en el navegador, foco y Escape en las ventanas.
+- **Sigue sin tener:** backend, fórmula real del % (los datos son de ejemplo), mecánicas de hábito.

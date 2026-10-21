@@ -16,6 +16,10 @@ Formato: **Decisión** · por qué · evidencia · alternativa descartada. Usa l
 | 2026-10-19 | **Editar perfil** y **calificar sesiones** | Medir el compromiso después del encuentro | [[Las 3 capas de compatibilidad]] | Autoevaluación únicamente |
 | 2026-10-19 | **Lugar acordado** en el chat; sábado y domingo en el horario | Completar el acuerdo de la sesión; se estudia el fin de semana | Commit | — |
 | 2026-10-19 | Horario con **tipo de bloque**: clase, estudio personal o sesión acompañada | Unir los dos modos en una sola agenda | Commit | Horarios separados por modo |
+| 2026-10-20 | **Grupos de 3 o 4** además del 1 a 1, mostrando la *capa más baja* del grupo | Cumplir la restricción del brief sin perder la idea de compatibilidad | [[Brief del cliente]] · [[Las 3 capas de compatibilidad]] | Solo 1 a 1, justificándolo |
+| 2026-10-20 | **Reportar y bloquear**, verificado visible y privacidad de la disponibilidad | Juntar desconocidos sin mecanismos de seguridad es un riesgo real | Hipótesis de confianza (sin evidencia) | Confiar solo en las calificaciones |
+| 2026-10-20 | **Sesión en vivo** con objetivo y Pomodoro, también para el modo Solo | Responder la oportunidad #2 (el *durante*) | [[Oportunidades de diseno]] · [[Entrevistas]] | Sala de video integrada (demasiado costosa para el prototipo) |
+| 2026-10-20 | La demo **guarda el avance** en el navegador | Poder probar el uso repetido y no perder lo hecho al recargar | — | Backend real (fuera del alcance del prototipo) |
 | 2026-10-20 | **Sincronización en vivo** con GitHub: todo se sube solo, menos la bitácora cruda | El repo es público y el avance debe verse sin depender de acordarse de subirlo | Commit "Sincronización automática" (`.claude/hooks/sincronizar_github.sh`) | Subir la bitácora completa o hacer el repo privado (se pierde GitHub Pages gratis) |
 
 > 🧠 Las filas sin fecha vienen del PDF resumen. Si recuerdas cuándo tomaste esas decisiones, complétalas: la secuencia también cuenta la historia del proceso.

@@ -452,7 +452,9 @@ const I = {
   plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
   drive:'<path d="M12 3l9 6-9 6-9-6 9-6z"/><path d="M3 15l9 6 9-6"/>',
   spark:'<circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/>',
-  doc:'<rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/>'
+  doc:'<rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/>',
+  flag:'<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',
+  shield:'<path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z"/>'
 };
 const ic = (n, s=18, c='currentColor', w=1.8) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n]}</svg>`;
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -810,9 +812,11 @@ function mProfile(){
       <div class="ring" style="background:conic-gradient(${c.color} 0 ${c.pct}%, var(--line-2) ${c.pct}% 100%)"><div>${c.pct}%</div></div>
       <span class="small muted">compatible contigo en ${esc(subjName())}</span>
       ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
+      ${VERIFIED}
       <button class="btn btn-primary btn-block" style="margin-top:14px" data-a="request">Solicitar sesión de estudio</button>
       <div style="text-align:left;width:100%;margin-top:10px"><p class="label-caps" style="margin:6px 0 0">Lo que dicen quienes estudiaron con ${esc(c.name.split(' ')[0])}</p>
         ${S.cr[c.id].rev.slice(0,3).map(r=>`<div class="review">“${esc(r.t)}”<small>${esc(r.by)}</small></div>`).join('')}</div>
+      <button class="link small" style="margin-top:14px;color:var(--ink-3)" data-a="report" data-v="${c.id}">Reportar o bloquear a ${esc(c.name.split(' ')[0])}</button>
     </div>
     <div class="panel"><h3>Desglose de compatibilidad</h3><div class="brk">${rows}</div>
       <div class="quote" style="margin-top:20px">“${esc(c.quote)}”</div>
@@ -845,7 +849,8 @@ function mChat(){
       else if(m.status==='waiting') foot = `<div class="state" style="color:var(--gold-ink)">Esperando respuesta de ${esc(c.name)}…</div>`;
       else if(m.status==='accepted') foot = `<div class="state" style="color:var(--green)">${ic('check',14,'var(--green)',2.6)} Lugar acordado</div>`;
       else if(m.status==='replaced') foot = `<div class="state muted">Reemplazado por otra propuesta</div>`;
-      return `<div class="prop"><div class="t">PROPUESTA DE LUGAR · ${mine?'TÚ':esc(c.name.toUpperCase())}</div><p>${ic('pin',14)} <strong>${esc(m.text)}</strong></p>${foot}</div>`;
+      const tip = m.status==='pending'||m.status==='waiting' ? `<div class="safety">${ic('spark',14,'var(--green)')}<span>Para las primeras sesiones, mejor un lugar público del campus. Si algo te incomoda, puedes reportar desde el chat.</span></div>` : '';
+      return `<div class="prop"><div class="t">PROPUESTA DE LUGAR · ${mine?'TÚ':esc(c.name.toUpperCase())}</div><p>${ic('pin',14)} <strong>${esc(m.text)}</strong></p>${tip}${foot}</div>`;
     }
     return `<div class="msg ${m.from}">${esc(m.text)}</div>`;
   }).join('');
@@ -865,7 +870,7 @@ function mChat(){
       ${CANDS.filter(x=>x.id!==c.id).map(x=>`<div class="conv" style="opacity:.55"><span class="avatar" style="background:${x.av}">${esc(x.name[0])}</span><div><strong>${esc(x.name)}</strong><small>Sin mensajes</small></div></div>`).join('')}
     </div>
     <div class="thread">
-      <div class="thead"><span class="avatar" style="background:${c.av};width:40px;height:40px">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><span class="small muted">${esc(subjName())}</span></div><span class="pill">${c.pct}% compatible</span></div>
+      <div class="thead"><span class="avatar" style="background:${c.av};width:40px;height:40px">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><span class="small muted">${esc(subjName())}</span></div><span class="pill">${c.pct}% compatible</span><button class="iconbtn" style="width:40px;height:40px" data-a="report" data-v="${c.id}" aria-label="Reportar o bloquear a ${esc(c.name)}" title="Reportar o bloquear">${ic('flag',18)}</button></div>
       <div class="msgs" id="msgs">${msgs}</div>
       ${sched}
       <form class="compose" id="f-msg"><label class="hidden" for="msg-in">Mensaje</label><input id="msg-in" placeholder="${S.placeMode?'Escribe el lugar que propones, ej: cafetería del bloque A':'Escribe un mensaje…'}" autocomplete="off"><button class="send" type="submit" aria-label="Enviar">${ic('send',16,'#fff',2.2)}</button></form>
@@ -876,17 +881,18 @@ function mConfirmed(){
   const s = S.sessions[S.sessions.length-1];
   return head('Sesión confirmada','') + stepper() +
   `<div class="grid2"><div>
-    <div class="okhead"><span class="okdot">${ic('check',22,'#fff',3)}</span><div><h2 style="font-size:20px">¡Listo, ${esc(first())}!</h2><span class="muted">${esc(s.with)} también confirmó.</span></div></div>
+    <div class="okhead"><span class="okdot">${ic('check',22,'#fff',3)}</span><div><h2 style="font-size:20px">¡Listo, ${esc(first())}!</h2><span class="muted">${s.group?(s.created?'Creaste el grupo. Te avisamos cuando se unan personas compatibles.':'Te uniste al grupo. Los demás integrantes ya recibieron el aviso.'):`${esc(s.with)} también confirmó.`}</span></div></div>
     <div class="sess">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><strong style="font-size:17px">${esc(s.subject)}</strong><span class="pill" style="margin:0">${s.pct}% compatible</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><strong style="font-size:17px">${esc(s.subject)}</strong>${s.pct?`<span class="pill" style="margin:0">${s.pct}% compatible</span>`:''}</div>
       <div class="line">${ic('cal',16)} ${DAYS[s.day]} · ${SLOTS[s.slot]}</div>
       <div class="line">${ic('pin',16)} ${esc(s.place)}</div>
-      <div class="line">${ic('match',16)} Tú y ${esc(s.with)}</div>
-      <div class="xchg"><strong>Acuerdo:</strong> ${esc(s.deal)}</div>
+      <div class="line">${ic('match',16)} ${s.group?esc(s.with):`Tú y ${esc(s.with)}`}</div>
+      ${s.goal?`<div class="line">${ic('spark',16)} Objetivo: ${esc(s.goal)}</div>`:''}
+      <div class="xchg"><strong>${s.group?'Regla del grupo':'Acuerdo'}:</strong> ${esc(s.deal)}</div>
     </div>
-    <div class="note" style="margin-top:14px">Ambos se comprometieron a asistir. Te recordamos una hora antes.</div>
-    <div class="actions"><button class="btn btn-accent" data-a="nav" data-v="horarios">Ver en mi horario</button><button class="btn btn-line" data-a="startmatch">Buscar otra sesión</button></div>
-    <div class="panel" style="margin-top:18px;background:var(--gold-soft);border-color:#f2dc9a"><strong>Después de la sesión</strong><p class="small" style="margin:4px 0 12px;color:var(--gold-ink)">Te pediremos calificar a ${esc(s.with)}. Así los demás saben con quién sí funciona estudiar.</p><button class="btn btn-gold btn-sm" data-a="finish" data-v="${s.id}">Simular que ya estudiamos y calificar</button></div>
+    <div class="note" style="margin-top:14px">${s.group?'Todos se comprometieron a asistir.':'Ambos se comprometieron a asistir.'} Te recordamos una hora antes.</div>
+    <div class="actions"><button class="btn btn-accent" data-a="golive" data-v="${s.id}">Empezar la sesión</button><button class="btn btn-line" data-a="nav" data-v="horarios">Ver en mi horario</button><button class="btn btn-line" data-a="startmatch">Buscar otra sesión</button></div>
+    <div class="panel" style="margin-top:18px;background:var(--gold-soft);border-color:#f2dc9a"><strong>Durante y después de la sesión</strong><p class="small" style="margin:4px 0 12px;color:var(--gold-ink)">Con "Empezar la sesión" tienen un temporizador compartido y el objetivo a la vista, para que no se vuelva conversación. Al terminar te pediremos calificar${s.group?' la sesión':` a ${esc(s.with)}`}.</p><button class="btn btn-gold btn-sm" data-a="finish" data-v="${s.id}">Simular que ya estudiamos y calificar</button></div>
   </div>
   <div class="panel"><h3>Así queda tu semana</h3>${miniWeek()}</div></div>`;
 }
@@ -989,7 +995,14 @@ function pPerfil(){
       ${Object.entries(R.dims).map(([k,v])=>`<div class="dimrow"><span>${k}</span><span>${v.toFixed(1)}</span><div class="bar"><i style="width:${v/5*100}%;background:var(--green)"></i></div></div>`).join('')}
       ${R.rev.map(r=>`<div class="review">“${esc(r.t)}”<small>${esc(r.by)}</small></div>`).join('')}
     </div>
-    <div class="panel"><h3>Cuenta</h3><p class="small muted">Modo actual: <strong>${S.mode==='solo'?'Solo':'Acompañado'}</strong></p><button class="btn btn-line btn-block" data-a="reset">Cerrar sesión</button></div>
+    <div class="panel"><h3>Privacidad y seguridad</h3>
+      <p class="label-caps" style="margin:0 0 8px">Quién ve tu disponibilidad</p>
+      <div class="choice" role="radiogroup" aria-label="Quién ve tu disponibilidad">${[['all','Todos los estudiantes verificados'],['matches','Solo personas con quienes acordaste una sesión']].map(([k,l])=>`<label><input type="radio" name="pv-avail" value="${k}" ${S.privacy.avail===k?'checked':''}><span>${l}</span></label>`).join('')}</div>
+      <p class="label-caps" style="margin:18px 0 8px">Personas bloqueadas</p>
+      ${S.blocked.length?`<div class="knows">${S.blocked.map(id=>{const c=CANDS.find(x=>x.id===id);return `<div class="know"><div><strong>${esc(c.name)}</strong><small>No te ve en resultados ni puede escribirte</small></div><button class="btn btn-line btn-sm" data-a="unblock" data-v="${id}">Desbloquear</button></div>`}).join('')}</div>`:'<p class="small muted" style="margin:0">No has bloqueado a nadie.</p>'}
+      ${S.reports.length?`<p class="small muted" style="margin:12px 0 0">${S.reports.length} reporte${S.reports.length===1?'':'s'} enviado${S.reports.length===1?'':'s'}. En la plataforma real, el equipo los revisa en menos de 24 horas.</p>`:''}
+    </div>
+    <div class="panel"><h3>Cuenta</h3><p class="small muted">Modo actual: <strong>${S.mode==='solo'?'Solo':'Acompañado'}</strong></p><button class="btn btn-line btn-block" data-a="reset">Cerrar sesión</button><p class="hint" style="margin:8px 0 0">La demo guarda lo que haces en este navegador. Cerrar sesión la reinicia.</p></div>
   </div></div>`;
 }
 function pPerfilEdit(){
@@ -1022,20 +1035,72 @@ function pPerfilEdit(){
 function vRate(){
   const R = S.rating, se = S.sessions.find(x=>x.id===R.id);
   const pick = (k, val) => `<div class="starpick" role="radiogroup" aria-label="${esc(k)}">${[1,2,3,4,5].map(i=>`<button type="button" role="radio" aria-checked="${val===i}" aria-label="${i} de 5" data-a="rstar" data-k="${esc(k)}" data-v="${i}">${star(i<=val,26)}</button>`).join('')}</div>`;
-  return `<div class="modal" data-a="rclose"><div class="box" role="dialog" aria-modal="true" aria-labelledby="rt-title">
+  return `<div class="modal" data-a="rclose"><div class="box" role="dialog" aria-modal="true" aria-labelledby="rt-title" tabindex="-1">
     <div class="kicker" style="color:var(--coral)">Sesión terminada</div>
     <h2 id="rt-title" style="margin:4px 0 6px">¿Cómo te fue con ${esc(se.with)}?</h2>
     <p class="small muted" style="margin:0 0 14px">${esc(se.subject)} · ${DAYS[se.day]} · ${SLOTS[se.slot]}</p>
     <p class="label-caps" style="margin:0 0 4px">En general</p>${pick('_all', R.stars)}
     <p class="label-caps" style="margin:18px 0 0">Por partes</p>
     ${RDIMS.map(([k,d])=>`<div class="rdim"><div><span>${k}</span><small>${d}</small></div>${pick(k, R.dims[k]||0)}</div>`).join('')}
-    <p class="label-caps" style="margin:18px 0 8px">¿Volverías a estudiar con ${esc(se.with.split(' ')[0])}?</p>
+    <p class="label-caps" style="margin:18px 0 8px">¿Volverías a estudiar con ${se.group?'este grupo':esc(se.with.split(' ')[0])}?</p>
     <div class="yn">${['Sí','No'].map(o=>`<button type="button" class="chip ${R.again===o?'on':''}" data-a="ragain" data-v="${o}" aria-pressed="${R.again===o}">${o}</button>`).join('')}</div>
     <div class="field" style="margin:18px 0 6px"><label for="rt-c">Comentario (opcional)</label><textarea class="input" id="rt-c" rows="3" placeholder="Ej: llegó puntual y explicó muy bien las integrales">${esc(R.comment)}</textarea></div>
     <p class="hint" style="margin:0 0 16px">Tu calificación se suma a su promedio. El comentario aparece en su perfil con tu nombre y la materia.</p>
     <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="rsubmit" ${R.stars?'':'disabled style="opacity:.5;cursor:not-allowed"'}>Enviar calificación</button><button class="btn btn-line" data-a="rcancel">Ahora no</button></div>
   </div></div>`;
 }
+
+/* ---------- reportar o bloquear ---------- */
+function vReport(){
+  const R = S.report, c = CANDS.find(x=>x.id===R.id), n = esc(c.name.split(' ')[0]);
+  return `<div class="modal" data-a="xclose"><div class="box" role="dialog" aria-modal="true" aria-labelledby="rp-title" tabindex="-1">
+    <div class="kicker" style="color:var(--coral)">Confianza y seguridad</div>
+    <h2 id="rp-title" style="margin:4px 0 6px">Reportar o bloquear a ${n}</h2>
+    <p class="small muted" style="margin:0 0 14px">${esc(c.name)} no sabrá quién lo reportó.</p>
+    <div class="choice" role="radiogroup" aria-label="Motivo del reporte">${REPORT_REASONS.map(r=>`<label><input type="radio" name="rp-reason" value="${esc(r)}" ${R.reason===r?'checked':''}><span>${esc(r)}</span></label>`).join('')}</div>
+    <div class="field" style="margin:14px 0 6px"><label for="rp-detail">Cuéntanos qué pasó (opcional)</label><textarea class="input" id="rp-detail" rows="3">${esc(R.detail)}</textarea></div>
+    <label class="check"><input type="checkbox" id="rp-block" ${R.block?'checked':''}> Bloquear también a ${n}: no volverán a verse en los resultados y no podrá escribirte.</label>
+    <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="xsend">${R.reason?'Enviar reporte':'Solo bloquear'}</button><button class="btn btn-line" data-a="xcancel">Cancelar</button></div>
+    <p class="hint" style="margin:12px 0 0">Si estás en peligro, contacta a la seguridad del campus o a la línea de emergencias 123.</p>
+  </div></div>`;
+}
+
+/* ---------- sesión en vivo: temporizador y objetivo ---------- */
+const mmss = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+function vLive(){
+  const L = S.live, total = (L.phase==='focus'?L.focus:L.rest)*60;
+  return `<div class="modal"><div class="box" role="dialog" aria-modal="true" aria-labelledby="lv-title" tabindex="-1">
+    <div class="kicker">${L.solo?'Modo Solo · concentración':'Sesión acompañada'}</div>
+    <h2 id="lv-title" style="margin:4px 0 4px">${esc(L.title)}</h2>
+    <p class="small muted" style="margin:0 0 14px">${esc(L.sub)}</p>
+    <div class="field" style="margin-bottom:12px"><label for="lv-goal">${L.solo?'¿Qué quieres lograr en este bloque?':'Objetivo que acordaron para la sesión'}</label><input class="input" id="lv-goal" value="${esc(L.goal)}" placeholder="Ej: terminar los ejercicios 1 al 5"></div>
+    <div class="chips" role="group" aria-label="Ritmo" style="margin-bottom:6px">${RHYTHMS.map(([f,r,l])=>`<button class="chip ${L.focus===f?'on':''}" data-a="lvrhythm" data-v="${f}" aria-pressed="${L.focus===f}">${l}</button>`).join('')}</div>
+    <div class="phase ${L.phase}" id="lv-phase" aria-live="polite">${L.phase==='focus'?'Concentración':'Descanso'}</div>
+    <div class="timer" id="lv-time" role="timer" aria-label="Tiempo restante">${mmss(L.left)}</div>
+    <div class="tbar"><i id="lv-bar" style="width:${(1-L.left/total)*100}%"></i></div>
+    <div class="rounds" id="lv-rounds">${L.rounds} ronda${L.rounds===1?'':'s'} de concentración completada${L.rounds===1?'':'s'}</div>
+    <div class="actions" style="justify-content:center;margin-top:16px"><button class="btn btn-accent" data-a="lvtoggle">${L.running?'Pausar':L.left===total?'Empezar':'Seguir'}</button><button class="btn btn-line" data-a="lvskip">${L.phase==='focus'?'Pasar a descanso':'Volver a concentrarse'}</button></div>
+    <p class="label-caps" style="margin:20px 0 8px">Antes de empezar</p>
+    <div class="choice">${[['phone',L.solo?'Celular en silencio y lejos':'Celulares guardados'],['goal','Objetivo claro'],['water','Agua y materiales a la mano']].map(([k,l])=>`<label><input type="checkbox" data-a="lvcheck" data-v="${k}" ${L.checks[k]?'checked':''}><span>${l}</span></label>`).join('')}</div>
+    <div class="actions"><button class="btn btn-primary" data-a="lvend">Terminar ${L.solo?'bloque':'sesión'}</button><button class="btn btn-line" data-a="lvclose">Salir sin terminar</button></div>
+  </div></div>`;
+}
+function startLive(patch){
+  const focus = /50/.test(S.prefs.join(' ')+ (S.me.bio||'')) ? 50 : 25;
+  openModal({live:{focus, rest:focus===50?10:5, phase:'focus', left:focus*60, running:false, rounds:0, goal:'', checks:{}, ...patch}});
+}
+setInterval(()=>{
+  const L = S.live; if(!L || !L.running) return;
+  L.left--;
+  if(L.left <= 0){
+    if(L.phase==='focus'){ L.rounds++; L.phase='break'; L.left=L.rest*60; toast('¡Ronda completa! Toca descanso.'); }
+    else { L.phase='focus'; L.left=L.focus*60; toast('Fin del descanso. A concentrarse.'); }
+    render(); return;
+  }
+  const t=document.getElementById('lv-time'), b=document.getElementById('lv-bar');
+  if(t) t.textContent = mmss(L.left);
+  if(b) b.style.width = `${(1-L.left/((L.phase==='focus'?L.focus:L.rest)*60))*100}%`;
+}, 1000);
 
 /* ---------- render ---------- */
 function render(){
@@ -1111,8 +1176,35 @@ document.addEventListener('click', e=>{
     case 'canceledit': go({editProfile:false, draft:null}); break;
     case 'addsub': S.draft.subjects.push({name:'', lvl:1, topics:''}); render(); setTimeout(()=>{const i=document.getElementById('ps-n'+(S.draft.subjects.length-1)); i&&i.focus();},0); break;
     case 'delsub': S.draft.subjects.splice(+v,1); render(); break;
-    case 'finish': { const se=S.sessions.find(x=>x.id==v); se.done=true; S.rating={id:se.id, stars:0, dims:{}, again:null, comment:''}; render(); break; }
-    case 'rate': S.rating={id:+v, stars:0, dims:{}, again:null, comment:''}; render(); break;
+    case 'finish': { const se=S.sessions.find(x=>x.id==v); se.done=true; openModal({rating:{id:se.id, stars:0, dims:{}, again:null, comment:''}}); break; }
+    case 'rate': openModal({rating:{id:+v, stars:0, dims:{}, again:null, comment:''}}); break;
+    case 'mtype': S.matchType=v; S.newGroup=false; render(); break;
+    case 'newgroup': S.newGroup=!S.newGroup; render(); if(S.newGroup) setTimeout(()=>{const i=document.getElementById('gr-name'); i&&i.focus();},0); break;
+    case 'joingroup': { const g=GROUPS.find(x=>x.id===v), names=g.members.map(id=>CANDS.find(c=>c.id===id).name).join(', ');
+      S.blocks = S.blocks.filter(b=>!(b.day===g.day&&b.slot===g.slot));
+      S.blocks.push({id:Date.now(), day:g.day, slot:g.slot, title:subjName(), sub:`Grupo: ${g.name}`, kind:'session', fromMatch:true});
+      S.sessions.push({id:Date.now(), cid:g.id, group:true, subject:subjName(), with:`Grupo «${g.name}» con ${names}`, av:'#2F3C7E', pct:g.pct, day:g.day, slot:g.slot, place:g.place, deal:g.rule, goal:g.goal, done:false, rating:null});
+      go({step:'confirmed'}); toast('Te uniste al grupo y quedó en tu horario'); break; }
+    case 'report': openModal({report:{id:v, reason:null, detail:'', block:false}}); break;
+    case 'xclose': if(e.target===el){ S.report=null; render(); } break;
+    case 'xcancel': S.report=null; render(); break;
+    case 'xsend': { const R=S.report, reason=(document.querySelector('input[name="rp-reason"]:checked')||{}).value, block=document.getElementById('rp-block').checked, detail=(document.getElementById('rp-detail')||{}).value||'';
+      if(!reason && !block){ toast('Elige un motivo o marca la opción de bloquear'); return; }
+      if(reason) S.reports.push({id:R.id, reason, detail, at:new Date().toISOString()});
+      if(block && !S.blocked.includes(R.id)){ S.blocked.push(R.id); if(S.cand===R.id && (S.step==='chat'||S.step==='profile')) S.step='results'; }
+      S.report=null; render(); toast(reason ? (block?'Reporte enviado y persona bloqueada':'Reporte enviado. Gracias por cuidar la comunidad') : 'Persona bloqueada'); break; }
+    case 'unblock': S.blocked=S.blocked.filter(x=>x!==v); render(); toast('Persona desbloqueada'); break;
+    case 'golive': { const se=S.sessions.find(x=>x.id==v); startLive({id:se.id, title:se.subject, sub:se.group?se.with:`Con ${se.with} · ${se.place}`, goal:se.goal||''}); break; }
+    case 'gosolo': { const b=S.blocks.find(x=>x.id==v); startLive({solo:true, title:b.title, sub:`${DAYS[b.day]} · ${SLOTS[b.slot]}`}); break; }
+    case 'lvrhythm': { const L=S.live, r=RHYTHMS.find(x=>x[0]==v); L.focus=r[0]; L.rest=r[1]; L.left=(L.phase==='focus'?L.focus:L.rest)*60; L.running=false; render(); break; }
+    case 'lvtoggle': S.live.running=!S.live.running; render(); break;
+    case 'lvskip': { const L=S.live; L.phase = L.phase==='focus'?'break':'focus'; L.left=(L.phase==='focus'?L.focus:L.rest)*60; render(); break; }
+    case 'lvcheck': S.live.checks[v]=el.checked; break;
+    case 'lvclose': S.live=null; render(); break;
+    case 'lvend': { const L=S.live; S.live=null;
+      if(L.solo){ render(); toast(`Bloque terminado: ${L.rounds} ronda${L.rounds===1?'':'s'} de concentración`); break; }
+      const se=S.sessions.find(x=>x.id===L.id); se.done=true; if(L.goal) se.goal=L.goal;
+      openModal({rating:{id:se.id, stars:0, dims:{}, again:null, comment:''}}); break; }
     case 'rstar': if(el.dataset.k==='_all') S.rating.stars=+v; else S.rating.dims[el.dataset.k]=+v; render(); break;
     case 'ragain': S.rating.again=v; render(); break;
     case 'rcancel': S.rating=null; render(); toast('Puedes calificar después desde el inicio'); break;
@@ -1127,6 +1219,12 @@ document.addEventListener('click', e=>{
 document.addEventListener('input', e=>{
   if(e.target.name==='bl-kind' && S.addBlock){ S.addBlock.kind=e.target.value; S.addBlock.title=(document.getElementById('bl-title')||{}).value||''; S.addBlock.day=+(document.getElementById('bl-day')||{}).value||0; S.addBlock.slot=+(document.getElementById('bl-slot')||{}).value||0; render(); }
   if(e.target.id==='rt-c' && S.rating){ S.rating.comment=e.target.value; }
+  if(e.target.id==='lv-goal' && S.live){ S.live.goal=e.target.value; }
+  if(S.report){
+    if(e.target.id==='rp-detail') S.report.detail=e.target.value;
+    if(e.target.name==='rp-reason' || e.target.id==='rp-block'){ S.report.reason=(document.querySelector('input[name="rp-reason"]:checked')||{}).value||null; S.report.block=document.getElementById('rp-block').checked; render(); }
+  }
+  if(e.target.name==='pv-avail'){ S.privacy.avail=e.target.value; save(); toast('Privacidad actualizada'); }
   if(S.draft && e.target.dataset.d){ S.draft[e.target.dataset.d]=e.target.value; }
   if(S.draft && e.target.dataset.sub!==undefined){ const x=S.draft.subjects[+e.target.dataset.sub]; x[e.target.dataset.f]= e.target.dataset.f==='lvl' ? +e.target.value : e.target.value; }
   if(e.target.id==='link-q'){ S.linkQ=e.target.value; document.getElementById('linklist').innerHTML=linkList(); }
@@ -1173,6 +1271,15 @@ document.addEventListener('submit', e=>{
     const kind=(document.querySelector('input[name="bl-kind"]:checked')||{}).value||'study', K=KINDS.find(x=>x[0]===kind);
     S.blocks.push({id:Date.now(), day, slot, title: val('bl-title').trim()||K[1], sub:K[1], kind}); S.addBlock=null; render(); toast({class:'Clase agregada al horario', study:'Bloque de estudio agregado al horario', session:'Sesión acompañada agregada al horario'}[kind]);
   }
+  if(f==='f-group'){
+    const name=val('gr-name').trim(); if(!name){ toast('Ponle un nombre al grupo'); return; }
+    const g={id:'my'+Date.now(), subject:subjName(), name, cap:+val('gr-cap'), day:+val('gr-day'), slot:+val('gr-slot'), place:val('gr-place').trim()||'Por acordar', rule:val('gr-rule'), goal:val('gr-goal').trim(), members:[], brk:[], pct:0};
+    S.myGroups.push(g);
+    S.blocks = S.blocks.filter(b=>!(b.day===g.day&&b.slot===g.slot));
+    S.blocks.push({id:Date.now(), day:g.day, slot:g.slot, title:g.subject, sub:`Grupo: ${g.name}`, kind:'session', fromMatch:true});
+    S.sessions.push({id:Date.now(), cid:g.id, group:true, created:true, subject:g.subject, with:`Grupo «${g.name}» (esperando integrantes)`, av:'#2F3C7E', pct:0, day:g.day, slot:g.slot, place:g.place, deal:g.rule, goal:g.goal, done:false, rating:null});
+    S.newGroup=false; go({step:'confirmed'}); toast('Grupo creado y agregado a tu horario');
+  }
   if(f==='f-task'){ const t=val('task-new').trim(); if(!t) return; S.tasks.unshift({id:Date.now(),text:t,time:'Hoy',done:false}); render(); }
   if(f==='f-link'){ const t=val('ln-t').trim(); if(!t){toast('Escribe un nombre para el link'); return;} S.links.unshift({t, s:val('ln-s'), k:val('ln-k')}); render(); toast('Link guardado'); }
   if(f==='f-book'){ const n=val('book-in').trim(); if(!n) return; S.books.push({id:Date.now(), name:n, notes:[]}); render(); toast('Cuaderno creado'); }
@@ -1183,6 +1290,12 @@ document.addEventListener('submit', e=>{
     S.errors={}; go({editProfile:false, draft:null}); toast('Perfil actualizado');
   }
   if(f==='f-note'){ const t=val('note-in').trim(); if(!t) return; S.books.find(b=>b.id===S.openBook).notes.unshift({d:'Ahora',t}); render(); }
+});
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape') return;
+  if(S.report){ S.report=null; render(); }
+  else if(S.rating){ S.rating=null; render(); }
+  else if(S.more){ S.more=false; render(); }
 });
 render();
 })();

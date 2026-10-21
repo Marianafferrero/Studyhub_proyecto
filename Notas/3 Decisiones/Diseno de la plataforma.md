@@ -30,4 +30,7 @@ Plataforma **web para computador y celular** con menú lateral fijo: Home, Horar
 | Chat para acordar intercambio | Responsabilidad mutua ([[Benchmark]], Studuo) |
 | Calificar sesiones | Capa de compromiso: medir después del encuentro |
 
+## Agregado el 2026-10-20
+- **Grupos de 3 o 4**, **reportar y bloquear**, **privacidad**, **sesión en vivo** con Pomodoro y **bloque de concentración**. Detalle en [[2026-10-20 Mejoras implementadas en la demo]].
+
 Decisiones con fecha: [[Registro de decisiones]] · Criterios: [[Heuristicas de Nielsen aplicadas]]

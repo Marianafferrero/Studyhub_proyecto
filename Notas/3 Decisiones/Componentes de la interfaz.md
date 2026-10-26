@@ -54,7 +54,7 @@ origen: Tarea de la clase 7 de Usabilidad (Fase 3 · From Flow To Interface · U
 ### 5. Menú lateral
 - **Qué hay:** en el computador, un `<aside class="side">` azul marino fijo con 6 secciones (Home page, Horarios, Links, Match, Herramientas, Cuadernos) y Perfil abajo. La sección activa lleva un borde del color del modo.
 - **Por qué:** la clase lo describe como el menú típico de las plataformas web. Studyhub se usa como herramienta de trabajo diaria.
-- **Mejora posible:** ⚠️ **inconsistencia**: el menú lateral dice «Home page» y el inferior dice «Inicio». Hay que unificarlo como «Inicio» (Nielsen: *consistencia y estándares*).
+- **Mejora aplicada (2026-10-25):** el menú lateral decía «Home page» y el inferior «Inicio». Se unificó como **«Inicio»** (Nielsen: *consistencia y estándares*).
 
 ### 6. Menú inferior
 - **Qué hay:** en el celular (menos de 768 px), el menú lateral se convierte en una `tabbar` fija con Inicio, Horarios, Match, Cuadernos y **Más**. «Más» abre una hoja (*bottom sheet*) con Links, Herramientas y Perfil. Match muestra una insignia con las sesiones sin calificar.
@@ -79,7 +79,7 @@ origen: Tarea de la clase 7 de Usabilidad (Fase 3 · From Flow To Interface · U
 
 ## Lo que sale de este inventario
 - La demo usa **3 de los 7 tipos de menú** de la clase (lateral, inferior y desplegable) y además el **stepper**. No usa acordeón ni menú contextual (⋮). Un menú ⋮ en la tarjeta de perfil podría alojar «Reportar» y «Bloquear» ([[Cuestionario capa 2]]).
-- Hay una inconsistencia para corregir ya: «Home page» vs. «Inicio».
+- ✅ Se corrigió la inconsistencia «Home page» vs. «Inicio».
 - Estas observaciones alimentan el test de usabilidad de la S3 ([[Cuestionario capa 2]], hoja de ruta).
 
 Relacionado: [[Diseno de la plataforma]] · [[Heuristicas de Nielsen aplicadas]] · [[Matriz de posibilidades]]

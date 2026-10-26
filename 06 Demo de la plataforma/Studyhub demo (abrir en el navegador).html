@@ -658,7 +658,7 @@ function vMode(){
 /* ---------- app shell ---------- */
 const TABS = [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['cuadernos','Cuadernos','book']];
 const MORE = [['links','Links','link'],['herramientas','Herramientas','tool'],['perfil','Perfil','user']];
-const NAV = [['home','Home page','home'],['horarios','Horarios','cal'],['links','Links','link'],['match','Match','match'],['herramientas','Herramientas','tool'],['cuadernos','Cuadernos','book']];
+const NAV = [['home','Inicio','home'],['horarios','Horarios','cal'],['links','Links','link'],['match','Match','match'],['herramientas','Herramientas','tool'],['cuadernos','Cuadernos','book']];
 function vApp(){
   const solo = S.mode==='solo';
   const nav = NAV.map(([id,label,icn]) => `<button class="${S.page===id?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('');

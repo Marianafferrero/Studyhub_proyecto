@@ -31,6 +31,7 @@ Formato: **Decisión** · por qué · evidencia · alternativa descartada. Usa l
 | 2026-10-20 | Reemplazar la evidencia simulada (Mateo) con una **encuesta en Tally** y un **test presencial con 3 personas** | La preocupación principal es que el evaluador detecte datos inventados | [[Limites y sesgos]] §6 | Solo mencionarlo en general |
 | 2026-10-20 | Se mantiene el **guardado en el navegador** con datos de ejemplo | Ya existe y permite probar el uso repetido | [[Cuestionario capa 2]] | Empezar de cero en cada recarga |
 | 2026-10-20 | Recorte de alcance: Figma solo para las slides, grupos simplificados (tarjeta, «sumar a alguien», grupo por evaluación) e ilustraciones mínimas | Hay entre 6 y 12 h en total hasta la entrega | [[Cuestionario capa 2]] | Figma primero para todo el diseño |
+| 2026-10-25 | Menú lateral: «Home page» → **«Inicio»** | Consistencia con el menú inferior y con el tono en español | [[Componentes de la interfaz]] · [[Heuristicas de Nielsen aplicadas]] | Usar «Home» en los dos menús |
 
 > 🧠 Las filas sin fecha vienen del PDF resumen. Si recuerdas cuándo tomaste esas decisiones, complétalas: la secuencia también cuenta la historia del proceso.
 > ⚠️ El PDF resumen todavía dice "plataforma de escritorio (no app móvil)". Hay que actualizarlo.

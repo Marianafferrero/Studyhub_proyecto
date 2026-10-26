@@ -34,7 +34,7 @@ flowchart LR
 
 1. **Fuentes:** [[Brief del cliente]] → [[Entrevistas]] → [[Benchmark]] → [[Conversacion con ChatGPT]]
 2. **Interpretación:** [[Hallazgos]] → [[Insights]] → [[Las 3 capas de compatibilidad]] → [[Persona - Sofia]] / [[Persona - Mateo]] → [[Oportunidades de diseno]] → [[Problema y propuesta de valor]]
-3. **Decisiones:** [[Diseno de la plataforma]] → [[Heuristicas de Nielsen aplicadas]] → [[Registro de decisiones]]
+3. **Decisiones:** [[Diseno de la plataforma]] → [[Heuristicas de Nielsen aplicadas]] → [[Componentes de la interfaz]] → [[Registro de decisiones]]
 4. **Metacognición:** [[Supuestos vs evidencia]] → [[Limites y sesgos]] → [[Preguntas abiertas]] → [[Reflexion del proceso]]
 
 ## Estado actual

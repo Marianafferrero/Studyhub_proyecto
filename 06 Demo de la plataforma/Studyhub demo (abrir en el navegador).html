@@ -1364,10 +1364,11 @@ function aiReply(text){
   const di = DAYS.findIndex(d=>q.includes(norm(d))), day = di>=0 ? di : null;
   if(/tablero|board/.test(q)){
     const pool = [...S.sessions.filter(x=>x.subject).map(x=>({subject:x.subject, day:x.day, with:x.with, goal:x.goal||'Avanzar en '+x.subject, vimos:[], dudas:[], sig:[]})), ...S.history];
-    const h = pool.find(x=>(!subject||x.subject===subject)&&(day===null||x.day===day)&&(subject||day!==null));
-    if(h){ const b=makeBoard(`${h.subject} · ${DAYS[h.day].toLowerCase()}`, `Sesión con ${h.with}`, [h.goal], h.vimos.length?h.vimos:['Escribe los temas clave'], h.dudas.length?h.dudas:['¿Qué quedó sin resolver?'], h.sig.length?h.sig:['¿Qué harás antes de la próxima sesión?']); celebrate(innerWidth/2, innerHeight/3); return {from:'ai', text:'Listo. Armé tu tablero con lo que registraste en esa sesión. Puedes editar y mover las notas.', card:{type:'board',id:b.id}}; }
     const m = q.match(/sesion(?: que \w+)? (?:de|sobre) ([a-z]+(?: [a-z]+)?)/) || q.match(/tablero (?:de|sobre) (?!la |el |mi |una )([a-z]+(?: [a-z]+)?)/);
-    let topic = m ? text.substr(q.indexOf(m[1]), m[1].length).replace(/\s+(el|del|de|la)$/i,'') : (subject||'tu sesión');
+    const otherTopic = m && !subject && !/^(ayer|hoy|anoche|esta|este)\b/.test(m[1]);
+    const h = otherTopic ? null : pool.find(x=>(!subject||x.subject===subject)&&(day===null||x.day===day)&&(subject||day!==null));
+    if(h){ const b=makeBoard(`${h.subject} · ${DAYS[h.day].toLowerCase()}`, `Sesión con ${h.with}`, [h.goal], h.vimos.length?h.vimos:['Escribe los temas clave'], h.dudas.length?h.dudas:['¿Qué quedó sin resolver?'], h.sig.length?h.sig:['¿Qué harás antes de la próxima sesión?']); celebrate(innerWidth/2, innerHeight/3); return {from:'ai', text:'Listo. Armé tu tablero con lo que registraste en esa sesión. Puedes editar y mover las notas.', card:{type:'board',id:b.id}}; }
+    let topic = otherTopic ? text.substr(q.indexOf(m[1]), m[1].length).replace(/\s+(el|del|de|la)$/i,'') : (subject||'tu sesión');
     topic = topic.charAt(0).toUpperCase()+topic.slice(1);
     const b = makeBoard(`${topic}${day!==null?' · '+DAYS[day].toLowerCase():''}`, 'Tablero listo para llenar', ['¿Qué querías lograr?'], ['Escribe los temas clave'], ['¿Qué quedó sin resolver?'], ['¿Qué harás antes de la próxima sesión?']);
     celebrate(innerWidth/2, innerHeight/3);

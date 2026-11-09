@@ -643,6 +643,26 @@ h1,h2,h3{letter-spacing:-.02em}
 .bcol form input{flex:1;min-width:0;padding:8px 10px;font-size:13px}
 .fab{position:fixed;right:24px;bottom:24px;z-index:40;background:var(--gold);color:var(--ink);border:var(--ol);box-shadow:var(--sh);border-radius:999px;padding:13px 20px;font-family:var(--display);font-weight:800;font-size:17px;display:inline-flex;align-items:center;gap:8px;transform:rotate(-3deg);transition:transform .14s}
 .fab:hover{transform:rotate(0) scale(1.06)}
+.lv{display:inline-flex;gap:3px;vertical-align:-1px}
+.lv i{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--navy-d);background:var(--paper)}
+.lv i.on{background:var(--navy-d)}
+.srcrows{display:flex;flex-direction:column;gap:6px}
+.srcrows button{display:flex;justify-content:space-between;align-items:center;gap:8px;border:0;border-bottom:1.5px dashed var(--line);background:none;padding:6px 0;text-align:left;font-weight:700;font-size:13px}
+.srcrows button:hover{color:var(--navy)}
+.aifrom{display:block;margin-top:6px;font-size:11.5px;color:var(--ink-2)}
+.aineed{background:var(--coral-soft)}
+.aibtns{display:flex;flex-wrap:wrap;gap:8px}
+.can{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1.5px dashed var(--line);font-size:13.5px}
+.can:last-child{border-bottom:0}
+.can b{display:block}
+.can small{color:var(--ink-2)}
+.can .ok{width:24px;height:24px;border-radius:50%;border:2px solid var(--navy-d);display:grid;place-items:center;flex:none;background:var(--paper);font-weight:800;font-size:13px}
+.can.yes .ok{background:var(--green-soft);color:var(--green)}
+.dropz{position:relative;display:block;border:2.5px dashed var(--navy-d);border-radius:16px;background:var(--gold-soft);padding:22px;text-align:center;font-weight:800;transition:transform .14s}
+.dropz:hover{transform:scale(1.015)}
+.dropz small{display:block;font-weight:600;color:var(--ink-2);margin-top:4px}
+.dropz input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.dropz:focus-within{outline:3px solid var(--ink);outline-offset:2px}
 @media (max-width:1100px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}.aiwrap{grid-template-columns:1fr}}
 @media (max-width:560px){.board{grid-template-columns:1fr}.bcol{min-height:0}}
 @media (max-width:780px){.fab{right:14px;bottom:calc(82px + env(safe-area-inset-bottom,0px))}.aisug{padding:10px 14px 0}}
@@ -808,7 +828,7 @@ function fresh(){
   return {
     screen:'welcome', user:{name:'Valentina Gómez', email:'valentina.gomez@universidad.edu.co'},
     mode:'acompanado', pickMode:'acompanado', page:'home', firstEntry:true,
-    streak:5, ai:[], aiBusy:false, aiDraft:'', board:null, boards:[],
+    streak:5, aiView:null, srcSubject:'Semiótica', aiFiles:[], uploads:[], ai:[], aiBusy:false, aiDraft:'', board:null, boards:[],
     history:[
       {subject:'Semiótica', day:1, with:'María José', goal:'Entender signo y significado para la entrega', vimos:['Significante y significado','Denotación y connotación','Ejemplos en publicidad'], dudas:['¿Cómo aplicar la tríada de Peirce a una marca?'], sig:['Leer el capítulo 5','Traer 3 ejemplos de campañas']},
       {subject:'Narrativas Transmedia', day:3, with:'Samuel', goal:'Definir el mapa de plataformas del proyecto', vimos:['Universo narrativo','Qué cuenta cada plataforma','Puntos de entrada de la audiencia'], dudas:['¿TikTok aporta historia o solo promoción?'], sig:['Terminar el mapa de plataformas','Validarlo con el docente']},
@@ -876,7 +896,7 @@ function fresh(){
 let S = fresh();
 /* Guarda la demo en este navegador para que no se pierda al recargar. */
 const KEY = 'studyhub-demo-v1';
-try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, connect:null, more:false}); S.tools=Object.assign(fresh().tools, S.tools); }catch(e){}
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, connect:null, more:false}); S.tools=Object.assign(fresh().tools, S.tools); S.uploads.forEach(u=>u.status='ok'); }catch(e){}
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:3, s:{...S, rating:null, report:null, live:null, connect:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;
@@ -998,7 +1018,7 @@ function page(){
     case 'links': return pLinks();
     case 'match': return pMatch();
     case 'herramientas': return pTools();
-    case 'ia': return S.board ? pBoard() : pIA();
+    case 'ia': return S.aiView==='sources' ? pSources() : S.board ? pBoard() : pIA();
     case 'cuadernos': return pBooks();
     case 'perfil': return pPerfil();
   }
@@ -1299,7 +1319,7 @@ function pLinks(){
 /* ---------- tools ---------- */
 function fileRow(f, compact){
   const t = toolOf(f.tool), saved = S.links.some(x=>x.t===f.t);
-  return `<div class="item">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
+  return `<div class="item">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':`<button class="btn btn-line btn-sm" data-a="aitoggle" data-v="${f.id}" aria-pressed="${S.aiFiles.includes(f.id)}">${S.aiFiles.includes(f.id)?'Quitar de la IA':'Darle a la IA'}</button>`}${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
 }
 function pTools(){
   const groups = [...new Set(TOOLS.map(t=>t.g))], on = TOOLS.filter(t=>S.tools[t.id]).length, files = myFiles();
@@ -1319,12 +1339,61 @@ function vConnect(){
 }
 
 /* ---------- tu IA ---------- */
-const AI_SUGGEST = ['Crea un tablero de mi sesión de Semiótica del martes','Resume mis notas de Narrativas Transmedia','Hazme un quiz de Semiótica','Organiza mis tareas en la semana','¿Con quién me conviene estudiar?'];
+const AI_SUGGEST = ['Crea un tablero de mi sesión de Semiótica del martes','Resume mis notas de Narrativas Transmedia','Hazme un quiz de Semiótica','Organiza mis tareas en la semana','Hazme un quiz de Fotografía','¿Qué sabes de mis materias?'];
 const QUIZ = {
   'Semiótica':[['¿Qué dos partes tiene el signo según Saussure?','Significante (la forma) y significado (el concepto).'],['¿Qué es la connotación?','El sentido cultural o emocional que se suma al sentido literal.'],['¿Qué elementos tiene la tríada de Peirce?','Representamen, objeto e interpretante.']],
   'Narrativas Transmedia':[['¿En qué se diferencia transmedia de crossmedia?','En transmedia cada plataforma aporta una parte nueva de la historia; en crossmedia se repite el mismo contenido.'],['¿Qué es un universo narrativo?','El mundo que sostiene todas las historias, personajes y reglas del proyecto.'],['¿Qué es un punto de entrada?','El lugar por donde alguien puede empezar a seguir la historia.']],
   'Guion':[['¿Cuáles son los tres actos?','Planteamiento, nudo y desenlace.'],['¿Para qué sirve una escaleta?','Para ordenar las escenas antes de escribir los diálogos.']]
 };
+const LEVELS_AI = [[0,'Sin contenido'],[1,'Poco'],[3,'Suficiente'],[6,'Completo']];
+const allSubjects = () => [...new Set([...SUBJECTS.map(x=>x.name), ...S.books.map(b=>b.name), ...S.uploads.map(u=>u.s)])];
+function aiSources(sub){
+  const out = [];
+  const book = S.books.find(b=>b.name===sub);
+  if(book) book.notes.forEach(n=>out.push({kind:'note', label:n.t.slice(0,48)+(n.t.length>48?'…':''), from:'Cuaderno', units:1}));
+  S.history.filter(h=>h.subject===sub).forEach(h=>out.push({kind:'session', label:`Sesión del ${DAYS[h.day].toLowerCase()} con ${h.with}`, from:'Sesiones', units:2}));
+  FILES.filter(f=>f.s===sub && S.aiFiles.includes(f.id) && S.tools[f.tool]).forEach(f=>out.push({kind:'file', id:f.id, label:f.t, from:toolOf(f.tool).n, units:3}));
+  S.uploads.filter(u=>u.s===sub).forEach(u=>out.push({kind:'upload', id:u.id, label:u.name, from:u.status==='ok'?'Archivo subido':'Leyendo…', units:u.status==='ok'?3:0}));
+  return out;
+}
+const aiUnits = sub => aiSources(sub).reduce((n,x)=>n+x.units,0);
+const aiLevel = u => LEVELS_AI.reduce((l,x,i)=>u>=x[0]?i:l,0);
+const meter = (u, label) => { const l=aiLevel(u); return `<span class="lv" role="img" aria-label="${LEVELS_AI[l][1]}">${[1,2,3].map(i=>`<i class="${i<=l?'on':''}"></i>`).join('')}</span>${label?` <span class="small">${LEVELS_AI[l][1]}</span>`:''}`; };
+const fromLine = srcs => srcs.length ? `<span class="aifrom">Basado en: ${esc([...new Set(srcs.map(x=>x.kind==='note'?'tus notas':x.label))].slice(0,4).join(' · '))}</span>` : '';
+function aiFilesFor(sub){ return FILES.filter(f=>f.s===sub && S.tools[f.tool] && !S.aiFiles.includes(f.id)); }
+function pSources(){
+  const sub = S.srcSubject, list = allSubjects().includes(sub)?allSubjects():[sub,...allSubjects()], src = aiSources(sub), u = aiUnits(sub), book = S.books.find(b=>b.name===sub), avail = aiFilesFor(sub), hasSession = src.some(x=>x.kind==='session');
+  const can = (yes,t,why) => `<div class="can ${yes?'yes':''}"><span class="ok" aria-hidden="true">${yes?'✓':'–'}</span><div><b>${t}</b><small>${why}</small></div></div>`;
+  return `<button class="back" data-a="aiback">${ic('back',16)} Volver a tu IA</button>` + head('Lo que sabe tu IA','Solo usa lo que aparece aquí. Si algo falta, te lo dice en vez de inventarlo.') +
+  `<div class="chips" role="group" aria-label="Materia">${list.map(n=>`<button class="chip ${n===sub?'on':''}" data-a="srcsub" data-v="${esc(n)}" aria-pressed="${n===sub}">${esc(n)}</button>`).join('')}</div>
+  <div class="grid2"><div class="panel"><h3>${esc(sub)} ${meter(u,true)}</h3>
+    <div class="list">${src.length?src.map(x=>`<div class="item"><div class="grow"><strong>${esc(x.label)}</strong><small>${esc(x.from)}</small></div>${x.kind==='file'?`<button class="btn btn-line btn-sm" data-a="aitoggle" data-v="${x.id}">Quitar</button>`:x.kind==='upload'?`<button class="btn btn-line btn-sm" data-a="updel" data-v="${x.id}">Quitar</button>`:`<span class="tag">Automático</span>`}</div>`).join(''):'<div class="empty">Tu IA todavía no tiene nada de esta materia.</div>'}</div>
+    <h3 style="margin-top:20px">Qué puede hacer ahora</h3>
+    ${can(u>=1,'Resumen',u>=1?'Ya tiene de dónde resumir.':'Necesita al menos una nota o un archivo.')}
+    ${can(u>=3,'Quiz',u>=3?'Tiene material suficiente.':`Necesita un archivo o ${3-u} nota${3-u===1?'':'s'} más.`)}
+    ${can(hasSession,'Tablero con contenido',hasSession?'Puede llenarlo con tus sesiones.':'Sin una sesión registrada, lo crea vacío para que lo llenes.')}
+  </div>
+  <div class="panel"><h3>Agregar contenido</h3>
+    <label class="dropz">${ic('plus',20)}<br>Sube o arrastra un archivo<small>PDF, Word, PowerPoint, Excel, texto o imagen · hasta 25 MB</small><input type="file" id="src-file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg" aria-label="Subir archivos de ${esc(sub)}"></label>
+    ${avail.length?`<p class="label-caps" style="margin:18px 0 8px">De tus herramientas</p><div class="list">${avail.map(f=>`<div class="item">${appIcon(toolOf(f.tool),true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(toolOf(f.tool).n)}</small></div><button class="btn btn-gold btn-sm" data-a="aitoggle" data-v="${f.id}">Usar</button></div>`).join('')}</div>`:''}
+    <button class="btn btn-line btn-block" style="margin-top:14px" data-a="aibook" data-v="${esc(sub)}">${book?'Escribir una nota':'Crear cuaderno de esta materia'}</button>
+    <p class="small muted" style="margin:12px 0 0">Tus archivos solo los usa tu IA y puedes quitarlos cuando quieras. En este prototipo se guarda el nombre, no el contenido.</p>
+  </div></div>`;
+}
+function addUploads(files){
+  const ok=/\.(pdf|docx?|pptx?|xlsx?|txt|png|jpe?g)$/i;
+  [...files].forEach(f=>{
+    if(!ok.test(f.name)){ toast(`No puedo leer «${f.name}». Usa PDF, Word, PowerPoint, Excel, texto o imagen.`); return; }
+    if(f.size>25*1048576){ toast(`«${f.name}» pesa más de 25 MB.`); return; }
+    const u={id:'u'+(++noteSeq), name:f.name, s:S.srcSubject, status:'reading'};
+    S.uploads.push(u);
+    setTimeout(()=>{ u.status='ok'; render(); toast(`Tu IA ya leyó «${u.name}»`); }, calm()?200:1100);
+  });
+  render();
+}
+function needCard(sub, task){
+  return {type:'need', subject:sub, task};
+}
 function aiMsg(m, i){
   if(m.from==='me') return `<div class="msg me">${esc(m.text)}</div>`;
   const list = m.lines ? `<ul>${m.lines.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>` : '';
@@ -1333,7 +1402,12 @@ function aiMsg(m, i){
   if(c && c.type==='quiz') card=`<div class="aicard"><strong>Quiz de ${esc(c.subject)}</strong>${c.items.map(([q,a],k)=>`<div class="qa"><b>${k+1}. ${esc(q)}</b>${(c.open||[]).includes(k)?esc(a):`<button class="btn btn-line btn-sm" data-a="aireveal" data-v="${i}" data-k="${k}">Ver respuesta</button>`}</div>`).join('')}</div>`;
   if(c && c.type==='plan') card=`<div class="aicard"><strong>Propuesta para tu semana</strong>${c.items.map(x=>`<div class="qa">${esc(x.title)}<br><span class="small">${DAYS[x.day]} · ${SLOTS[x.slot]}</span></div>`).join('')}${c.done?'<span class="tag ver">Ya está en tu horario</span>':`<button class="btn btn-gold btn-sm" data-a="aiplan" data-v="${i}">Agregar a mi horario</button>`}</div>`;
   if(c && c.type==='match'){ const b=CANDS.find(x=>x.id===c.id); card=`<div class="aicard"><strong>${esc(b.name)} · ${b.pct}%</strong><span class="small">${esc(b.reason)}</span><button class="btn btn-gold btn-sm" data-a="homecand" data-v="${b.id}">Ver perfil</button></div>`; }
-  return `<div class="msg them"><span class="aiwho">Tu IA</span>${esc(m.text)}${list}</div>${card}`;
+  if(c && c.type==='need'){ const u=aiUnits(c.subject), avail=aiFilesFor(c.subject).slice(0,2), done=u>=3 || (c.task==='resumen'&&u>=1);
+    card = done ? `<div class="aicard"><strong>Ya tengo contenido de ${esc(c.subject)}</strong><button class="btn btn-gold btn-sm" data-a="aitext" data-v="${c.task==='quiz'?'Hazme un quiz':'Resume mis notas'} de ${esc(c.subject)}">${c.task==='quiz'?'Crear el quiz':'Crear el resumen'}</button></div>`
+    : `<div class="aicard aineed"><strong>Contenido de ${esc(c.subject)} ${meter(u)}</strong><div class="aibtns"><button class="btn btn-gold btn-sm" data-a="aisrc" data-v="${esc(c.subject)}">Subir contenido</button>${avail.map(f=>`<button class="btn btn-line btn-sm" data-a="aiusefile" data-v="${f.id}">Usar «${esc(f.t)}»</button>`).join('')}${c.task==='quiz'&&u>=1?`<button class="btn btn-line btn-sm" data-a="aitext" data-v="Hazme un quiz corto de ${esc(c.subject)}">Quiz corto con lo que hay</button>`:''}</div></div>`; }
+  if(c && c.type==='subjects') card=`<div class="aicard"><strong>Elige una materia</strong><div class="aibtns">${c.items.map(n=>`<button class="btn btn-line btn-sm" data-a="aitext" data-v="${esc(c.ask)} de ${esc(n)}">${esc(n)}</button>`).join('')}</div></div>`;
+  if(c && c.type==='know') card=`<div class="aicard"><div class="srcrows">${c.items.map(n=>`<button data-a="aisrc" data-v="${esc(n)}">${esc(n)} <span>${meter(aiUnits(n))}</span></button>`).join('')}</div></div>`;
+  return `<div class="msg them"><span class="aiwho">Tu IA</span>${esc(m.text)}${list}${m.from_?fromLine(m.from_):''}</div>${card}`;
 }
 function pIA(){
   const thread = S.ai.length ? S.ai.map(aiMsg).join('') : `<div class="msg them"><span class="aiwho">Tu IA</span>Hola, ${esc(first())}. Trabajo con tus sesiones, notas y tareas. Pídeme un tablero, un resumen, un quiz o que organice tu semana.</div>`;
@@ -1343,8 +1417,9 @@ function pIA(){
     <div class="aisug" role="group" aria-label="Ideas para pedirle a la IA">${AI_SUGGEST.map((t,i)=>`<button class="chip" data-a="aiask" data-v="${i}">${esc(t)}</button>`).join('')}</div>
     <form class="compose" id="f-ai"><label class="hidden" for="ai-q">Escríbele a tu IA</label><input id="ai-q" placeholder="Ej: crea un tablero de mi sesión del martes" autocomplete="off" value="${esc(S.aiDraft)}"><button class="send" type="submit" aria-label="Enviar">${ic('send',18)}</button></form>
   </div>
-  <aside class="panel"><h3>Tus tableros</h3><div class="boardlist">${S.boards.length?S.boards.map(b=>`<button data-a="openboard" data-v="${b.id}">${esc(b.title)}<small>${esc(b.sub)}</small></button>`).join(''):'<p class="small muted" style="margin:0">Cuando le pidas un tablero a tu IA, aparece aquí.</p>'}</div>
-    <p class="small muted" style="margin:14px 0 0">En este prototipo las respuestas son de ejemplo, armadas con los datos de la demo.</p></aside></div>`;
+  <aside style="display:flex;flex-direction:column;gap:20px"><div class="panel"><h3>Lo que sabe tu IA</h3><div class="srcrows">${allSubjects().map(n=>`<button data-a="aisrc" data-v="${esc(n)}">${esc(n)} <span>${meter(aiUnits(n))}</span></button>`).join('')}</div><button class="btn btn-gold btn-sm btn-block" style="margin-top:12px" data-a="aisrc" data-v="${esc(S.srcSubject)}">Agregar contenido</button></div>
+  <div class="panel"><h3>Tus tableros</h3><div class="boardlist">${S.boards.length?S.boards.map(b=>`<button data-a="openboard" data-v="${b.id}">${esc(b.title)}<small>${esc(b.sub)}</small></button>`).join(''):'<p class="small muted" style="margin:0">Cuando le pidas un tablero a tu IA, aparece aquí.</p>'}</div>
+    <p class="small muted" style="margin:14px 0 0">En este prototipo las respuestas son de ejemplo, armadas con los datos de la demo.</p></div></aside></div>`;
 }
 function pBoard(){
   const b = S.boards.find(x=>x.id===S.board);
@@ -1360,27 +1435,38 @@ function makeBoard(title, sub, goal, vimos, dudas, sig){
 function findBoardNote(id){ const b=S.boards.find(x=>x.id===S.board); for(const [ci,c] of b.cols.entries()){ const i=c.notes.findIndex(n=>n.id===id); if(i>=0) return {b,ci,c,i}; } }
 function moveNote(id, to){ const f=findBoardNote(id); if(!f || to<0 || to>=f.b.cols.length || to===f.ci) return; const [n]=f.c.notes.splice(f.i,1); f.b.cols[to].notes.push(n); render(); }
 function aiReply(text){
-  const q = norm(text), subject = (SUBJECTS.find(x=>q.includes(norm(x.name)))||{}).name || (q.includes('narrativas')?'Narrativas Transmedia':null);
+  const q = norm(text), subject = allSubjects().find(n=>q.includes(norm(n))) || (q.includes('narrativas')?'Narrativas Transmedia':null);
   const di = DAYS.findIndex(d=>q.includes(norm(d))), day = di>=0 ? di : null;
   if(/tablero|board/.test(q)){
     const pool = [...S.sessions.filter(x=>x.subject).map(x=>({subject:x.subject, day:x.day, with:x.with, goal:x.goal||'Avanzar en '+x.subject, vimos:[], dudas:[], sig:[]})), ...S.history];
     const m = q.match(/sesion(?: que \w+)? (?:de|sobre) ([a-z]+(?: [a-z]+)?)/) || q.match(/tablero (?:de|sobre) (?!la |el |mi |una )([a-z]+(?: [a-z]+)?)/);
     const otherTopic = m && !subject && !/^(ayer|hoy|anoche|esta|este)\b/.test(m[1]);
     const h = otherTopic ? null : pool.find(x=>(!subject||x.subject===subject)&&(day===null||x.day===day)&&(subject||day!==null));
-    if(h){ const b=makeBoard(`${h.subject} · ${DAYS[h.day].toLowerCase()}`, `Sesión con ${h.with}`, [h.goal], h.vimos.length?h.vimos:['Escribe los temas clave'], h.dudas.length?h.dudas:['¿Qué quedó sin resolver?'], h.sig.length?h.sig:['¿Qué harás antes de la próxima sesión?']); celebrate(innerWidth/2, innerHeight/3); return {from:'ai', text:'Listo. Armé tu tablero con lo que registraste en esa sesión. Puedes editar y mover las notas.', card:{type:'board',id:b.id}}; }
+    if(h){ const b=makeBoard(`${h.subject} · ${DAYS[h.day].toLowerCase()}`, `Sesión con ${h.with}`, [h.goal], h.vimos.length?h.vimos:['Escribe los temas clave'], h.dudas.length?h.dudas:['¿Qué quedó sin resolver?'], h.sig.length?h.sig:['¿Qué harás antes de la próxima sesión?']); celebrate(innerWidth/2, innerHeight/3); return {from:'ai', text:'Listo. Armé tu tablero con lo que registraste en esa sesión. Puedes editar y mover las notas.', card:{type:'board',id:b.id}, from_:[{kind:'session',label:`Sesión con ${h.with}`}]}; }
     let topic = otherTopic ? text.substr(q.indexOf(m[1]), m[1].length).replace(/\s+(el|del|de|la)$/i,'') : (subject||'tu sesión');
     topic = topic.charAt(0).toUpperCase()+topic.slice(1);
     const b = makeBoard(`${topic}${day!==null?' · '+DAYS[day].toLowerCase():''}`, 'Tablero listo para llenar', ['¿Qué querías lograr?'], ['Escribe los temas clave'], ['¿Qué quedó sin resolver?'], ['¿Qué harás antes de la próxima sesión?']);
     celebrate(innerWidth/2, innerHeight/3);
-    return {from:'ai', text:`No encontré esa sesión en tu historial, así que te armé el tablero de ${topic} listo para llenar.`, card:{type:'board',id:b.id}};
+    return {from:'ai', text:`No encontré esa sesión en tu historial, así que te armé el tablero de ${topic} listo para llenar. Si me pasas tus notas o archivos, lo trabajo con ellos.`, card:{type:'board',id:b.id}};
   }
-  if(/quiz|examen|preguntas|practicar|evalua/.test(q)){
-    const sub = subject || S.books[0].name, items = QUIZ[sub] || (S.books.find(b=>b.name===sub)||{notes:[]}).notes.slice(0,3).map(n=>['Explica con tus palabras: '+n.t,'Compáralo con tu cuaderno.']);
-    return items.length ? {from:'ai', text:`Aquí va. Intenta responder antes de ver cada respuesta.`, card:{type:'quiz',subject:sub,items,open:[]}} : {from:'ai', text:`Todavía no tienes notas de ${sub}. Escribe algunas en Cuadernos y te armo el quiz.`};
-  }
-  if(/resum|sintetiza/.test(q)){
-    const sub = subject || S.books[0].name, book = S.books.find(b=>b.name===sub);
-    return book && book.notes.length ? {from:'ai', text:`Esto es lo esencial de tus notas de ${sub}:`, lines:book.notes.map(n=>n.t)} : {from:'ai', text:`No tienes notas de ${sub} todavía. Agrega algunas en Cuadernos y las resumo.`};
+  if(/que sabes|que tienes|contenido|fuentes/.test(q)) return {from:'ai', text:'Esto es lo que tengo de cada materia. Toca una para agregarle contenido.', card:{type:'know',items:allSubjects()}};
+  const wantsQuiz = /quiz|examen|preguntas|practicar|evalua/.test(q), wantsSum = /resum|sintetiza/.test(q);
+  if(wantsQuiz || wantsSum){
+    const tm = q.match(/\b(?:de|sobre) ([a-z]+(?: [a-z]+){0,2})\s*$/), raw = tm && !/^(mis|mi|la|el) /.test(tm[1]+' ') ? text.substr(q.lastIndexOf(tm[1]), tm[1].length) : null;
+    const sub = subject || (raw ? raw.charAt(0).toUpperCase()+raw.slice(1) : null), ask = wantsQuiz?'Hazme un quiz':'Resume mis notas';
+    if(!sub){ const ready=allSubjects().filter(n=>aiUnits(n)>=(wantsQuiz?3:1)); return ready.length ? {from:'ai', text:'¿De qué materia? Estas tienen contenido suficiente:', card:{type:'subjects',ask,items:ready}} : {from:'ai', text:'Todavía no tengo contenido tuyo. Súbeme un archivo o escribe notas en tus cuadernos.', card:needCard(S.srcSubject, wantsQuiz?'quiz':'resumen')}; }
+    const src = aiSources(sub), u = aiUnits(sub), short = /corto/.test(q);
+    if(wantsSum){
+      if(u<1) return {from:'ai', text:`Todavía no tengo nada de ${sub}, y no quiero inventarte un resumen. Necesito al menos una nota o un archivo.`, card:needCard(sub,'resumen')};
+      const book = S.books.find(b=>b.name===sub), extra = src.filter(x=>x.kind==='file'||x.kind==='upload').map(x=>`«${x.label}»: en la versión real, aquí van sus ideas principales.`), ses = src.filter(x=>x.kind==='session').map(x=>x.label+': sesión registrada.');
+      return {from:'ai', text:`Esto es lo esencial de lo que me has dado de ${sub}:`, lines:[...(book?book.notes.map(n=>n.t):[]),...ses,...extra], from_:src};
+    }
+    if(u<1) return {from:'ai', text:`Todavía no tengo contenido de ${sub}, y un quiz sin tu material sería inventado. Con un archivo o tres notas ya puedo hacerlo.`, card:needCard(sub,'quiz')};
+    if(u<3 && !short) return {from:'ai', text:`Tengo muy poco de ${sub}: un quiz con esto saldría flojo. Te falta un archivo o ${3-u} nota${3-u===1?'':'s'} más.`, card:needCard(sub,'quiz')};
+    const docs = src.filter(x=>x.kind==='file'||x.kind==='upload').map(x=>[`¿Cuál es la idea principal de «${x.label}»?`,'En la versión real, la pregunta y la respuesta salen del contenido del archivo.']);
+    const notes = (S.books.find(b=>b.name===sub)||{notes:[]}).notes.map(n=>['Explica con tus palabras: '+n.t,'Compáralo con tu cuaderno.']);
+    const items = (QUIZ[sub] && !short ? QUIZ[sub] : [...docs,...notes]).slice(0, short?2:4);
+    return {from:'ai', text: short?'Va un quiz corto con lo poco que tengo.':'Aquí va. Intenta responder antes de ver cada respuesta.', card:{type:'quiz',subject:sub,items,open:[]}, from_:src};
   }
   if(/organiza|planea|plan |semana|horario/.test(q)){
     const pend = S.tasks.filter(t=>!t.done).slice(0,3), free=[];
@@ -1393,7 +1479,7 @@ function aiReply(text){
   }
   const add = text.match(/^(?:agrega|anota|recuerdame|recuérdame)\s+(.{3,})/i);
   if(add){ S.tasks.unshift({id:Date.now(), text:add[1], time:'Hoy', done:false}); return {from:'ai', text:`Anotado en tus tareas de hoy: ${add[1]}.`}; }
-  return {from:'ai', text:'Todavía no sé hacer eso en este prototipo. Puedo ayudarte con:', lines:['Crear un tablero de una sesión','Resumir tus notas','Hacerte un quiz','Organizar tus tareas en la semana','Recomendarte con quién estudiar','Anotar una tarea: «agrega leer el capítulo 5»']};
+  return {from:'ai', text:'Todavía no sé hacer eso en este prototipo. Puedo ayudarte con:', lines:['Crear un tablero de una sesión','Resumir lo que me des','Hacerte un quiz con tu material','Organizar tus tareas en la semana','Recomendarte con quién estudiar','Anotar una tarea: «agrega leer el capítulo 5»']};
 }
 function askAI(text){
   if(S.aiBusy || !text.trim()) return;
@@ -1573,7 +1659,7 @@ function render(){
   const mb = document.querySelector('.modal .box'), keep = mb ? mb.scrollTop : 0;
   const ae = document.activeElement, fkey = ae && ae!==document.body ? (ae.id ? '#'+CSS.escape(ae.id) : ae.dataset && ae.dataset.a ? `[data-a="${ae.dataset.a}"]${ae.dataset.v!==undefined?`[data-v="${CSS.escape(ae.dataset.v)}"]`:''}${ae.dataset.k?`[data-k="${CSS.escape(ae.dataset.k)}"]`:''}` : ae.name ? `[name="${ae.name}"][value="${CSS.escape(ae.value)}"]` : null) : null;
   root.innerHTML = v();
-  const key = [S.screen,S.page,S.step,S.matchType,S.mode,S.board].join('|'), enter = key!==render.k;
+  const key = [S.screen,S.page,S.step,S.matchType,S.mode,S.board,S.aiView].join('|'), enter = key!==render.k;
   render.k = key; root.classList.toggle('enter', enter);
   if(enter){ countUp(); if(S.page==='match' && S.step==='confirmed') celebrate(innerWidth/2, innerHeight/3); }
   const nb = document.querySelector('.modal .box'); if(nb && keep) nb.scrollTop = keep;
@@ -1615,7 +1701,7 @@ document.addEventListener('click', e=>{
       if(S.mode==='acompanado'){ S.page='match'; S.step='materia'; } else { S.page='home'; }
       go({}); break;
     case 'setmode': S.mode=v; S.pickMode=v; render(); toast(v==='solo'?'Modo Solo activado':'Modo Acompañado activado'); break;
-    case 'nav': S.openBook=null; S.addBlock=null; S.board=null; S.more=false; S.editProfile=false; S.draft=null; go({page:v}); break;
+    case 'nav': S.openBook=null; S.addBlock=null; S.board=null; S.aiView=null; S.more=false; S.editProfile=false; S.draft=null; go({page:v}); break;
     case 'more': S.more=!S.more; render(); break;
     case 'closemore': if(e.target===el){ S.more=false; render(); } break;
     case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[]}); break;
@@ -1643,6 +1729,14 @@ document.addEventListener('click', e=>{
     case 'tool': S.tools[v]=false; render(); toast(`${toolOf(v).n} desconectado`); break;
     case 'connect': openModal({connect:v}); break;
     case 'aiask': askAI(AI_SUGGEST[+v]); break;
+    case 'aitext': askAI(v); break;
+    case 'aisrc': go({aiView:'sources', board:null, srcSubject:v}); break;
+    case 'aiback': go({aiView:null}); break;
+    case 'srcsub': S.srcSubject=v; render(); break;
+    case 'aitoggle': S.aiFiles = S.aiFiles.includes(v) ? S.aiFiles.filter(x=>x!==v) : [...S.aiFiles,v]; render(); break;
+    case 'aiusefile': S.aiFiles.push(v); render(); toast('Tu IA ya puede usar ese archivo'); break;
+    case 'updel': S.uploads = S.uploads.filter(u=>u.id!==v); render(); toast('Archivo quitado de tu IA'); break;
+    case 'aibook': { let b=S.books.find(x=>x.name===v); if(!b){ b={id:Date.now(), name:v, notes:[]}; S.books.push(b); } go({page:'cuadernos', openBook:b.id, aiView:null}); break; }
     case 'openboard': go({board:v}); break;
     case 'closeboard': go({board:null}); break;
     case 'aireveal': { const c=S.ai[+v].card; c.open.push(+el.dataset.k); render(); break; }
@@ -1723,6 +1817,7 @@ document.addEventListener('input', e=>{
   if(e.target.id==='uni-q'){ S.uniQ=e.target.value; document.getElementById('unilist').innerHTML=uniList(); }
   if(e.target.id==='link-q'){ S.linkQ=e.target.value; document.getElementById('linklist').innerHTML=linkList(); }
 });
+document.addEventListener('change', e=>{ if(e.target.id==='src-file') addUploads(e.target.files); });
 let dragId=null;
 document.addEventListener('dragstart', e=>{ const n=e.target.closest&&e.target.closest('.note-s'); if(n){ dragId=n.dataset.nid; e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',dragId); } });
 document.addEventListener('dragover', e=>{ const c=dragId&&e.target.closest('.bcol'); document.querySelectorAll('.bcol.over').forEach(x=>{ if(x!==c) x.classList.remove('over'); }); if(c){ e.preventDefault(); c.classList.add('over'); } });

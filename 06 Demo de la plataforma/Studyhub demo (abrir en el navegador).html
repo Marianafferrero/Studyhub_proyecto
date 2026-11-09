@@ -1847,13 +1847,12 @@ document.addEventListener('click', e=>{
     case 'libsub': S.libSub=v; render(); break;
     case 'bdel': S.boards=S.boards.filter(b=>b.id!==v); render(); toast('Tablero borrado'); break;
     case 'gs': gsRun(+v); break;
-    case 'aisrc': go({aiView:'sources', board:null, srcSubject:v}); break;
+    case 'aisrc': go({page:'ia', aiView:'sources', board:null, srcSubject:v}); break;
     case 'aiback': go({aiView:null}); break;
     case 'srcsub': S.srcSubject=v; render(); break;
     case 'aitoggle': S.aiFiles = S.aiFiles.includes(v) ? S.aiFiles.filter(x=>x!==v) : [...S.aiFiles,v]; render(); break;
     case 'aiusefile': S.aiFiles.push(v); render(); toast('Tu IA ya puede usar ese archivo'); break;
     case 'updel': S.uploads = S.uploads.filter(u=>u.id!==v); render(); toast('Archivo quitado de tu IA'); break;
-    case 'aibook': { let b=S.books.find(x=>x.name===v); if(!b){ b={id:Date.now(), name:v, notes:[]}; S.books.push(b); } go({page:'cuadernos', openBook:b.id, aiView:null}); break; }
     case 'openboard': go({page:'tableros', libTab:'tableros', board:v, aiView:null}); break;
     case 'closeboard': go({board:null}); break;
     case 'aireveal': { const c=S.ai[+v].card; c.open.push(+el.dataset.k); render(); break; }

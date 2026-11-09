@@ -2,13 +2,13 @@
 capa: 6 · Mejoras
 tipo: guion de presentación
 fecha: 2026-11-09
-estado: borrador por pasar a Canva
+estado: guardado en Canva; falta la diapositiva 12
 ---
 # Pitch detallado · texto recuperado
 
-Versión larga del pitch de 5 minutos, armada para la [[Rubrica entrega final]]. Las ediciones se perdieron en Canva cuando la sesión se llenó antes de guardarlas; este es el texto completo, recuperado de la conversación.
+Versión larga del pitch de 5 minutos, armada para la [[Rubrica entrega final]]. Es copia del texto y el guion guardados en Canva el 2026-11-09, recuperados de la conversación después de que un primer borrador expirara.
 
-Canva: https://canva.link/rrnzx2mvu2jyhlw (13 diapositivas, con títulos e imágenes, sin los puntos ni el guion). Lo que dice cada diapositiva es **interpretación** apoyada en [[Entrevistas]]; la diapositiva 12 espera la evidencia de [[Validacion - formulario]].
+Canva: https://canva.link/rrnzx2mvu2jyhlw (13 diapositivas, con texto y guion en las notas del presentador). Lo que dice cada diapositiva es **interpretación** apoyada en [[Entrevistas]]; la diapositiva 12 espera la evidencia de [[Validacion - formulario]].
 
 ## 1. Studyhub
 

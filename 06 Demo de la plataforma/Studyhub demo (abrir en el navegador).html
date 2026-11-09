@@ -614,6 +614,7 @@ h1,h2,h3{letter-spacing:-.02em}
 .toolgroup{margin:0 0 12px;font-size:20px}
 .tools+.toolgroup{margin-top:30px}
 .filebar{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:780px){.item.fileitem{flex-wrap:wrap}.item.fileitem .grow{flex:1 1 0;min-width:0}.item.fileitem .filebar{flex:0 0 100%;min-width:0}}
 .toast{z-index:95}
 .aiwrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
 .aibox{background:var(--paper);border:var(--ol);border-radius:22px;box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column}
@@ -1372,7 +1373,7 @@ function pLinks(){
 /* ---------- tools ---------- */
 function fileRow(f, compact){
   const t = toolOf(f.tool), saved = S.links.some(x=>x.t===f.t);
-  return `<div class="item">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':`<button class="btn btn-line btn-sm" data-a="aitoggle" data-v="${f.id}" aria-pressed="${S.aiFiles.includes(f.id)}">${S.aiFiles.includes(f.id)?'Quitar de la IA':'Darle a la IA'}</button>`}${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
+  return `<div class="item fileitem">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':`<button class="btn btn-line btn-sm" data-a="aitoggle" data-v="${f.id}" aria-pressed="${S.aiFiles.includes(f.id)}">${S.aiFiles.includes(f.id)?'Quitar de la IA':'Darle a la IA'}</button>`}${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
 }
 function libTabs(){
   return `<div class="segsw lib" role="group" aria-label="Mi biblioteca">${[['tableros','Tableros'],['cuadernos','Cuadernos'],['links','Links'],['archivos','Archivos']].map(([k,l])=>`<button data-a="nav" data-v="${k}" aria-pressed="${S.page===k}">${l}</button>`).join('')}</div>`;

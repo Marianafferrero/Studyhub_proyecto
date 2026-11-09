@@ -467,13 +467,13 @@ const ic = (n, s=18, c='currentColor', w=1.8) => `<svg width="${s}" height="${s}
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const SUBJECTS = [
-  {id:'calc', name:'Cálculo II', sym:'∑', n:128},
-  {id:'esp', name:'Español', sym:'Aa', n:64},
-  {id:'eco', name:'Economía', sym:'$', n:91},
-  {id:'prog', name:'Programación', sym:'</>', n:147},
-  {id:'narr', name:'Narrativas Transmedia', sym:'✎', n:38},
-  {id:'fin', name:'Finanzas', sym:'%', n:56},
-  {id:'est', name:'Estadística', sym:'σ', n:73}
+  {id:'narr', name:'Narrativas Transmedia', sym:'✎', n:86},
+  {id:'guion', name:'Guion', sym:'¶', n:64},
+  {id:'semio', name:'Semiótica', sym:'Aa', n:58},
+  {id:'expe', name:'Diseño de Experiencias', sym:'◎', n:91},
+  {id:'tend', name:'Investigación de Tendencias', sym:'↗', n:47},
+  {id:'mkt', name:'Marketing Estratégico', sym:'%', n:73},
+  {id:'foto', name:'Fotografía', sym:'◐', n:52}
 ];
 const UNIS = [
   {id:'col', name:'Colegiatura Colombiana', short:'Colegiatura'},
@@ -490,7 +490,7 @@ const CANDS = [
    reason:'Coincide en compromiso y concentración', tags:['Compromiso alto','Silencio','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.95,'Coincide'],['Nivel de conocimiento',.8,'Coincide']],
    quote:'Prefiero sesiones cortas y concentradas, con el celular guardado.',
-   exchange:'Intercambio: tú me ayudas con Estadística', avail:'Lunes y miércoles, tarde', style:'Silencio y pausas cada 50 min'},
+   exchange:'Intercambio: tú me ayudas con Guion', avail:'Lunes y miércoles, tarde', style:'Silencio y pausas cada 50 min'},
   {id:'val', uni:'col', name:'Valentina', sem:'3.er semestre · Comunicación en Narrativas Transmedia', pct:78, color:'#B7860B', av:'#E8535A',
    reason:'Coincide en compromiso, difiere en concentración', tags:['Compromiso alto','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.55,'Difiere'],['Nivel de conocimiento',.85,'Coincide']],
@@ -522,7 +522,7 @@ const CANDS = [
    quote:'Busco a alguien que me ayude a ponerme al día.',
    exchange:'Te invito el almuerzo', avail:'Lunes en la mañana', style:'Tipo tutoría'}
 ];
-const KINDS = [['class','Clase','var(--line-2)','Ej: Cálculo II — clase magistral'],['study','Estudio personal','var(--teal-soft)','Ej: Estadística — taller 2'],['session','Sesión acompañada','var(--coral)','Ej: Economía con María José']];
+const KINDS = [['class','Clase','var(--line-2)','Ej: Guion — clase magistral'],['study','Estudio personal','var(--teal-soft)','Ej: Semiótica — lectura 2'],['session','Sesión acompañada','var(--coral)','Ej: Narrativas Transmedia con María José']];
 const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 const LEVELS = ['Apenas empiezo','Voy bien','Puedo explicarla','La domino'];
 const RDIMS = [['Compromiso','Llegó a tiempo y cumplió lo acordado'],['Concentración','La sesión no se volvió conversación'],['Nivel','Su nivel te sirvió para avanzar']];
@@ -535,72 +535,72 @@ const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la 
 const REPORT_REASONS = ['No se presentó a la sesión','Comportamiento irrespetuoso o acoso','Perfil falso o no es estudiante','Pide dinero o datos personales','Otro motivo'];
 const RHYTHMS = [[25,5,'25 / 5 min'],[50,10,'50 / 10 min']];
 const GROUPS = [
-  {id:'g1', name:'Repaso para el parcial', members:['mj','val'], cap:4, day:1, slot:3, place:'Biblioteca central, sala grupal 3', pct:84,
+  {id:'g1', name:'Preparación de la entrega', members:['mj','val'], cap:4, day:1, slot:3, place:'Biblioteca central, sala grupal 3', pct:84,
    brk:[['Compromiso',.95,'Coincide'],['Concentración',.72,'Parcial'],['Nivel de conocimiento',.85,'Coincide']],
-   rule:'Pomodoro 50/10 y celulares guardados', goal:'Resolver juntos el parcial del semestre pasado'},
-  {id:'g2', name:'Taller de ejercicios', members:['sam','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
+   rule:'Pomodoro 50/10 y celulares guardados', goal:'Revisar juntos los avances de la entrega final'},
+  {id:'g2', name:'Taller de avances', members:['sam','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
    brk:[['Compromiso',.8,'Coincide'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.45,'Difiere']],
-   rule:'Cada quien trae 3 ejercicios resueltos', goal:'Practicar ejercicios tipo examen'},
+   rule:'Cada quien trae un avance para revisar', goal:'Dar y recibir retroalimentación'},
   {id:'g3', name:'Preparación del final', members:['cam','jac'], cap:4, day:3, slot:4, place:'Virtual, por videollamada', pct:76,
    brk:[['Compromiso',.85,'Coincide'],['Concentración',.85,'Coincide'],['Nivel de conocimiento',.5,'Difiere']],
    rule:'Pomodoro 25/5 y celulares guardados', goal:'Repasar los temas del examen final'}
 ];
-const REPLIES =['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los ejercicios del parcial pasado.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
+const REPLIES =['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los avances de la entrega.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
 
 function fresh(){
   return {
     screen:'welcome', user:{name:'Valentina Gómez', email:'valentina.gomez@universidad.edu.co'},
     mode:'acompanado', pickMode:'acompanado', page:'home', firstEntry:true,
-    step:'materia', subject:'calc', customSubject:'', showCustom:false, filters:[], cand:null, uni:'mine', uniQ:'',
+    step:'materia', subject:'narr', customSubject:'', showCustom:false, filters:[], cand:null, uni:'mine', uniQ:'',
     chat:[], prop:null, showOffers:false, scheduling:false, placeMode:false,
     sessions:[], replyIx:0, errors:{},
     blocks:[
-      {id:1,day:0,slot:1,title:'Cálculo II',sub:'Clase',kind:'class'},
+      {id:1,day:0,slot:1,title:'Narrativas Transmedia',sub:'Clase',kind:'class'},
       {id:2,day:2,slot:2,title:'Diseño Estratégico',sub:'Clase',kind:'class'},
-      {id:3,day:1,slot:3,title:'Economía',sub:'Capítulo 4',kind:'study'},
-      {id:4,day:3,slot:0,title:'Cálculo II',sub:'Integrales',kind:'study'},
-      {id:5,day:5,slot:1,title:'Estadística',sub:'Repaso del parcial',kind:'study'}
+      {id:3,day:1,slot:3,title:'Semiótica',sub:'Capítulo 4',kind:'study'},
+      {id:4,day:3,slot:0,title:'Narrativas Transmedia',sub:'Mapa de plataformas',kind:'study'},
+      {id:5,day:5,slot:1,title:'Guion',sub:'Repaso de estructura',kind:'study'}
     ],
     addBlock:null,
     tasks:[
-      {id:1,text:'Taller de integrales — Cálculo II',time:'9:00 am',done:false},
-      {id:2,text:'Lectura capítulo 4 — Economía',time:'2:00 pm',done:false},
+      {id:1,text:'Mapa de plataformas — Narrativas Transmedia',time:'9:00 am',done:false},
+      {id:2,text:'Lectura capítulo 4 — Semiótica',time:'2:00 pm',done:false},
       {id:3,text:'Entrega boceto — Diseño Estratégico',time:'Hecho',done:true}
     ],
     books:[
-      {id:1,name:'Cálculo II',notes:[{d:'Hoy',t:'Sustitución: elegir u de modo que du aparezca en el integrando.'},{d:'Ayer',t:'Series de Taylor: repasar el radio de convergencia.'}]},
-      {id:2,name:'Economía',notes:[{d:'Ayer',t:'Elasticidad precio: |E| > 1 es demanda elástica.'}]},
+      {id:1,name:'Narrativas Transmedia',notes:[{d:'Hoy',t:'Universo narrativo: cada plataforma cuenta una parte distinta de la historia.'},{d:'Ayer',t:'Repasar la diferencia entre crossmedia y transmedia.'}]},
+      {id:2,name:'Semiótica',notes:[{d:'Ayer',t:'Signo: significante y significado.'}]},
       {id:3,name:'Diseño Estratégico',notes:[{d:'Lunes',t:'Benchmark: Studuo, Discord de estudio, grupos de WhatsApp.'}]},
-      {id:4,name:'Español',notes:[{d:'Hace 3 días',t:'Ensayo argumentativo: tesis, argumentos, contraargumento.'}]}
+      {id:4,name:'Guion',notes:[{d:'Hace 3 días',t:'Estructura en tres actos: planteamiento, nudo y desenlace.'}]}
     ],
     openBook:null,
     tools:{calendar:true, drive:true, chatgpt:false, notion:false},
     links:[
-      {t:'Guía de integrales por partes',s:'Cálculo II',k:'PDF'},
-      {t:'Parciales resueltos 2025-2',s:'Cálculo II',k:'Drive'},
-      {t:'Resumen de oferta y demanda',s:'Economía',k:'Guía'},
-      {t:'Curso de Python desde cero',s:'Programación',k:'Video'},
-      {t:'Plantilla de ensayo argumentativo',s:'Español',k:'Guía'}
+      {t:'Guía para hacer mapas de plataformas',s:'Narrativas Transmedia',k:'PDF'},
+      {t:'Proyectos transmedia de referencia',s:'Narrativas Transmedia',k:'Drive'},
+      {t:'Resumen de signo y significado',s:'Semiótica',k:'Guía'},
+      {t:'Curso de escritura de guion',s:'Guion',k:'Video'},
+      {t:'Plantilla de escaleta',s:'Guion',k:'Guía'}
     ],
     linkQ:'',
     prefs:['Compromiso alto','Silencio'], give:['Te invito el almuerzo','Te ayudo con otra materia'],
     me:{uni:'col', career:'Comunicación en Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
       subjects:[
-        {name:'Estadística', lvl:3, topics:'Probabilidad, regresión lineal'},
-        {name:'Español', lvl:2, topics:'Ensayo argumentativo, ortografía'},
-        {name:'Economía', lvl:1, topics:'Oferta y demanda'},
-        {name:'Cálculo II', lvl:0, topics:'Integrales por partes, series'}
+        {name:'Narrativas Transmedia', lvl:3, topics:'Universos narrativos, mapas de plataformas'},
+        {name:'Guion', lvl:2, topics:'Estructura en tres actos'},
+        {name:'Semiótica', lvl:1, topics:'Signo y significado'},
+        {name:'Marketing Estratégico', lvl:0, topics:'Segmentación, posicionamiento'}
       ]},
     editProfile:false, draft:null,
     myRev:{r:4.7, n:6, dims:{'Compromiso':4.8,'Concentración':4.6,'Nivel':4.7}, rev:[
-      {t:'Llegó puntual y con los ejercicios listos. Explica muy claro.', by:'Mateo · Estadística'},
-      {t:'Buena sesión, nos enfocamos y avanzamos mucho.', by:'Laura · Español'}]},
+      {t:'Llegó puntual y con los avances listos. Explica muy claro.', by:'Mateo · Guion'},
+      {t:'Buena sesión, nos enfocamos y avanzamos mucho.', by:'Laura · Semiótica'}]},
     cr:{
-      mj:{r:4.9, n:14, rev:[{t:'Súper comprometida, no sacó el celular en toda la sesión.', by:'Andrés · Cálculo II'},{t:'Explica paso a paso y con paciencia.', by:'Sara · Economía'}]},
+      mj:{r:4.9, n:14, rev:[{t:'Súper comprometida, no sacó el celular en toda la sesión.', by:'Andrés · Marketing Estratégico'},{t:'Explica paso a paso y con paciencia.', by:'Sara · Diseño de Experiencias'}]},
       val:{r:4.5, n:9, rev:[{t:'Muy cumplida. Le gusta explicar en voz alta, tenlo en cuenta.', by:'Juan · Narrativas'}]},
       jac:{r:4.1, n:5, rev:[{t:'Sabe mucho, pero va más rápido que yo.', by:'Camila · Finanzas'}]},
       cam:{r:4.7, n:9, rev:[{t:'Llegó con todo preparado y fue al grano.', by:'Tomás · Cálculo II'}]},
-      sam:{r:4.4, n:6, rev:[{t:'Acordamos el objetivo desde el inicio y lo cumplimos.', by:'Paula · Estadística'}]},
+      sam:{r:4.4, n:6, rev:[{t:'Acordamos el objetivo desde el inicio y lo cumplimos.', by:'Paula · Semiótica'}]},
       lau:{r:4.2, n:7, rev:[{t:'Sabe mucho, aunque a veces cancela a última hora.', by:'Juan · Economía'}]},
       dan:{r:4.0, n:3, rev:[{t:'Muy puntual y con ganas de aprender.', by:'Sara · Economía'}]}
     },
@@ -613,8 +613,8 @@ function fresh(){
 let S = fresh();
 /* Guarda la demo en este navegador para que no se pierda al recargar. */
 const KEY = 'studyhub-demo-v1';
-try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===1) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); S.cr=Object.assign(fresh().cr, S.cr); if(!S.me.uni) S.me.uni='col'; }catch(e){}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:1, s:{...S, rating:null, report:null, live:null}})); }catch(e){} }
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===2) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:2, s:{...S, rating:null, report:null, live:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;
 const cand = () => CANDS.find(c=>c.id===S.cand);
@@ -833,15 +833,15 @@ function mGroups(){
   const list = GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id) && g.members.every(m=>inUni(CANDS.find(c=>c.id===m))));
   const mine = S.myGroups.filter(g=>g.subject===subjName());
   const form = S.newGroup ? `<form class="panel" id="f-group" style="margin-bottom:18px;max-width:720px"><h3>Crear un grupo de ${esc(subjName())}</h3>
-      <div class="field"><label for="gr-name">Nombre del grupo</label><input class="input" id="gr-name" placeholder="Ej: Repaso del parcial 2"></div>
-      <div class="field"><label for="gr-goal">Objetivo de la sesión</label><input class="input" id="gr-goal" placeholder="Ej: resolver los talleres 3 y 4"></div>
+      <div class="field"><label for="gr-name">Nombre del grupo</label><input class="input" id="gr-name" placeholder="Ej: Repaso de la entrega 2"></div>
+      <div class="field"><label for="gr-goal">Objetivo de la sesión</label><input class="input" id="gr-goal" placeholder="Ej: revisar los avances del proyecto"></div>
       <div class="sched" style="padding:0;border:0;background:none"><div class="row3">
         <div class="field" style="margin:0"><label for="gr-cap">Cupo</label><select class="select" id="gr-cap"><option value="3">3 personas</option><option value="4" selected>4 personas</option></select></div>
         <div class="field" style="margin:0"><label for="gr-day">Día</label><select class="select" id="gr-day">${DAYS.map((d,i)=>`<option value="${i}" ${i===2?'selected':''}>${d}</option>`).join('')}</select></div>
         <div class="field" style="margin:0"><label for="gr-slot">Hora</label><select class="select" id="gr-slot">${SLOTS.map((d,i)=>`<option value="${i}" ${i===3?'selected':''}>${d}</option>`).join('')}</select></div>
       </div></div>
       <div class="field"><label for="gr-place">Lugar</label><input class="input" id="gr-place" value="Biblioteca central, sala grupal" placeholder="Un lugar público del campus"></div>
-      <div class="field"><label for="gr-rule">Regla del grupo</label><select class="select" id="gr-rule"><option>Pomodoro 50/10 y celulares guardados</option><option>Pomodoro 25/5 y celulares guardados</option><option>Cada quien trae ejercicios resueltos</option></select></div>
+      <div class="field"><label for="gr-rule">Regla del grupo</label><select class="select" id="gr-rule"><option>Pomodoro 50/10 y celulares guardados</option><option>Pomodoro 25/5 y celulares guardados</option><option>Cada quien trae un avance para revisar</option></select></div>
       <div class="actions" style="margin-top:6px"><button class="btn btn-primary" type="submit">Crear grupo</button><button class="btn btn-line" type="button" data-a="newgroup">Cancelar</button></div></form>` : '';
   return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), 'Grupos de 3 o 4 personas. La compatibilidad del grupo considera a todos sus integrantes, y te mostramos cuál capa es la más baja.') + stepper() + matchSwitch() + uniBar() + form +
   `<div class="cands">${mine.map(g=>groupCard(g,true)).join('')}${list.map(g=>groupCard(g,false)).join('')}${S.newGroup?'':`<button class="cand new" data-a="newgroup">${ic('plus',22)}<strong style="font-size:15px">Crear un grupo</strong><span class="small muted">Define el objetivo, el cupo y la regla. Te avisamos cuando se unan personas compatibles.</span></button>`}</div>`;
@@ -1003,7 +1003,7 @@ function pLinks(){
     <div class="search" style="max-width:none"><span aria-hidden="true">${ic('search',16,'#6a7190')}</span><label class="hidden" for="link-q">Buscar recurso</label><input id="link-q" placeholder="Busca por materia o tema…" value="${esc(S.linkQ)}"></div>
     <div class="list" id="linklist">${linkList()}</div></div>
     <form class="panel" id="f-link"><h3>Agregar recurso</h3>
-      <div class="field"><label for="ln-t">Nombre</label><input class="input" id="ln-t" placeholder="Ej: Ejercicios de límites"></div>
+      <div class="field"><label for="ln-t">Nombre</label><input class="input" id="ln-t" placeholder="Ej: Referentes de guion"></div>
       <div class="field"><label for="ln-s">Materia</label><select class="select" id="ln-s">${SUBJECTS.map(s=>`<option>${esc(s.name)}</option>`).join('')}</select></div>
       <div class="field"><label for="ln-k">Tipo</label><select class="select" id="ln-k"><option>PDF</option><option>Video</option><option>Guía</option><option>Drive</option></select></div>
       <button class="btn btn-accent btn-block" type="submit">Guardar link</button>
@@ -1082,7 +1082,7 @@ function pPerfilEdit(){
     <div class="panel"><h3>Sobre ti</h3>
       <div class="field"><label for="pf-name">Nombre</label><input class="input" id="pf-name" data-d="name" value="${esc(D.name)}">${err('pname')}</div>
       <div class="field"><label for="pf-uni">Universidad</label><select class="select" id="pf-uni" data-d="uni">${UNIS.map(u=>`<option value="${u.id}" ${u.id===D.uni?'selected':''}>${esc(u.name)}</option>`).join('')}</select></div>
-      <div class="field"><label for="pf-career">Carrera</label><input class="input" id="pf-career" data-d="career" value="${esc(D.career)}" placeholder="Ej: Economía"></div>
+      <div class="field"><label for="pf-career">Carrera</label><input class="input" id="pf-career" data-d="career" value="${esc(D.career)}" placeholder="Ej: Diseño Gráfico"></div>
       <div class="field"><label for="pf-sem">Semestre</label><select class="select" id="pf-sem" data-d="sem">${sems.map(x=>`<option ${x===D.sem?'selected':''}>${x}</option>`).join('')}</select></div>
       <div class="field"><label for="pf-avail">Cuándo puedes estudiar</label><input class="input" id="pf-avail" data-d="avail" value="${esc(D.avail)}" placeholder="Ej: martes y jueves, 3:00–5:00 pm"></div>
       <div class="field"><label for="pf-bio">Cómo te describirías estudiando</label><textarea class="input" id="pf-bio" data-d="bio" rows="3" maxlength="160" placeholder="Ej: prefiero sesiones cortas, con pausas cada 50 minutos">${esc(D.bio)}</textarea><span class="hint">Máximo 160 caracteres. Aparece en tu perfil.</span></div>
@@ -1109,7 +1109,7 @@ function vRate(){
     ${RDIMS.map(([k,d])=>`<div class="rdim"><div><span>${k}</span><small>${d}</small></div>${pick(k, R.dims[k]||0)}</div>`).join('')}
     <p class="label-caps" style="margin:18px 0 8px">¿Volverías a estudiar con ${se.group?'este grupo':esc(se.with.split(' ')[0])}?</p>
     <div class="yn">${['Sí','No'].map(o=>`<button type="button" class="chip ${R.again===o?'on':''}" data-a="ragain" data-v="${o}" aria-pressed="${R.again===o}">${o}</button>`).join('')}</div>
-    <div class="field" style="margin:18px 0 6px"><label for="rt-c">Comentario (opcional)</label><textarea class="input" id="rt-c" rows="3" placeholder="Ej: llegó puntual y explicó muy bien las integrales">${esc(R.comment)}</textarea></div>
+    <div class="field" style="margin:18px 0 6px"><label for="rt-c">Comentario (opcional)</label><textarea class="input" id="rt-c" rows="3" placeholder="Ej: llegó puntual y me ayudó mucho con el guion">${esc(R.comment)}</textarea></div>
     <p class="hint" style="margin:0 0 16px">Tu calificación se suma a su promedio. El comentario aparece en su perfil con tu nombre y la materia.</p>
     <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="rsubmit" ${R.stars?'':'disabled style="opacity:.5;cursor:not-allowed"'}>Enviar calificación</button><button class="btn btn-line" data-a="rcancel">Ahora no</button></div>
   </div></div>`;
@@ -1138,7 +1138,7 @@ function vLive(){
     <div class="kicker">${L.solo?'Modo Solo · concentración':'Sesión acompañada'}</div>
     <h2 id="lv-title" style="margin:4px 0 4px">${esc(L.title)}</h2>
     <p class="small muted" style="margin:0 0 14px">${esc(L.sub)}</p>
-    <div class="field" style="margin-bottom:12px"><label for="lv-goal">${L.solo?'¿Qué quieres lograr en este bloque?':'Objetivo que acordaron para la sesión'}</label><input class="input" id="lv-goal" value="${esc(L.goal)}" placeholder="Ej: terminar los ejercicios 1 al 5"></div>
+    <div class="field" style="margin-bottom:12px"><label for="lv-goal">${L.solo?'¿Qué quieres lograr en este bloque?':'Objetivo que acordaron para la sesión'}</label><input class="input" id="lv-goal" value="${esc(L.goal)}" placeholder="Ej: terminar el primer avance"></div>
     <div class="chips" role="group" aria-label="Ritmo" style="margin-bottom:6px">${RHYTHMS.map(([f,r,l])=>`<button class="chip ${L.focus===f?'on':''}" data-a="lvrhythm" data-v="${f}" aria-pressed="${L.focus===f}">${l}</button>`).join('')}</div>
     <div class="phase ${L.phase}" id="lv-phase" aria-live="polite">${L.phase==='focus'?'Concentración':'Descanso'}</div>
     <div class="timer" id="lv-time" role="timer" aria-label="Tiempo restante">${mmss(L.left)}</div>

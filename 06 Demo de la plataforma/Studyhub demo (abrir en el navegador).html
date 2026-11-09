@@ -147,6 +147,13 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
 .chip{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;color:var(--ink-2);min-height:34px}
 .chip.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.unibar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:10px}
+.unibar .chips{margin:0}
+.unibar .search{flex:1 1 240px;max-width:340px;margin:0;padding:0 12px;border-radius:999px}
+.unibar .search input{padding:7px 0;font-size:13px}
+.unilist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.unilist:empty{display:none}
+.unilist p{margin:0}
 .cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
 .cand{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px}
 .who{display:flex;gap:12px;align-items:center}
@@ -468,22 +475,52 @@ const SUBJECTS = [
   {id:'fin', name:'Finanzas', sym:'%', n:56},
   {id:'est', name:'Estadística', sym:'σ', n:73}
 ];
+const UNIS = [
+  {id:'col', name:'Colegiatura Colombiana', short:'Colegiatura'},
+  {id:'eafit', name:'Universidad EAFIT', short:'EAFIT'},
+  {id:'upb', name:'Universidad Pontificia Bolivariana', short:'UPB'},
+  {id:'udea', name:'Universidad de Antioquia', short:'UdeA'},
+  {id:'udem', name:'Universidad de Medellín', short:'UdeM'},
+  {id:'ces', name:'Universidad CES', short:'CES'},
+  {id:'jav', name:'Pontificia Universidad Javeriana', short:'Javeriana'},
+  {id:'andes', name:'Universidad de los Andes', short:'Uniandes'}
+];
 const CANDS = [
-  {id:'mj', name:'María José', sem:'5.º semestre · Economía', pct:92, color:'#2C5F2D', av:'#2C5F2D',
+  {id:'mj', uni:'col', name:'María José', sem:'5.º semestre · Economía', pct:92, color:'#2C5F2D', av:'#2C5F2D',
    reason:'Coincide en compromiso y concentración', tags:['Compromiso alto','Silencio','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.95,'Coincide'],['Nivel de conocimiento',.8,'Coincide']],
    quote:'Prefiero sesiones cortas y concentradas, con el celular guardado.',
    exchange:'Intercambio: tú me ayudas con Estadística', avail:'Lunes y miércoles, tarde', style:'Silencio y pausas cada 50 min'},
-  {id:'val', name:'Valentina', sem:'3.er semestre · Narrativas Transmedia', pct:78, color:'#B7860B', av:'#E8535A',
+  {id:'val', uni:'col', name:'Valentina', sem:'3.er semestre · Narrativas Transmedia', pct:78, color:'#B7860B', av:'#E8535A',
    reason:'Coincide en compromiso, difiere en concentración', tags:['Compromiso alto','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.55,'Difiere'],['Nivel de conocimiento',.85,'Coincide']],
    quote:'Tiene que ser con alguien que esté estudiando concentrado, si no me desconcentro.',
    exchange:'Almuerzo o ayuda con otra materia', avail:'Martes y jueves, 3:00–5:00 pm', style:'Explicando en voz alta'},
-  {id:'jac', name:'Jacobo', sem:'3.er semestre · Finanzas', pct:65, color:'#E8535A', av:'#2F3C7E',
+  {id:'jac', uni:'col', name:'Jacobo', sem:'3.er semestre · Finanzas', pct:65, color:'#E8535A', av:'#2F3C7E',
    reason:'Nivel de conocimiento distinto', tags:['Silencio'],
    brk:[['Compromiso',.7,'Parcial'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.4,'Difiere']],
    quote:'Me sirve más explicar que estudiar en silencio.',
-   exchange:'Pago por sesión ($20.000 COP)', avail:'Sábados en la mañana', style:'Tipo tutoría'}
+   exchange:'Pago por sesión ($20.000 COP)', avail:'Sábados en la mañana', style:'Tipo tutoría'},
+  {id:'cam', uni:'eafit', name:'Camila', sem:'6.º semestre · Ingeniería de Sistemas', pct:88, color:'#2C5F2D', av:'#027480',
+   reason:'Coincide en concentración y nivel', tags:['Silencio','Mismo nivel'],
+   brk:[['Compromiso',.8,'Coincide'],['Concentración',1,'Coincide'],['Nivel de conocimiento',.9,'Coincide']],
+   quote:'Me rinde más llegar con los ejercicios intentados.',
+   exchange:'Estudiamos juntos, sin nada a cambio', avail:'Martes y jueves, tarde', style:'Silencio y revisión al final'},
+  {id:'sam', uni:'upb', name:'Samuel', sem:'4.º semestre · Diseño Gráfico', pct:81, color:'#2C5F2D', av:'#6a7190',
+   reason:'Coincide en compromiso y nivel', tags:['Compromiso alto','Mismo nivel'],
+   brk:[['Compromiso',.95,'Coincide'],['Concentración',.7,'Parcial'],['Nivel de conocimiento',.85,'Coincide']],
+   quote:'Prefiero acordar desde el inicio qué vamos a sacar adelante.',
+   exchange:'Te ayudo con otra materia', avail:'Miércoles en la mañana', style:'Bloques de 25 minutos'},
+  {id:'lau', uni:'udea', name:'Laura', sem:'7.º semestre · Economía', pct:74, color:'#B7860B', av:'#B7860B',
+   reason:'Coincide en nivel, difiere en compromiso', tags:['Mismo nivel'],
+   brk:[['Compromiso',.55,'Difiere'],['Concentración',.75,'Parcial'],['Nivel de conocimiento',.9,'Coincide']],
+   quote:'Me sirve estudiar con alguien que ya haya visto el tema.',
+   exchange:'Intercambio de apuntes', avail:'Viernes en la tarde', style:'Explicando en voz alta'},
+  {id:'dan', uni:'eafit', name:'Daniel', sem:'3.er semestre · Negocios Internacionales', pct:69, color:'#E8535A', av:'#222A5C',
+   reason:'Nivel de conocimiento distinto', tags:['Compromiso alto'],
+   brk:[['Compromiso',.9,'Coincide'],['Concentración',.7,'Parcial'],['Nivel de conocimiento',.45,'Difiere']],
+   quote:'Busco a alguien que me ayude a ponerme al día.',
+   exchange:'Te invito el almuerzo', avail:'Lunes en la mañana', style:'Tipo tutoría'}
 ];
 const KINDS = [['class','Clase','var(--line-2)','Ej: Cálculo II — clase magistral'],['study','Estudio personal','var(--teal-soft)','Ej: Estadística — taller 2'],['session','Sesión acompañada','var(--coral)','Ej: Economía con María José']];
 const DAYS = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
@@ -493,7 +530,7 @@ const star = (on, s=16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" 
 const stars = (n, s=14) => `<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(i=>star(i<=Math.round(n),s)).join('')}</span>`;
 const rateTag = (r, n) => `<span class="rate">${stars(r)} ${r.toFixed(1)} <small>· ${n} calificacion${n===1?'':'es'}</small></span>`;
 const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4:00 pm','4:00–6:00 pm'];
-const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada'};
+const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada', cam:'Virtual, por videollamada', sam:'Virtual, por videollamada', lau:'Virtual, por videollamada', dan:'Virtual, por videollamada'};
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
 const REPORT_REASONS = ['No se presentó a la sesión','Comportamiento irrespetuoso o acoso','Perfil falso o no es estudiante','Pide dinero o datos personales','Otro motivo'];
 const RHYTHMS = [[25,5,'25 / 5 min'],[50,10,'50 / 10 min']];
@@ -503,7 +540,10 @@ const GROUPS = [
    rule:'Pomodoro 50/10 y celulares guardados', goal:'Resolver juntos el parcial del semestre pasado'},
   {id:'g2', name:'Taller de ejercicios', members:['jac','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
    brk:[['Compromiso',.8,'Coincide'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.45,'Difiere']],
-   rule:'Cada quien trae 3 ejercicios resueltos', goal:'Practicar ejercicios tipo examen'}
+   rule:'Cada quien trae 3 ejercicios resueltos', goal:'Practicar ejercicios tipo examen'},
+  {id:'g3', name:'Preparación del final', members:['cam','dan'], cap:4, day:3, slot:4, place:'Virtual, por videollamada', pct:76,
+   brk:[['Compromiso',.85,'Coincide'],['Concentración',.85,'Coincide'],['Nivel de conocimiento',.5,'Difiere']],
+   rule:'Pomodoro 25/5 y celulares guardados', goal:'Repasar los temas del examen final'}
 ];
 const REPLIES =['¡Dale! ¿Traes tus apuntes del último taller?','Perfecto, yo llevo los ejercicios del parcial pasado.','Listo. Si puedes, repasa antes el tema 3.','Me parece bien 🙂'.replace(' 🙂','')];
 
@@ -511,7 +551,7 @@ function fresh(){
   return {
     screen:'welcome', user:{name:'Valentina Gómez', email:'valentina.gomez@universidad.edu.co'},
     mode:'acompanado', pickMode:'acompanado', page:'home', firstEntry:true,
-    step:'materia', subject:'calc', customSubject:'', showCustom:false, filters:[], cand:null,
+    step:'materia', subject:'calc', customSubject:'', showCustom:false, filters:[], cand:null, uni:'mine', uniQ:'',
     chat:[], prop:null, showOffers:false, scheduling:false, placeMode:false,
     sessions:[], replyIx:0, errors:{},
     blocks:[
@@ -544,7 +584,7 @@ function fresh(){
     ],
     linkQ:'',
     prefs:['Compromiso alto','Silencio'], give:['Te invito el almuerzo','Te ayudo con otra materia'],
-    me:{career:'Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
+    me:{uni:'col', career:'Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
       subjects:[
         {name:'Estadística', lvl:3, topics:'Probabilidad, regresión lineal'},
         {name:'Español', lvl:2, topics:'Ensayo argumentativo, ortografía'},
@@ -558,7 +598,11 @@ function fresh(){
     cr:{
       mj:{r:4.9, n:14, rev:[{t:'Súper comprometida, no sacó el celular en toda la sesión.', by:'Andrés · Cálculo II'},{t:'Explica paso a paso y con paciencia.', by:'Sara · Economía'}]},
       val:{r:4.5, n:9, rev:[{t:'Muy cumplida. Le gusta explicar en voz alta, tenlo en cuenta.', by:'Juan · Narrativas'}]},
-      jac:{r:4.1, n:5, rev:[{t:'Sabe mucho, pero va más rápido que yo.', by:'Camila · Finanzas'}]}
+      jac:{r:4.1, n:5, rev:[{t:'Sabe mucho, pero va más rápido que yo.', by:'Camila · Finanzas'}]},
+      cam:{r:4.7, n:9, rev:[{t:'Llegó con todo preparado y fue al grano.', by:'Tomás · Cálculo II'}]},
+      sam:{r:4.4, n:6, rev:[{t:'Acordamos el objetivo desde el inicio y lo cumplimos.', by:'Paula · Estadística'}]},
+      lau:{r:4.2, n:7, rev:[{t:'Sabe mucho, aunque a veces cancela a última hora.', by:'Juan · Economía'}]},
+      dan:{r:4.0, n:3, rev:[{t:'Muy puntual y con ganas de aprender.', by:'Sara · Economía'}]}
     },
     rating:null,
     blocked:[], reports:[], report:null, privacy:{avail:'matches'},
@@ -569,7 +613,7 @@ function fresh(){
 let S = fresh();
 /* Guarda la demo en este navegador para que no se pierda al recargar. */
 const KEY = 'studyhub-demo-v1';
-try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===1) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); }catch(e){}
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===1) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); S.cr=Object.assign(fresh().cr, S.cr); if(!S.me.uni) S.me.uni='col'; }catch(e){}
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:1, s:{...S, rating:null, report:null, live:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;
@@ -750,6 +794,25 @@ function mMateria(){
   <div class="actions"><button class="btn btn-primary" data-a="find">Buscar compatibles en ${esc(subjName())}</button></div>`;
 }
 const VERIFIED = `<span class="tag ver">${ic('check',11,'currentColor',3)} Correo institucional verificado</span>`;
+const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const uniOf = id => UNIS.find(u=>u.id===id) || UNIS[0];
+const uniSel = () => S.uni==='mine' ? S.me.uni : S.uni;
+const inUni = c => uniSel()==='all' || c.uni===uniSel();
+const uniWhere = () => uniSel()==='all' ? 'todas las universidades' : uniOf(uniSel()).name;
+const uniMatches = () => { const q=norm(S.uniQ.trim()); return q ? UNIS.filter(u=>norm(u.name+' '+u.short).includes(q)) : []; };
+function uniList(){
+  if(!S.uniQ.trim()) return '';
+  const m = uniMatches();
+  if(!m.length) return '<p class="small muted">No encontramos esa universidad. Revisa el nombre.</p>';
+  return m.map(u=>{ const n=CANDS.filter(c=>c.uni===u.id && !S.blocked.includes(c.id)).length; return `<button class="chip" data-a="uni" data-v="${u.id}">${esc(u.name)} · ${n} estudiante${n===1?'':'s'}</button>`; }).join('');
+}
+function uniBar(){
+  const chip = (v,label) => `<button class="chip ${S.uni===v?'on':''}" data-a="uni" data-v="${v}" aria-pressed="${S.uni===v}">${esc(label)}</button>`;
+  const other = S.uni!=='mine' && S.uni!=='all' ? chip(S.uni, uniOf(S.uni).short) : '';
+  return `<p class="label-caps" style="margin-bottom:8px">¿De qué universidad?</p><div class="unibar"><div class="chips" role="group" aria-label="Universidad">${chip('mine', uniOf(S.me.uni).short+' · tu universidad')}${other}${chip('all','Todas')}</div>
+    <form class="search" id="f-uni"><span aria-hidden="true">${ic('search',14,'#6a7190')}</span><label class="hidden" for="uni-q">Buscar otra universidad</label><input id="uni-q" placeholder="Busca otra universidad…" autocomplete="off" value="${esc(S.uniQ)}"></form></div>
+    <div class="unilist" id="unilist" aria-live="polite">${uniList()}</div>`;
+}
 function matchSwitch(){
   return `<div class="segsw" role="group" aria-label="Tipo de sesión">${[['uno','Con una persona'],['grupo','En grupo pequeño']].map(([k,l])=>`<button data-a="mtype" data-v="${k}" aria-pressed="${S.matchType===k}">${l}</button>`).join('')}</div>`;
 }
@@ -767,7 +830,7 @@ function groupCard(g, mine){
   </article>`;
 }
 function mGroups(){
-  const list = GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id));
+  const list = GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id) && g.members.every(m=>inUni(CANDS.find(c=>c.id===m))));
   const mine = S.myGroups.filter(g=>g.subject===subjName());
   const form = S.newGroup ? `<form class="panel" id="f-group" style="margin-bottom:18px;max-width:720px"><h3>Crear un grupo de ${esc(subjName())}</h3>
       <div class="field"><label for="gr-name">Nombre del grupo</label><input class="input" id="gr-name" placeholder="Ej: Repaso del parcial 2"></div>
@@ -780,15 +843,16 @@ function mGroups(){
       <div class="field"><label for="gr-place">Lugar</label><input class="input" id="gr-place" value="Biblioteca central, sala grupal" placeholder="Un lugar público del campus"></div>
       <div class="field"><label for="gr-rule">Regla del grupo</label><select class="select" id="gr-rule"><option>Pomodoro 50/10 y celulares guardados</option><option>Pomodoro 25/5 y celulares guardados</option><option>Cada quien trae ejercicios resueltos</option></select></div>
       <div class="actions" style="margin-top:6px"><button class="btn btn-primary" type="submit">Crear grupo</button><button class="btn btn-line" type="button" data-a="newgroup">Cancelar</button></div></form>` : '';
-  return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), 'Grupos de 3 o 4 personas. La compatibilidad del grupo considera a todos sus integrantes, y te mostramos cuál capa es la más baja.') + stepper() + matchSwitch() + form +
+  return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), 'Grupos de 3 o 4 personas. La compatibilidad del grupo considera a todos sus integrantes, y te mostramos cuál capa es la más baja.') + stepper() + matchSwitch() + uniBar() + form +
   `<div class="cands">${mine.map(g=>groupCard(g,true)).join('')}${list.map(g=>groupCard(g,false)).join('')}${S.newGroup?'':`<button class="cand new" data-a="newgroup">${ic('plus',22)}<strong style="font-size:15px">Crear un grupo</strong><span class="small muted">Define el objetivo, el cupo y la regla. Te avisamos cuando se unan personas compatibles.</span></button>`}</div>`;
 }
 function mResults(){
   if(S.matchType==='grupo') return mGroups();
-  const list = CANDS.filter(c=>!S.blocked.includes(c.id) && S.filters.every(f=>c.tags.includes(f)));
+  const inScope = CANDS.filter(c=>!S.blocked.includes(c.id) && inUni(c));
+  const list = inScope.filter(c=>S.filters.every(f=>c.tags.includes(f))).sort((a,b)=>b.pct-a.pct);
   const chips = ['Compromiso alto','Silencio','Mismo nivel'].map(f=>`<button class="chip ${S.filters.includes(f)?'on':''}" data-a="filter" data-v="${f}" aria-pressed="${S.filters.includes(f)}">${f}</button>`).join('');
   const cards = list.length ? list.map(c=>`<article class="cand">
-      <div class="who"><span class="avatar" style="background:${c.av}">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.sem)}</small></div></div>
+      <div class="who"><span class="avatar" style="background:${c.av}">${esc(c.name[0])}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.sem)} · ${esc(uniOf(c.uni).short)}</small></div></div>
       <div class="pct" style="color:${c.color}">${c.pct}%</div>
       ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
       <div>${VERIFIED}</div>
@@ -797,9 +861,9 @@ function mResults(){
       <div class="tagrow">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
       <div class="xchg"><strong>Pide a cambio:</strong> ${esc(c.exchange)}</div>
       <button class="btn btn-line btn-sm" data-a="viewcand" data-v="${c.id}">Ver perfil y compatibilidad</button>
-    </article>`).join('') : `<div class="empty">Ningún perfil cumple todos los filtros. Quita alguno para ver más opciones.</div>`;
-  return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), `${list.length} persona${list.length===1?'':'s'} compatible${list.length===1?'':'s'} ahora. Ordenadas por compatibilidad, no por disponibilidad.`) + stepper() +
-  matchSwitch() + `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>`;
+    </article>`).join('') : inScope.length ? `<div class="empty">Ningún perfil cumple todos los filtros. Quita alguno para ver más opciones.</div>` : `<div class="empty">Todavía no hay estudiantes de ${esc(uniWhere())} en esta materia.<br><button class="btn btn-line btn-sm" style="margin-top:12px" data-a="uni" data-v="all">Ver todas las universidades</button></div>`;
+  return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), `${list.length} persona${list.length===1?'':'s'} compatible${list.length===1?'':'s'} en ${esc(uniWhere())}. Ordenadas por compatibilidad, no por disponibilidad.`) + stepper() +
+  matchSwitch() + uniBar() + `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>`;
 }
 function mProfile(){
   const c = cand();
@@ -808,7 +872,7 @@ function mProfile(){
   `<div class="prof">
     <div class="panel profside">
       <span class="avatar" style="background:${c.av};width:84px;height:84px;font-size:30px">${esc(c.name[0])}</span>
-      <h2 style="font-size:22px">${esc(c.name)}</h2><span class="small muted">${esc(c.sem)}</span>
+      <h2 style="font-size:22px">${esc(c.name)}</h2><span class="small muted">${esc(c.sem)}<br>${esc(uniOf(c.uni).name)}</span>
       <div class="ring" style="background:conic-gradient(${c.color} 0 ${c.pct}%, var(--line-2) ${c.pct}% 100%)"><div>${c.pct}%</div></div>
       <span class="small muted">compatible contigo en ${esc(subjName())}</span>
       ${rateTag(S.cr[c.id].r, S.cr[c.id].n)}
@@ -978,7 +1042,7 @@ function pPerfil(){
   return head('Tu perfil','Esto es lo que ven los demás y lo que usamos para calcular tu compatibilidad.', `<button class="btn btn-accent" data-a="editprof">Editar perfil</button>`) +
   `<div class="grid2"><div style="display:flex;flex-direction:column;gap:20px">
     <div class="panel">
-      <div class="who" style="margin-bottom:14px"><span class="avatar" style="background:var(--navy);width:56px;height:56px;font-size:22px">${esc(first()[0]||'E')}</span><div><strong style="font-size:17px">${esc(S.user.name)}</strong><small>${esc(M.sem)} · ${esc(M.career)}</small></div></div>
+      <div class="who" style="margin-bottom:14px"><span class="avatar" style="background:var(--navy);width:56px;height:56px;font-size:22px">${esc(first()[0]||'E')}</span><div><strong style="font-size:17px">${esc(S.user.name)}</strong><small>${esc(M.sem)} · ${esc(M.career)} · ${esc(uniOf(M.uni).short)}</small></div></div>
       ${M.bio?`<div class="quote">“${esc(M.bio)}”</div>`:''}
       <div class="facts" style="margin-top:14px"><div class="fact"><small>Disponibilidad</small>${esc(M.avail||'Sin definir')}</div><div class="fact"><small>Correo</small><span style="overflow-wrap:anywhere">${esc(S.user.email)}</span></div></div>
     </div>
@@ -1017,6 +1081,7 @@ function pPerfilEdit(){
   `<form id="f-profile" novalidate><div class="grid2">
     <div class="panel"><h3>Sobre ti</h3>
       <div class="field"><label for="pf-name">Nombre</label><input class="input" id="pf-name" data-d="name" value="${esc(D.name)}">${err('pname')}</div>
+      <div class="field"><label for="pf-uni">Universidad</label><select class="select" id="pf-uni" data-d="uni">${UNIS.map(u=>`<option value="${u.id}" ${u.id===D.uni?'selected':''}>${esc(u.name)}</option>`).join('')}</select></div>
       <div class="field"><label for="pf-career">Carrera</label><input class="input" id="pf-career" data-d="career" value="${esc(D.career)}" placeholder="Ej: Economía"></div>
       <div class="field"><label for="pf-sem">Semestre</label><select class="select" id="pf-sem" data-d="sem">${sems.map(x=>`<option ${x===D.sem?'selected':''}>${x}</option>`).join('')}</select></div>
       <div class="field"><label for="pf-avail">Cuándo puedes estudiar</label><input class="input" id="pf-avail" data-d="avail" value="${esc(D.avail)}" placeholder="Ej: martes y jueves, 3:00–5:00 pm"></div>
@@ -1186,6 +1251,7 @@ document.addEventListener('click', e=>{
       if(se.created) S.myGroups=S.myGroups.filter(g=>g.id!==se.cid);
       if(S.page==='match' && S.step==='confirmed') S.step='materia';
       render(); toast(se.group?'Saliste del grupo. Avisamos a los demás integrantes':`Cancelaste la sesión. Le avisamos a ${se.with}`); break; }
+    case 'uni': S.uni = v===S.me.uni ? 'mine' : v; S.uniQ=''; render(); break;
     case 'mtype': S.matchType=v; S.newGroup=false; render(); break;
     case 'newgroup': S.newGroup=!S.newGroup; render(); if(S.newGroup) setTimeout(()=>{const i=document.getElementById('gr-name'); i&&i.focus();},0); break;
     case 'joingroup': { const g=GROUPS.find(x=>x.id===v), names=g.members.map(id=>CANDS.find(c=>c.id===id).name).join(', ');
@@ -1235,6 +1301,7 @@ document.addEventListener('input', e=>{
   if(e.target.name==='pv-avail'){ S.privacy.avail=e.target.value; save(); toast('Privacidad actualizada'); }
   if(S.draft && e.target.dataset.d){ S.draft[e.target.dataset.d]=e.target.value; }
   if(S.draft && e.target.dataset.sub!==undefined){ const x=S.draft.subjects[+e.target.dataset.sub]; x[e.target.dataset.f]= e.target.dataset.f==='lvl' ? +e.target.value : e.target.value; }
+  if(e.target.id==='uni-q'){ S.uniQ=e.target.value; document.getElementById('unilist').innerHTML=uniList(); }
   if(e.target.id==='link-q'){ S.linkQ=e.target.value; document.getElementById('linklist').innerHTML=linkList(); }
 });
 document.addEventListener('submit', e=>{
@@ -1256,6 +1323,7 @@ document.addEventListener('submit', e=>{
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ S.errors={email:'Escribe un correo válido.'}; render(); return; }
     S.errors={}; S.user.email=email; go({screen:'mode'});
   }
+  if(f==='f-uni'){ const m=uniMatches()[0]; if(m){ S.uni = m.id===S.me.uni ? 'mine' : m.id; S.uniQ=''; render(); } }
   if(f==='f-subj'){ const q=val('subj-q').trim(); if(!q) return; const m=SUBJECTS.find(s=>s.name.toLowerCase().includes(q.toLowerCase())); if(m){S.subject=m.id;} else {S.subject='custom'; S.customSubject=q;} render(); }
   if(f==='f-msg'){ const t=val('msg-in').trim(); if(!t) return;
     if(S.placeMode){
@@ -1294,7 +1362,7 @@ document.addEventListener('submit', e=>{
   if(f==='f-profile'){
     const D=S.draft; if(!D.name.trim()){ S.errors={pname:'Escribe tu nombre.'}; render(); return; }
     S.user.name=D.name.trim();
-    S.me={career:D.career.trim(), sem:D.sem, avail:D.avail.trim(), bio:D.bio.trim(), subjects:D.subjects.filter(x=>x.name.trim()).map(x=>({name:x.name.trim(), lvl:x.lvl, topics:x.topics.trim()}))};
+    S.me={uni:D.uni, career:D.career.trim(), sem:D.sem, avail:D.avail.trim(), bio:D.bio.trim(), subjects:D.subjects.filter(x=>x.name.trim()).map(x=>({name:x.name.trim(), lvl:x.lvl, topics:x.topics.trim()}))};
     S.errors={}; go({editProfile:false, draft:null}); toast('Perfil actualizado');
   }
   if(f==='f-note'){ const t=val('note-in').trim(); if(!t) return; S.books.find(b=>b.id===S.openBook).notes.unshift({d:'Ahora',t}); render(); }

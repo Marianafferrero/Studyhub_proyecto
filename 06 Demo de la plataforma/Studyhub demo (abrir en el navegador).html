@@ -939,7 +939,7 @@ function fresh(){
 let S = fresh();
 /* Guarda la demo en este navegador para que no se pierda al recargar. */
 const KEY = 'studyhub-demo-v1';
-try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, connect:null, more:false}); S.tools=Object.assign(fresh().tools, S.tools); S.uploads.forEach(u=>u.status='ok'); }catch(e){}
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, connect:null, more:false}); S.tools=Object.assign(fresh().tools, S.tools); S.uploads.forEach(u=>u.status='ok'); Object.assign(S, {screen:'welcome', page:'home', step:'materia', board:null, aiView:null, openBook:null, errors:{}}); }catch(e){}
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:3, s:{...S, rating:null, report:null, live:null, connect:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;

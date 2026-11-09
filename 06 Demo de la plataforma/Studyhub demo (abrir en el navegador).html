@@ -4,6 +4,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#2F3C7E">
 <title>Studyhub</title>
+<link rel="apple-touch-icon" href="studyhub-icono-180.png">
+<link rel="icon" type="image/svg+xml" href="studyhub-icono.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="studyhub-icono-512.png">
+<meta name="apple-mobile-web-app-title" content="Studyhub">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap">
@@ -945,6 +949,7 @@ function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg
 function go(patch){ Object.assign(S, patch); render(); window.scrollTo({top:0}); }
 
 /* ---------- auth screens ---------- */
+const LOGO = s => `<svg width="${s}" height="${s}" viewBox="0 0 256 256" aria-hidden="true" style="flex:none"><defs><linearGradient id="sh1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F9C74F"/><stop offset="1" stop-color="#E8535A"/></linearGradient><linearGradient id="sh2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CADCFC"/><stop offset="1" stop-color="#14A3B3"/></linearGradient></defs><rect width="256" height="256" rx="58" fill="#222A5C"/><path d="M176 84A48 48 0 1 0 128 132" fill="none" stroke="url(#sh1)" stroke-width="38" stroke-linecap="round"/><path d="M128 124A48 48 0 1 1 80 172" fill="none" stroke="url(#sh2)" stroke-width="38" stroke-linecap="round"/></svg>`;
 function vWelcome(){
   return `<section class="auth dark">
     <div class="sticker c" style="top:12%;left:9%;--r:-7deg" aria-hidden="true"><b>92%</b>estudia como tú</div>
@@ -952,7 +957,7 @@ function vWelcome(){
     <div class="sticker n" style="bottom:16%;left:13%;--r:5deg;--d:1.2s" aria-hidden="true">25 min de foco</div>
     <div class="sticker" style="bottom:12%;right:12%;--r:-5deg;--d:.4s" aria-hidden="true">¿estudiamos?</div>
     <div class="welcome">
-    <div class="dots"><span></span><span></span><span></span></div>
+    ${LOGO(92)}
     <h1>Studyhub</h1>
     <p>Encuentra con quién estudiar bien, no solo con quién esté libre a tu misma hora. O organiza tu estudio a tu ritmo.</p>
     <div class="stack">
@@ -1037,7 +1042,7 @@ function vApp(){
   const nav = NAV.map(([id,label,icn]) => `<button class="${navOn(id)?'on':''}" data-a="nav" data-v="${id}" aria-current="${navOn(id)?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('');
   return `<div class="app ${solo?'mode-solo':''}">
     <aside class="side">
-      <div class="logo">Studyhub</div>
+      <div class="logo" style="display:flex;align-items:center;gap:10px">${LOGO(34)}Studyhub</div>
       <div class="seg" role="group" aria-label="Modo de estudio">
         <button class="${!solo?'on-a':''}" data-a="setmode" data-v="acompanado" aria-pressed="${!solo}">Acompañado</button>
         <button class="${solo?'on-s':''}" data-a="setmode" data-v="solo" aria-pressed="${solo}">Solo</button>

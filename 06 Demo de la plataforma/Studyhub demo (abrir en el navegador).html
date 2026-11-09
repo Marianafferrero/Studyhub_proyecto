@@ -486,17 +486,17 @@ const UNIS = [
   {id:'andes', name:'Universidad de los Andes', short:'Uniandes'}
 ];
 const CANDS = [
-  {id:'mj', uni:'col', name:'María José', sem:'5.º semestre · Economía', pct:92, color:'#2C5F2D', av:'#2C5F2D',
+  {id:'mj', uni:'col', name:'María José', sem:'5.º semestre · Diseño Estratégico', pct:92, color:'#2C5F2D', av:'#2C5F2D',
    reason:'Coincide en compromiso y concentración', tags:['Compromiso alto','Silencio','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.95,'Coincide'],['Nivel de conocimiento',.8,'Coincide']],
    quote:'Prefiero sesiones cortas y concentradas, con el celular guardado.',
    exchange:'Intercambio: tú me ayudas con Estadística', avail:'Lunes y miércoles, tarde', style:'Silencio y pausas cada 50 min'},
-  {id:'val', uni:'col', name:'Valentina', sem:'3.er semestre · Narrativas Transmedia', pct:78, color:'#B7860B', av:'#E8535A',
+  {id:'val', uni:'col', name:'Valentina', sem:'3.er semestre · Comunicación en Narrativas Transmedia', pct:78, color:'#B7860B', av:'#E8535A',
    reason:'Coincide en compromiso, difiere en concentración', tags:['Compromiso alto','Mismo nivel'],
    brk:[['Compromiso',1,'Coincide'],['Concentración',.55,'Difiere'],['Nivel de conocimiento',.85,'Coincide']],
    quote:'Tiene que ser con alguien que esté estudiando concentrado, si no me desconcentro.',
    exchange:'Almuerzo o ayuda con otra materia', avail:'Martes y jueves, 3:00–5:00 pm', style:'Explicando en voz alta'},
-  {id:'jac', uni:'col', name:'Jacobo', sem:'3.er semestre · Finanzas', pct:65, color:'#E8535A', av:'#2F3C7E',
+  {id:'jac', uni:'eafit', name:'Jacobo', sem:'3.er semestre · Finanzas', pct:65, color:'#E8535A', av:'#2F3C7E',
    reason:'Nivel de conocimiento distinto', tags:['Silencio'],
    brk:[['Compromiso',.7,'Parcial'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.4,'Difiere']],
    quote:'Me sirve más explicar que estudiar en silencio.',
@@ -506,7 +506,7 @@ const CANDS = [
    brk:[['Compromiso',.8,'Coincide'],['Concentración',1,'Coincide'],['Nivel de conocimiento',.9,'Coincide']],
    quote:'Me rinde más llegar con los ejercicios intentados.',
    exchange:'Estudiamos juntos, sin nada a cambio', avail:'Martes y jueves, tarde', style:'Silencio y revisión al final'},
-  {id:'sam', uni:'upb', name:'Samuel', sem:'4.º semestre · Diseño Gráfico', pct:81, color:'#2C5F2D', av:'#6a7190',
+  {id:'sam', uni:'col', name:'Samuel', sem:'4.º semestre · Diseño Gráfico', pct:81, color:'#2C5F2D', av:'#6a7190',
    reason:'Coincide en compromiso y nivel', tags:['Compromiso alto','Mismo nivel'],
    brk:[['Compromiso',.95,'Coincide'],['Concentración',.7,'Parcial'],['Nivel de conocimiento',.85,'Coincide']],
    quote:'Prefiero acordar desde el inicio qué vamos a sacar adelante.',
@@ -516,7 +516,7 @@ const CANDS = [
    brk:[['Compromiso',.55,'Difiere'],['Concentración',.75,'Parcial'],['Nivel de conocimiento',.9,'Coincide']],
    quote:'Me sirve estudiar con alguien que ya haya visto el tema.',
    exchange:'Intercambio de apuntes', avail:'Viernes en la tarde', style:'Explicando en voz alta'},
-  {id:'dan', uni:'eafit', name:'Daniel', sem:'3.er semestre · Negocios Internacionales', pct:69, color:'#E8535A', av:'#222A5C',
+  {id:'dan', uni:'upb', name:'Daniel', sem:'3.er semestre · Ingeniería Industrial', pct:69, color:'#E8535A', av:'#222A5C',
    reason:'Nivel de conocimiento distinto', tags:['Compromiso alto'],
    brk:[['Compromiso',.9,'Coincide'],['Concentración',.7,'Parcial'],['Nivel de conocimiento',.45,'Difiere']],
    quote:'Busco a alguien que me ayude a ponerme al día.',
@@ -530,7 +530,7 @@ const star = (on, s=16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" 
 const stars = (n, s=14) => `<span class="stars" aria-hidden="true">${[1,2,3,4,5].map(i=>star(i<=Math.round(n),s)).join('')}</span>`;
 const rateTag = (r, n) => `<span class="rate">${stars(r)} ${r.toFixed(1)} <small>· ${n} calificacion${n===1?'':'es'}</small></span>`;
 const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4:00 pm','4:00–6:00 pm'];
-const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada', cam:'Virtual, por videollamada', sam:'Virtual, por videollamada', lau:'Virtual, por videollamada', dan:'Virtual, por videollamada'};
+const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada', cam:'Virtual, por videollamada', sam:'Biblioteca central, piso 3', lau:'Virtual, por videollamada', dan:'Virtual, por videollamada'};
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
 const REPORT_REASONS = ['No se presentó a la sesión','Comportamiento irrespetuoso o acoso','Perfil falso o no es estudiante','Pide dinero o datos personales','Otro motivo'];
 const RHYTHMS = [[25,5,'25 / 5 min'],[50,10,'50 / 10 min']];
@@ -538,10 +538,10 @@ const GROUPS = [
   {id:'g1', name:'Repaso para el parcial', members:['mj','val'], cap:4, day:1, slot:3, place:'Biblioteca central, sala grupal 3', pct:84,
    brk:[['Compromiso',.95,'Coincide'],['Concentración',.72,'Parcial'],['Nivel de conocimiento',.85,'Coincide']],
    rule:'Pomodoro 50/10 y celulares guardados', goal:'Resolver juntos el parcial del semestre pasado'},
-  {id:'g2', name:'Taller de ejercicios', members:['jac','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
+  {id:'g2', name:'Taller de ejercicios', members:['sam','mj'], cap:3, day:5, slot:1, place:'Sala de estudio del bloque C', pct:71,
    brk:[['Compromiso',.8,'Coincide'],['Concentración',.9,'Coincide'],['Nivel de conocimiento',.45,'Difiere']],
    rule:'Cada quien trae 3 ejercicios resueltos', goal:'Practicar ejercicios tipo examen'},
-  {id:'g3', name:'Preparación del final', members:['cam','dan'], cap:4, day:3, slot:4, place:'Virtual, por videollamada', pct:76,
+  {id:'g3', name:'Preparación del final', members:['cam','jac'], cap:4, day:3, slot:4, place:'Virtual, por videollamada', pct:76,
    brk:[['Compromiso',.85,'Coincide'],['Concentración',.85,'Coincide'],['Nivel de conocimiento',.5,'Difiere']],
    rule:'Pomodoro 25/5 y celulares guardados', goal:'Repasar los temas del examen final'}
 ];
@@ -584,7 +584,7 @@ function fresh(){
     ],
     linkQ:'',
     prefs:['Compromiso alto','Silencio'], give:['Te invito el almuerzo','Te ayudo con otra materia'],
-    me:{uni:'col', career:'Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
+    me:{uni:'col', career:'Comunicación en Narrativas Transmedia', sem:'5.º semestre', bio:'Me gusta estudiar con metas claras y el celular guardado.', avail:'Lunes y miércoles en la tarde',
       subjects:[
         {name:'Estadística', lvl:3, topics:'Probabilidad, regresión lineal'},
         {name:'Español', lvl:2, topics:'Ensayo argumentativo, ortografía'},

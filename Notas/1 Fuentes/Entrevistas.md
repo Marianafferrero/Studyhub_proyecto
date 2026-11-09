@@ -16,11 +16,13 @@ confiabilidad: mixta (ver Limites y sesgos)
 |---|---|---|---|---|
 | **Juan Martín** | 🟢 real | 4.º sem., Diseño Gráfico | Solo | Le cuesta concentrarse en grupo. Valora las otras perspectivas. Se siente abrumado y poco acogido en la universidad. |
 | **Valentina** | 🟢 real | 3.er sem., Narrativas Transmedia | Sola, o con alguien que se concentre | No logra quedarse callada en grupo. Pide **cuadernos por materia**, calendario rayable y reloj. |
-| **María José** | 🟢 real | 5.º sem., Economía | Acompañada, "no con cualquiera" | Exige **compromiso**. Sus herramientas están dispersas (WhatsApp, Drive, Calendar, Notion). |
+| **María José** | 🟢 real | 5.º sem., Diseño Estratégico | Acompañada, "no con cualquiera" | Exige **compromiso**. Sus herramientas están dispersas (WhatsApp, Drive, Calendar, Notion). |
 | **Mateo** | 🔴 simulada | 4.º sem., Ingeniería | Solo | En grupo "terminamos hablando". No siente que necesite otra app. |
 | **Jacobo** | 🟢 real | 3.er sem., Finanzas | Solo | El **desnivel de conocimiento** frena. Pide programas personalizados. |
 
 > ⚠️ Origen declarado por la autora el 2026-10-20 ([[Cuestionario capa 2]]): 4 reales y 1 simulada (Mateo). Las frases de Mateo no sostienen decisiones por sí solas. Se reemplazan con la encuesta y el test.
+
+> ✏️ *Corrección del 2026-11-08:* María José estudia **Diseño Estratégico**, según la autora. El PDF de transcripciones dice «Economía» por error y se conserva sin cambios.
 
 ## Frases que sostienen el diseño
 - Valentina: tiene que ser "con alguien que estén estudiando concentradas".

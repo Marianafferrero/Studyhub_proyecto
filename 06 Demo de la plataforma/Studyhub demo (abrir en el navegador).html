@@ -1371,8 +1371,8 @@ function countUp(){
   if(calm()) return;
   root.querySelectorAll('.pct,.big,[data-count]').forEach(el=>{
     const m = el.textContent.match(/^(\d+)(.*)$/); if(!m || +m[1]<2) return;
-    const end=+m[1], t0=performance.now();
-    (function tick(t){ const k=Math.min((t-t0)/650,1); el.textContent=Math.round(end*(1-Math.pow(1-k,3)))+m[2]; if(k<1 && el.isConnected) requestAnimationFrame(tick); else el.textContent=end+m[2]; })(t0);
+    const end=+m[1]; let t0;
+    requestAnimationFrame(function tick(t){ t0=t0||t; const k=Math.min((t-t0)/650,1); el.textContent=Math.round(end*(1-Math.pow(1-k,3)))+m[2]; if(k<1 && el.isConnected) requestAnimationFrame(tick); });
   });
 }
 function celebrate(x,y){

@@ -668,6 +668,36 @@ h1,h2,h3{letter-spacing:-.02em}
 .dropz small{display:block;font-weight:600;color:var(--ink-2);margin-top:4px}
 .dropz input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .dropz:focus-within{outline:3px solid var(--ink);outline-offset:2px}
+.gs{position:sticky;top:12px;z-index:30;max-width:620px;margin:0 0 24px}
+.gs input{width:100%;border:var(--ol);border-radius:14px;box-shadow:var(--sh-s);background:var(--paper);padding:13px 62px 13px 44px;font-weight:600;font-size:15px}
+.gs>svg{position:absolute;left:15px;top:15px}
+.gs kbd{position:absolute;right:12px;top:12px;font:800 12px var(--body);border:1.5px solid var(--navy-d);border-radius:7px;padding:3px 7px;background:var(--gold-soft)}
+.gs-list{position:absolute;left:0;right:0;top:calc(100% + 8px);background:var(--paper);border:var(--ol);border-radius:16px;box-shadow:var(--sh);padding:8px;max-height:60vh;overflow:auto}
+.gs-list p{margin:6px 8px;font-size:12px;font-weight:800;color:var(--ink-2)}
+.gs-list button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;border-radius:10px;padding:8px;text-align:left;min-height:44px}
+.gs-list button:hover,.gs-list button.act{background:var(--gold)}
+.gs-list b{display:block;font-size:14px}
+.gs-list small{color:var(--ink-2);font-size:12px}
+.gs-ic{width:30px;height:30px;border-radius:9px;border:2px solid var(--navy-d);display:grid;place-items:center;flex:none;background:var(--paper)}
+.segsw.lib{display:grid;grid-template-columns:repeat(4,minmax(0,auto));width:max-content;max-width:100%}
+.bcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.bcard{position:relative;background:var(--paper);border:var(--ol);border-radius:18px;box-shadow:var(--sh);padding:18px;display:flex;flex-direction:column;gap:10px;transform:rotate(var(--r,0deg));transition:transform .16s,box-shadow .16s}
+.bcard:nth-child(odd){--r:-.5deg}.bcard:nth-child(even){--r:.5deg}
+.bcard:hover{transform:translate(-2px,-4px);box-shadow:9px 9px 0 var(--navy-d)}
+.bcard .open{all:unset;cursor:pointer;display:block;font-family:var(--display);font-weight:800;font-size:20px;padding-right:30px}
+.bcard .open::after{content:"";position:absolute;inset:0}
+.bcard .open:focus-visible::after{outline:3px solid var(--ink);outline-offset:2px;border-radius:18px}
+.bcard .x{position:absolute;right:10px;top:10px;z-index:2;border:0;background:none;font-size:18px;font-weight:800;min-width:30px;min-height:30px;border-radius:8px}
+.bstripes{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.bstripes span{border:1.5px solid var(--navy-d);border-radius:7px;padding:6px 2px;text-align:center;font-weight:800;font-size:13px}
+.bstripes span:nth-child(1){background:var(--coral)}.bstripes span:nth-child(2){background:var(--teal-soft)}.bstripes span:nth-child(3){background:var(--gold)}.bstripes span:nth-child(4){background:var(--navy-l)}
+.t-boards{grid-column:span 5;background:var(--navy-l);color:var(--ink)}
+.t-boards h2{font-size:26px;line-height:1.05;font-weight:800}
+.t-sess{grid-column:span 7}
+.dropgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dropgrid .dropz{padding:16px 10px}
+@media (max-width:900px){.t-boards,.t-sess{grid-column:span 12}}
+@media (max-width:780px){.gs{position:relative;top:0}.gs kbd{display:none}.gs input{padding-right:14px}.segsw.lib{width:100%;grid-template-columns:repeat(4,minmax(0,1fr))}.segsw.lib button{padding:9px 2px;font-size:12px}}
 @media (max-width:1100px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}.aiwrap{grid-template-columns:1fr}}
 @media (max-width:560px){.board{grid-template-columns:1fr}.bcol{min-height:0}}
 @media (max-width:780px){.fab{right:14px;bottom:calc(82px + env(safe-area-inset-bottom,0px))}.aisug{padding:10px 14px 0}}
@@ -833,7 +863,11 @@ function fresh(){
   return {
     screen:'welcome', user:{name:'Valentina Gómez', email:'valentina.gomez@universidad.edu.co'},
     mode:'acompanado', pickMode:'acompanado', page:'home', firstEntry:true,
-    streak:5, aiView:null, srcSubject:'Semiótica', aiFiles:[], uploads:[], ai:[], aiBusy:false, aiDraft:'', board:null, boards:[],
+    libTab:'tableros', libSub:'Todas', streak:5, aiView:null, srcSubject:'Semiótica', aiFiles:[], uploads:[], ai:[], aiBusy:false, aiDraft:'', board:null, boards:[{id:'b1', title:'Semiótica · martes', sub:'Sesión con María José', cols:[
+      {t:'Objetivo',notes:[{id:'s1',text:'Entender signo y significado para la entrega'}]},
+      {t:'Lo que vimos',notes:[{id:'s2',text:'Significante y significado'},{id:'s3',text:'Denotación y connotación'}]},
+      {t:'Dudas',notes:[{id:'s4',text:'¿Cómo aplicar la tríada de Peirce a una marca?'}]},
+      {t:'Siguiente paso',notes:[{id:'s5',text:'Leer el capítulo 5'}]}]}],
     history:[
       {subject:'Semiótica', day:1, with:'María José', goal:'Entender signo y significado para la entrega', vimos:['Significante y significado','Denotación y connotación','Ejemplos en publicidad'], dudas:['¿Cómo aplicar la tríada de Peirce a una marca?'], sig:['Leer el capítulo 5','Traer 3 ejemplos de campañas']},
       {subject:'Narrativas Transmedia', day:3, with:'Samuel', goal:'Definir el mapa de plataformas del proyecto', vimos:['Universo narrativo','Qué cuenta cada plataforma','Puntos de entrada de la audiencia'], dudas:['¿TikTok aporta historia o solo promoción?'], sig:['Terminar el mapa de plataformas','Validarlo con el docente']},
@@ -993,12 +1027,14 @@ function vMode(){
 }
 
 /* ---------- app shell ---------- */
-const TABS = [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['cuadernos','Cuadernos','book']];
-const MORE = [['links','Links','link'],['herramientas','Herramientas','tool'],['perfil','Perfil','user']];
-const NAV = [['home','Inicio','home'],['horarios','Horarios','cal'],['links','Links','link'],['match','Match','match'],['ia','Tu IA','spark'],['herramientas','Herramientas','tool'],['cuadernos','Cuadernos','book']];
+const LIB = ['tableros','cuadernos','links','archivos'];
+const navOn = id => id==='biblio' ? LIB.includes(S.page) : S.page===id;
+const TABS = [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['biblio','Biblioteca','book']];
+const MORE = [['herramientas','Herramientas','tool'],['perfil','Perfil','user']];
+const NAV = [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['ia','Tu IA','spark'],['biblio','Mi biblioteca','book'],['herramientas','Herramientas','tool']];
 function vApp(){
   const solo = S.mode==='solo';
-  const nav = NAV.map(([id,label,icn]) => `<button class="${S.page===id?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('');
+  const nav = NAV.map(([id,label,icn]) => `<button class="${navOn(id)?'on':''}" data-a="nav" data-v="${id}" aria-current="${navOn(id)?'page':'false'}">${ic(icn)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('');
   return `<div class="app ${solo?'mode-solo':''}">
     <aside class="side">
       <div class="logo">Studyhub</div>
@@ -1008,8 +1044,8 @@ function vApp(){
       </div>
       <nav class="nav">${nav}<button class="bottom ${S.page==='perfil'?'on':''}" data-a="nav" data-v="perfil">${ic('user')}<span>Perfil</span></button></nav>
     </aside>
-    <main class="main">${page()}</main>${S.page==='ia'?'':`<button class="fab" data-a="nav" data-v="ia">${ic('spark',18)} Tu IA</button>`}${S.rating?vRate():''}${S.report?vReport():''}${S.live?vLive():''}${S.connect?vConnect():''}
-    <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
+    <main class="main">${searchBox()}${page()}</main>${S.page==='ia'?'':`<button class="fab" data-a="nav" data-v="ia">${ic('spark',18)} Tu IA</button>`}${S.rating?vRate():''}${S.report?vReport():''}${S.live?vLive():''}${S.connect?vConnect():''}
+    <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${navOn(id)&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${navOn(id)?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
     <div class="sheet ${S.more?'open':''}" data-a="closemore"><div class="box" role="dialog" aria-label="Más opciones"><div class="grab"></div>${MORE.map(([id,label,icn])=>`<button class="it" data-a="nav" data-v="${id}">${ic(icn,20,'var(--accent)')}${label}</button>`).join('')}</div></div>
   </div>`;
 }
@@ -1020,11 +1056,13 @@ function page(){
   switch(S.page){
     case 'home': return S.mode==='solo'? pHomeSolo() : pHomeAcomp();
     case 'horarios': return pHorarios();
-    case 'links': return pLinks();
+    case 'links': return libTabs()+pLinks();
+    case 'tableros': return S.board ? pBoard() : libTabs()+pBoards();
+    case 'archivos': return libTabs()+pArchivos();
     case 'match': return pMatch();
     case 'herramientas': return pTools();
-    case 'ia': return S.aiView==='sources' ? pSources() : S.board ? pBoard() : pIA();
-    case 'cuadernos': return pBooks();
+    case 'ia': return S.aiView==='sources' ? pSources() : pIA();
+    case 'cuadernos': return libTabs()+pBooks();
     case 'perfil': return pPerfil();
   }
 }
@@ -1049,8 +1087,13 @@ function pHomeAcomp(){
       </div>
       <button class="btn btn-line btn-sm btn-block" style="margin-top:16px" data-a="nav" data-v="horarios">Ver horario</button>
     </div>
-    <div class="panel"><h3>Próximas sesiones</h3><div class="list">${sess}</div></div>
+    ${boardsTile()}
+    <div class="panel t-sess"><h3>Próximas sesiones</h3><div class="list">${sess}</div></div>
   </div>`;
+}
+function boardsTile(){
+  const n = S.boards.length, last = S.boards[0];
+  return `<button class="tile t-boards" data-a="nav" data-v="tableros"><small>Tus tableros</small><h2>${n?`${n} tablero${n===1?'':'s'}`:'Crea tu primer tablero'}</h2><span class="small" style="font-weight:700">${last?`Último: ${esc(last.title)}`:'Ordena lo que viste en una sesión'}</span><strong style="margin-top:auto">Abrir tableros →</strong></button>`;
 }
 function nextBlock(){ return S.blocks.filter(x=>x.kind!=='class').sort((a,c)=>a.day-c.day||a.slot-c.slot)[0]; }
 const FOCUS_RING = `<span class="ringwrap"><svg viewBox="0 0 104 104" aria-hidden="true"><circle cx="52" cy="52" r="44" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="10"/><path d="M52 8a44 44 0 1 1-35 70" fill="none" stroke="#F9C74F" stroke-width="10" stroke-linecap="round"/></svg>25</span>`;
@@ -1075,7 +1118,7 @@ function pHomeSolo(){
     <section class="tile t-next">${nb?`<div><small>Próximo bloque</small><h2>${esc(nb.title)}</h2><div class="sub2">${DAYS[nb.day]} · ${SLOTS[nb.slot]}</div></div>${FOCUS_RING}<button class="btn btn-gold btn-block" data-a="gosolo" data-v="${nb.id}">Empezar bloque de concentración</button>`:`<div><small>Próximo bloque</small><h2>Tu semana está libre</h2></div><button class="btn btn-gold btn-block" data-a="nav" data-v="horarios">Agregar un bloque</button>`}</section>
     <button class="qcard t-quick" data-a="nav" data-v="horarios">${ic('cal',24,'var(--ink)')}<strong>Horarios</strong><small>${blocksToday} bloque${blocksToday===1?'':'s'} el martes</small></button>
     <button class="qcard t-quick" data-a="nav" data-v="cuadernos">${ic('book',24,'var(--ink)')}<strong>Cuadernos</strong><small>${S.books.length} materias activas</small></button>
-    <button class="qcard t-quick" data-a="nav" data-v="herramientas">${ic('tool',24,'var(--ink)')}<strong>Herramientas</strong><small>${Object.values(S.tools).filter(Boolean).length} conectadas</small></button>
+    <button class="qcard t-quick" data-a="nav" data-v="tableros">${ic('spark',24,'var(--ink)')}<strong>Tableros</strong><small>${S.boards.length} creado${S.boards.length===1?'':'s'}</small></button>
     ${streakTile('t-quick')}
   </div>`;
 }
@@ -1326,11 +1369,27 @@ function fileRow(f, compact){
   const t = toolOf(f.tool), saved = S.links.some(x=>x.t===f.t);
   return `<div class="item">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':`<button class="btn btn-line btn-sm" data-a="aitoggle" data-v="${f.id}" aria-pressed="${S.aiFiles.includes(f.id)}">${S.aiFiles.includes(f.id)?'Quitar de la IA':'Darle a la IA'}</button>`}${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
 }
+function libTabs(){
+  return `<div class="segsw lib" role="group" aria-label="Mi biblioteca">${[['tableros','Tableros'],['cuadernos','Cuadernos'],['links','Links'],['archivos','Archivos']].map(([k,l])=>`<button data-a="nav" data-v="${k}" aria-pressed="${S.page===k}">${l}</button>`).join('')}</div>`;
+}
+function pBoards(){
+  return head('Tus tableros','Aquí quedan todos los tableros que creas, con tu IA o por tu cuenta.') +
+  `<form class="addrow" id="f-newb" style="max-width:560px;margin:0 0 24px"><label class="hidden" for="nb-t">Nombre del tablero</label><input class="input" id="nb-t" placeholder="Nombre del tablero nuevo" autocomplete="off"><button class="btn btn-primary btn-sm" type="submit">Crear tablero</button><button class="btn btn-gold btn-sm" type="button" data-a="nav" data-v="ia">Pedírselo a tu IA</button></form>
+  ${S.boards.length?`<div class="bcards">${S.boards.map(b=>`<article class="bcard"><button class="open" data-a="openboard" data-v="${b.id}">${esc(b.title)}</button><button class="x" data-a="bdel" data-v="${b.id}" aria-label="Borrar ${esc(b.title)}">×</button><span class="small muted">${esc(b.sub)}</span><div class="bstripes" aria-hidden="true">${b.cols.map(c=>`<span>${c.notes.length}</span>`).join('')}</div></article>`).join('')}</div>`:'<div class="empty">Todavía no tienes tableros. Crea uno o pídeselo a tu IA.</div>'}`;
+}
+function pArchivos(){
+  const subs = ['Todas', ...allSubjects()], f = S.libSub, conn = myFiles().filter(x=>f==='Todas'||x.s===f), ups = S.uploads.filter(u=>f==='Todas'||u.s===f);
+  const target = f==='Todas' ? S.srcSubject : f;
+  return head('Tus archivos','Lo que subiste y lo que traes de tus herramientas, por materia.') +
+  `<div class="actions" style="margin:0 0 18px"><button class="btn btn-primary" data-a="aisrc" data-v="${esc(target)}">${ic('plus',16)} Subir archivos, carpetas o notas</button></div>
+  <div class="chips" role="group" aria-label="Materia">${subs.map(n=>`<button class="chip ${n===f?'on':''}" data-a="libsub" data-v="${esc(n)}" aria-pressed="${n===f}">${esc(n)}</button>`).join('')}</div>
+  <div class="list" style="max-width:900px">${ups.map(u=>`<div class="item"><span class="appi sm a-g" aria-hidden="true">${ic(u.folder?'book':'doc',16)}</span><div class="grow"><strong>${esc(u.name)}</strong><small>${esc(u.s)}${u.folder?` · ${u.count} archivos`:''} · subido por ti</small></div><span class="tag ver">Tu IA lo usa</span><button class="btn btn-line btn-sm" data-a="updel" data-v="${u.id}">Quitar</button></div>`).join('')}${conn.map(x=>fileRow(x)).join('')}${!ups.length&&!conn.length?'<div class="empty">No hay archivos aquí todavía.</div>':''}</div>`;
+}
 function pTools(){
-  const groups = [...new Set(TOOLS.map(t=>t.g))], on = TOOLS.filter(t=>S.tools[t.id]).length, files = myFiles();
+  const groups = [...new Set(TOOLS.map(t=>t.g))], on = TOOLS.filter(t=>S.tools[t.id]).length;
   return head('Herramientas',`Conecta lo que ya usas y encuentra tus archivos por materia. Tienes ${on} conectada${on===1?'':'s'}.`) +
   groups.map(g=>`<h3 class="toolgroup">${g}</h3><div class="tools">${TOOLS.filter(t=>t.g===g).map(t=>`<div class="tool">${appIcon(t)}<div class="grow"><strong>${esc(t.full||t.n)}</strong><small>${esc(t.d)}</small></div>${S.tools[t.id]?`<button class="btn btn-sm on-badge" data-a="tool" data-v="${t.id}" aria-pressed="true" aria-label="${esc(t.n)} conectado. Desconectar">${ic('check',14,'var(--green)',2.6)} Conectado</button>`:`<button class="btn btn-accent btn-sm" data-a="connect" data-v="${t.id}" aria-label="Conectar ${esc(t.n)}">Conectar</button>`}</div>`).join('')}</div>`).join('') +
-  `<h3 class="toolgroup" style="margin-top:30px">Tus archivos recientes</h3><div class="list" style="max-width:860px">${files.length?files.map(f=>fileRow(f)).join(''):'<div class="empty">Conecta una herramienta y aquí aparecen tus archivos, ordenados por materia.</div>'}</div>
+  `<div class="actions"><button class="btn btn-gold" data-a="nav" data-v="archivos">Ver mis archivos</button></div>
   <p class="small muted" style="margin-top:16px">Haz clic en “Conectado” para desconectar una herramienta. En este prototipo las conexiones y los archivos son de ejemplo.</p>`;
 }
 function vConnect(){
@@ -1342,6 +1401,45 @@ function vConnect(){
     <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="cxok">Permitir</button><button class="btn btn-line" data-a="cxcancel">Ahora no</button></div>
   </div></div>`;
 }
+
+/* ---------- buscador general ---------- */
+let gsQ='', gsList=[], gsActive=0;
+const clean = {openBook:null, addBlock:null, board:null, aiView:null, more:false, editProfile:false, draft:null};
+const toPage = (page, extra) => go({...clean, page, libTab:LIB.includes(page)?page:S.libTab, ...extra});
+function searchBox(){
+  return `<div class="gs">${ic('search',18)}<label class="hidden" for="gs-q">Buscar en Studyhub</label><input id="gs-q" role="combobox" aria-expanded="false" aria-controls="gs-list" autocomplete="off" placeholder="¿Qué necesitas? Tableros, archivos, materias, acciones…" value="${esc(gsQ)}"><kbd aria-hidden="true">⌘K</kbd><div class="gs-list hidden" id="gs-list" role="listbox"></div></div>`;
+}
+function gsCatalog(){
+  const nb = nextBlock(), i=[];
+  const add=(t,sub,icn,run,kw='')=>i.push({t,sub,icn,run,kw});
+  add('Buscar compañero','Acción','match',()=>toPage('match',{mode:'acompanado',step:'materia'}),'match estudiar con alguien grupo');
+  add('Mis tableros','Mi biblioteca','spark',()=>toPage('tableros'));
+  add('Subir archivos, carpetas o notas','Tu IA','plus',()=>toPage('ia',{aiView:'sources'}),'documentos contenido cargar pasar');
+  add('Hablar con tu IA','Tu IA','spark',()=>toPage('ia'),'asistente chat');
+  add('Hacerme un quiz','Tu IA','spark',()=>{toPage('ia');askAI('Hazme un quiz');},'preguntas examen practicar');
+  add('Organizar mi semana','Tu IA','cal',()=>{toPage('ia');askAI('Organiza mis tareas en la semana');},'planear tareas');
+  if(nb) add('Empezar a concentrarme','Modo foco · '+nb.title,'cal',()=>{toPage('home');startLive({solo:true,title:nb.title,sub:`${DAYS[nb.day]} · ${SLOTS[nb.slot]}`});},'pomodoro temporizador sesion');
+  [['home','Inicio','home'],['horarios','Horarios','cal'],['match','Match','match'],['cuadernos','Cuadernos','book'],['links','Links','link'],['archivos','Mis archivos','doc'],['herramientas','Herramientas','tool'],['perfil','Perfil','user']].forEach(([p,t,n])=>add(t,'Sección',n,()=>toPage(p),p==='herramientas'?'canva word excel adobe drive conectar':''));
+  S.boards.forEach(b=>add(b.title,'Tablero · '+b.sub,'spark',()=>toPage('tableros',{board:b.id})));
+  S.books.forEach(b=>add(b.name,'Cuaderno','book',()=>toPage('cuadernos',{openBook:b.id}),b.notes.map(n=>n.t).join(' ')));
+  myFiles().forEach(f=>add(f.t,`${toolOf(f.tool).n} · ${f.s}`,'doc',()=>toPage('archivos',{libSub:f.s})));
+  S.uploads.forEach(u=>add(u.name,'Archivo subido · '+u.s,'doc',()=>toPage('archivos',{libSub:u.s})));
+  S.links.forEach(l=>add(l.t,'Link · '+l.s,'link',()=>toPage('links',{linkQ:l.t})));
+  SUBJECTS.forEach(x=>add('Buscar compañero en '+x.name,'Match','match',()=>toPage('match',{mode:'acompanado',subject:x.id,step:'results'})));
+  allSubjects().forEach(n=>add('Contenido de '+n,'Lo que sabe tu IA','plus',()=>toPage('ia',{aiView:'sources',srcSubject:n})));
+  return i;
+}
+function gsPaint(){
+  const box=document.getElementById('gs-list'), inp=document.getElementById('gs-q'); if(!box) return;
+  const q=norm(gsQ.trim()), cat=gsCatalog();
+  if(q){ const words=q.split(/\s+/); gsList=cat.filter(x=>{ const h=norm(x.t+' '+x.sub+' '+x.kw); return words.every(w=>h.includes(w)); }).sort((a,b)=>norm(b.t).startsWith(q)-norm(a.t).startsWith(q)).slice(0,7); const text=gsQ.trim(); gsList.push({t:`Preguntarle a tu IA: «${text}»`,sub:'Tu IA',icn:'spark',run:()=>{toPage('ia');askAI(text);}}); }
+  else gsList=cat.slice(0,6);
+  gsActive=Math.min(gsActive,gsList.length-1);
+  box.innerHTML=(q?'':'<p>Lo más usado</p>')+gsList.map((x,i)=>`<button id="gs-o${i}" role="option" aria-selected="${i===gsActive}" class="${i===gsActive?'act':''}" data-a="gs" data-v="${i}"><span class="gs-ic">${ic(x.icn,16)}</span><span><b>${esc(x.t)}</b><small>${esc(x.sub)}</small></span></button>`).join('');
+  box.classList.remove('hidden'); inp.setAttribute('aria-expanded','true'); inp.setAttribute('aria-activedescendant','gs-o'+gsActive);
+}
+function gsClose(){ const box=document.getElementById('gs-list'), inp=document.getElementById('gs-q'); if(box){ box.classList.add('hidden'); inp.setAttribute('aria-expanded','false'); inp.removeAttribute('aria-activedescendant'); } }
+function gsRun(i){ const x=gsList[i]; if(!x) return; gsQ=''; gsActive=0; x.run(); }
 
 /* ---------- tu IA ---------- */
 const AI_SUGGEST = ['Crea un tablero de mi sesión de Semiótica del martes','Resume mis notas de Narrativas Transmedia','Hazme un quiz de Semiótica','Organiza mis tareas en la semana','Hazme un quiz de Fotografía','¿Qué sabes de mis materias?'];
@@ -1358,7 +1456,7 @@ function aiSources(sub){
   if(book) book.notes.forEach(n=>out.push({kind:'note', label:n.t.slice(0,48)+(n.t.length>48?'…':''), from:'Cuaderno', units:1}));
   S.history.filter(h=>h.subject===sub).forEach(h=>out.push({kind:'session', label:`Sesión del ${DAYS[h.day].toLowerCase()} con ${h.with}`, from:'Sesiones', units:2}));
   FILES.filter(f=>f.s===sub && S.aiFiles.includes(f.id) && S.tools[f.tool]).forEach(f=>out.push({kind:'file', id:f.id, label:f.t, from:toolOf(f.tool).n, units:3}));
-  S.uploads.filter(u=>u.s===sub).forEach(u=>out.push({kind:'upload', id:u.id, label:u.name, from:u.status==='ok'?'Archivo subido':'Leyendo…', units:u.status==='ok'?3:0}));
+  S.uploads.filter(u=>u.s===sub).forEach(u=>out.push({kind:'upload', id:u.id, label:u.name, from:u.status!=='ok'?'Leyendo…':u.folder?`Carpeta · ${u.count} archivos`:'Archivo subido', units:u.status!=='ok'?0:u.folder?Math.min(u.count*3,9):3}));
   return out;
 }
 const aiUnits = sub => aiSources(sub).reduce((n,x)=>n+x.units,0);
@@ -1367,7 +1465,7 @@ const meter = (u, label) => { const l=aiLevel(u); return `<span class="lv" role=
 const fromLine = srcs => srcs.length ? `<span class="aifrom">Basado en: ${esc([...new Set(srcs.map(x=>x.kind==='note'?'tus notas':x.label))].slice(0,4).join(' · '))}</span>` : '';
 function aiFilesFor(sub){ return FILES.filter(f=>f.s===sub && S.tools[f.tool] && !S.aiFiles.includes(f.id)); }
 function pSources(){
-  const sub = S.srcSubject, list = allSubjects().includes(sub)?allSubjects():[sub,...allSubjects()], src = aiSources(sub), u = aiUnits(sub), book = S.books.find(b=>b.name===sub), avail = aiFilesFor(sub), hasSession = src.some(x=>x.kind==='session');
+  const sub = S.srcSubject, list = allSubjects().includes(sub)?allSubjects():[sub,...allSubjects()], src = aiSources(sub), u = aiUnits(sub), avail = aiFilesFor(sub), hasSession = src.some(x=>x.kind==='session');
   const can = (yes,t,why) => `<div class="can ${yes?'yes':''}"><span class="ok" aria-hidden="true">${yes?'✓':'–'}</span><div><b>${t}</b><small>${why}</small></div></div>`;
   return `<button class="back" data-a="aiback">${ic('back',16)} Volver a tu IA</button>` + head('Lo que sabe tu IA','Solo usa lo que aparece aquí. Si algo falta, te lo dice en vez de inventarlo.') +
   `<div class="chips" role="group" aria-label="Materia">${list.map(n=>`<button class="chip ${n===sub?'on':''}" data-a="srcsub" data-v="${esc(n)}" aria-pressed="${n===sub}">${esc(n)}</button>`).join('')}</div>
@@ -1379,14 +1477,24 @@ function pSources(){
     ${can(hasSession,'Tablero con contenido',hasSession?'Puede llenarlo con tus sesiones.':'Sin una sesión registrada, lo crea vacío para que lo llenes.')}
   </div>
   <div class="panel"><h3>Agregar contenido</h3>
-    <label class="dropz">${ic('plus',20)}<br>Sube o arrastra un archivo<small>PDF, Word, PowerPoint, Excel, texto o imagen · hasta 25 MB</small><input type="file" id="src-file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg" aria-label="Subir archivos de ${esc(sub)}"></label>
+    <div class="dropgrid"><label class="dropz">${ic('plus',20)}<br>Documentos y archivos<small>PDF, Word, PowerPoint, Excel, texto o imagen · 25 MB</small><input type="file" id="src-file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.png,.jpg,.jpeg" aria-label="Subir archivos de ${esc(sub)}"></label>
+    <label class="dropz">${ic('book',20)}<br>Una carpeta completa<small>Toma los archivos que pueda leer</small><input type="file" id="src-folder" webkitdirectory multiple aria-label="Subir una carpeta de ${esc(sub)}"></label></div>
+    <form id="f-srcnote" style="margin-top:14px"><div class="field" style="margin-bottom:8px"><label for="sn-t">Escribe o pega una nota</label><textarea class="input" id="sn-t" rows="3" placeholder="Pega aquí tus apuntes de ${esc(sub)}"></textarea></div><button class="btn btn-line btn-sm" type="submit">Guardar nota</button></form>
     ${avail.length?`<p class="label-caps" style="margin:18px 0 8px">De tus herramientas</p><div class="list">${avail.map(f=>`<div class="item">${appIcon(toolOf(f.tool),true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(toolOf(f.tool).n)}</small></div><button class="btn btn-gold btn-sm" data-a="aitoggle" data-v="${f.id}">Usar</button></div>`).join('')}</div>`:''}
-    <button class="btn btn-line btn-block" style="margin-top:14px" data-a="aibook" data-v="${esc(sub)}">${book?'Escribir una nota':'Crear cuaderno de esta materia'}</button>
     <p class="small muted" style="margin:12px 0 0">Tus archivos solo los usa tu IA y puedes quitarlos cuando quieras. En este prototipo se guarda el nombre, no el contenido.</p>
   </div></div>`;
 }
+const READABLE=/\.(pdf|docx?|pptx?|xlsx?|txt|png|jpe?g)$/i;
+function addFolder(files){
+  const all=[...files], valid=all.filter(f=>READABLE.test(f.name)&&f.size<=25*1048576);
+  if(!valid.length){ toast('En esa carpeta no hay archivos que pueda leer.'); return; }
+  const name=(all[0].webkitRelativePath||'Carpeta').split('/')[0], skipped=all.length-valid.length;
+  const u={id:'u'+(++noteSeq), name, s:S.srcSubject, status:'reading', folder:true, count:valid.length};
+  S.uploads.push(u); render();
+  setTimeout(()=>{ u.status='ok'; render(); toast(`Tu IA leyó ${valid.length} archivo${valid.length===1?'':'s'} de «${name}»${skipped?` y omitió ${skipped}`:''}`); }, calm()?200:1100);
+}
 function addUploads(files){
-  const ok=/\.(pdf|docx?|pptx?|xlsx?|txt|png|jpe?g)$/i;
+  const ok=READABLE;
   [...files].forEach(f=>{
     if(!ok.test(f.name)){ toast(`No puedo leer «${f.name}». Usa PDF, Word, PowerPoint, Excel, texto o imagen.`); return; }
     if(f.size>25*1048576){ toast(`«${f.name}» pesa más de 25 MB.`); return; }
@@ -1420,15 +1528,16 @@ function pIA(){
   `<div class="aiwrap"><div class="aibox">
     <div class="msgs" id="msgs" aria-live="polite">${thread}${S.aiBusy?'<div class="msg them" aria-label="Escribiendo"><span class="dots3"><i></i><i></i><i></i></span></div>':''}</div>
     <div class="aisug" role="group" aria-label="Ideas para pedirle a la IA">${AI_SUGGEST.map((t,i)=>`<button class="chip" data-a="aiask" data-v="${i}">${esc(t)}</button>`).join('')}</div>
-    <form class="compose" id="f-ai"><label class="hidden" for="ai-q">Escríbele a tu IA</label><input id="ai-q" placeholder="Ej: crea un tablero de mi sesión del martes" autocomplete="off" value="${esc(S.aiDraft)}"><button class="send" type="submit" aria-label="Enviar">${ic('send',18)}</button></form>
+    <form class="compose" id="f-ai"><button class="send" type="button" style="background:var(--gold)" data-a="aisrc" data-v="${esc(S.srcSubject)}" aria-label="Agregar contenido a tu IA">${ic('plus',18)}</button><label class="hidden" for="ai-q">Escríbele a tu IA</label><input id="ai-q" placeholder="Ej: crea un tablero de mi sesión del martes" autocomplete="off" value="${esc(S.aiDraft)}"><button class="send" type="submit" aria-label="Enviar">${ic('send',18)}</button></form>
   </div>
   <aside style="display:flex;flex-direction:column;gap:20px"><div class="panel"><h3>Lo que sabe tu IA</h3><div class="srcrows">${allSubjects().map(n=>`<button data-a="aisrc" data-v="${esc(n)}">${esc(n)} <span>${meter(aiUnits(n))}</span></button>`).join('')}</div><button class="btn btn-gold btn-sm btn-block" style="margin-top:12px" data-a="aisrc" data-v="${esc(S.srcSubject)}">Agregar contenido</button></div>
-  <div class="panel"><h3>Tus tableros</h3><div class="boardlist">${S.boards.length?S.boards.map(b=>`<button data-a="openboard" data-v="${b.id}">${esc(b.title)}<small>${esc(b.sub)}</small></button>`).join(''):'<p class="small muted" style="margin:0">Cuando le pidas un tablero a tu IA, aparece aquí.</p>'}</div>
+  <div class="panel"><h3>Tus tableros</h3><div class="boardlist">${S.boards.length?S.boards.slice(0,3).map(b=>`<button data-a="openboard" data-v="${b.id}">${esc(b.title)}<small>${esc(b.sub)}</small></button>`).join(''):'<p class="small muted" style="margin:0">Cuando le pidas un tablero a tu IA, aparece aquí.</p>'}</div>
+    <button class="btn btn-line btn-sm btn-block" style="margin-top:12px" data-a="nav" data-v="tableros">Ver todos los tableros</button>
     <p class="small muted" style="margin:14px 0 0">En este prototipo las respuestas son de ejemplo, armadas con los datos de la demo.</p></div></aside></div>`;
 }
 function pBoard(){
   const b = S.boards.find(x=>x.id===S.board);
-  return `<button class="back" data-a="closeboard">${ic('back',16)} Volver a tu IA</button>` + head(esc(b.title), esc(b.sub)) +
+  return `<button class="back" data-a="closeboard">${ic('back',16)} Todos los tableros</button>` + head(esc(b.title), esc(b.sub)) +
   `<div class="board">${b.cols.map((c,ci)=>`<section class="bcol" data-col="${ci}" aria-label="${esc(c.t)}"><h3>${esc(c.t)}</h3>${c.notes.map(n=>`<div class="note-s" draggable="true" data-nid="${n.id}"><div class="bar2"><span aria-hidden="true">⋮⋮</span><span>${ci>0?`<button data-a="nmove" data-v="${n.id}" data-k="-1" aria-label="Mover a ${esc(b.cols[ci-1].t)}">‹</button>`:''}${ci<b.cols.length-1?`<button data-a="nmove" data-v="${n.id}" data-k="1" aria-label="Mover a ${esc(b.cols[ci+1].t)}">›</button>`:''}<button data-a="ndel" data-v="${n.id}" aria-label="Borrar nota">×</button></span></div><label class="hidden" for="n-${n.id}">Nota</label><textarea id="n-${n.id}" data-note="${n.id}" rows="3">${esc(n.text)}</textarea></div>`).join('')}<form class="f-bn" data-col="${ci}"><label class="hidden" for="bn-${ci}">Nueva nota en ${esc(c.t)}</label><input class="input" id="bn-${ci}" placeholder="Agregar nota" autocomplete="off"><button class="btn btn-line btn-sm" type="submit" aria-label="Agregar nota">+</button></form></section>`).join('')}</div>`;
 }
 let noteSeq = Date.now();
@@ -1706,7 +1815,7 @@ document.addEventListener('click', e=>{
       if(S.mode==='acompanado'){ S.page='match'; S.step='materia'; } else { S.page='home'; }
       go({}); break;
     case 'setmode': S.mode=v; S.pickMode=v; render(); toast(v==='solo'?'Modo Solo activado':'Modo Acompañado activado'); break;
-    case 'nav': S.openBook=null; S.addBlock=null; S.board=null; S.aiView=null; S.more=false; S.editProfile=false; S.draft=null; go({page:v}); break;
+    case 'nav': S.openBook=null; S.addBlock=null; S.board=null; S.aiView=null; S.more=false; S.editProfile=false; S.draft=null; { const dest = v==='biblio' ? S.libTab : v; go({page:dest, libTab:LIB.includes(dest)?dest:S.libTab}); } break;
     case 'more': S.more=!S.more; render(); break;
     case 'closemore': if(e.target===el){ S.more=false; render(); } break;
     case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[]}); break;
@@ -1735,6 +1844,9 @@ document.addEventListener('click', e=>{
     case 'connect': openModal({connect:v}); break;
     case 'aiask': askAI(AI_SUGGEST[+v]); break;
     case 'aitext': askAI(v); break;
+    case 'libsub': S.libSub=v; render(); break;
+    case 'bdel': S.boards=S.boards.filter(b=>b.id!==v); render(); toast('Tablero borrado'); break;
+    case 'gs': gsRun(+v); break;
     case 'aisrc': go({aiView:'sources', board:null, srcSubject:v}); break;
     case 'aiback': go({aiView:null}); break;
     case 'srcsub': S.srcSubject=v; render(); break;
@@ -1742,7 +1854,7 @@ document.addEventListener('click', e=>{
     case 'aiusefile': S.aiFiles.push(v); render(); toast('Tu IA ya puede usar ese archivo'); break;
     case 'updel': S.uploads = S.uploads.filter(u=>u.id!==v); render(); toast('Archivo quitado de tu IA'); break;
     case 'aibook': { let b=S.books.find(x=>x.name===v); if(!b){ b={id:Date.now(), name:v, notes:[]}; S.books.push(b); } go({page:'cuadernos', openBook:b.id, aiView:null}); break; }
-    case 'openboard': go({board:v}); break;
+    case 'openboard': go({page:'tableros', libTab:'tableros', board:v, aiView:null}); break;
     case 'closeboard': go({board:null}); break;
     case 'aireveal': { const c=S.ai[+v].card; c.open.push(+el.dataset.k); render(); break; }
     case 'aiplan': { const c=S.ai[+v].card; if(c.done) break; c.items.forEach((x,i)=>S.blocks.push({id:Date.now()+i, day:x.day, slot:x.slot, title:x.title, sub:'Propuesto por tu IA', kind:'study'})); c.done=true; render(); toast('Agregado a tu horario'); break; }
@@ -1817,12 +1929,13 @@ document.addEventListener('input', e=>{
   if(e.target.name==='pv-avail'){ S.privacy.avail=e.target.value; save(); toast('Privacidad actualizada'); }
   if(S.draft && e.target.dataset.d){ S.draft[e.target.dataset.d]=e.target.value; }
   if(S.draft && e.target.dataset.sub!==undefined){ const x=S.draft.subjects[+e.target.dataset.sub]; x[e.target.dataset.f]= e.target.dataset.f==='lvl' ? +e.target.value : e.target.value; }
+  if(e.target.id==='gs-q'){ gsQ=e.target.value; gsActive=0; gsPaint(); }
   if(e.target.id==='ai-q'){ S.aiDraft=e.target.value; }
   if(e.target.dataset.note){ const f=findBoardNote(e.target.dataset.note); if(f){ f.c.notes[f.i].text=e.target.value; save(); } }
   if(e.target.id==='uni-q'){ S.uniQ=e.target.value; document.getElementById('unilist').innerHTML=uniList(); }
   if(e.target.id==='link-q'){ S.linkQ=e.target.value; document.getElementById('linklist').innerHTML=linkList(); }
 });
-document.addEventListener('change', e=>{ if(e.target.id==='src-file') addUploads(e.target.files); });
+document.addEventListener('change', e=>{ if(e.target.id==='src-file') addUploads(e.target.files); if(e.target.id==='src-folder') addFolder(e.target.files); });
 let dragId=null;
 document.addEventListener('dragstart', e=>{ const n=e.target.closest&&e.target.closest('.note-s'); if(n){ dragId=n.dataset.nid; e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',dragId); } });
 document.addEventListener('dragover', e=>{ const c=dragId&&e.target.closest('.bcol'); document.querySelectorAll('.bcol.over').forEach(x=>{ if(x!==c) x.classList.remove('over'); }); if(c){ e.preventDefault(); c.classList.add('over'); } });
@@ -1848,6 +1961,8 @@ document.addEventListener('submit', e=>{
     S.errors={}; S.user.email=email; go({screen:'mode'});
   }
   if(f==='f-ai'){ askAI(val('ai-q')); return; }
+  if(f==='f-newb'){ const t=val('nb-t').trim(); if(!t){ toast('Ponle un nombre al tablero'); return; } const b=makeBoard(t,'Tablero propio',[],[],[],[]); go({board:b.id}); return; }
+  if(f==='f-srcnote'){ const t=val('sn-t').trim(); if(!t){ toast('Escribe la nota primero'); return; } let b=S.books.find(x=>x.name===S.srcSubject); if(!b){ b={id:Date.now(), name:S.srcSubject, notes:[]}; S.books.push(b); } b.notes.unshift({d:'Hoy',t}); render(); toast('Nota guardada. Tu IA ya la puede usar'); return; }
   if(e.target.classList.contains('f-bn')){ const inp=e.target.querySelector('input'), t=inp.value.trim(); if(t){ S.boards.find(x=>x.id===S.board).cols[+e.target.dataset.col].notes.push(mkNotes([t])[0]); render(); } return; }
   if(f==='f-uni'){ const m=uniMatches()[0]; if(m){ S.uni = m.id===S.me.uni ? 'mine' : m.id; S.uniQ=''; render(); } }
   if(f==='f-subj'){ const q=val('subj-q').trim(); if(!q) return; const m=SUBJECTS.find(s=>s.name.toLowerCase().includes(q.toLowerCase())); if(m){S.subject=m.id;} else {S.subject='custom'; S.customSubject=q;} render(); }
@@ -1893,7 +2008,15 @@ document.addEventListener('submit', e=>{
   }
   if(f==='f-note'){ const t=val('note-in').trim(); if(!t) return; S.books.find(b=>b.id===S.openBook).notes.unshift({d:'Ahora',t}); render(); }
 });
+document.addEventListener('focusin', e=>{ if(e.target.id==='gs-q') gsPaint(); });
+document.addEventListener('mousedown', e=>{ if(!e.target.closest('.gs')) gsClose(); });
 document.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ const i=document.getElementById('gs-q'); if(i){ e.preventDefault(); i.focus(); i.select(); } return; }
+  if(e.target.id==='gs-q'){
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); gsActive=(gsActive+(e.key==='ArrowDown'?1:-1)+gsList.length)%gsList.length; gsPaint(); return; }
+    if(e.key==='Enter'){ e.preventDefault(); gsRun(gsActive); return; }
+    if(e.key==='Escape'){ gsClose(); return; }
+  }
   if(e.key!=='Escape') return;
   if(S.connect){ S.connect=null; render(); }
   else if(S.report){ S.report=null; render(); }

@@ -520,6 +520,11 @@ h1,h2,h3{letter-spacing:-.02em}
 .send svg{stroke:var(--ink)}
 .prop{border:var(--ol);box-shadow:var(--sh-s)}
 .blk{border:1.5px solid var(--navy-d)}
+.blk{overflow-wrap:anywhere}
+.wklist{display:flex;flex-direction:column;gap:8px}
+.wkrow{display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;align-items:start}
+.wkrow>span{font-weight:800;padding-top:7px}
+.wkrow>div{display:flex;flex-direction:column;gap:6px}
 .blk.class{background:var(--paper);color:var(--ink)}
 .blk.study{color:var(--ink)}
 .blk.session{color:var(--ink)}
@@ -1263,7 +1268,7 @@ function mConfirmed(){
   <div class="panel"><h3>Así queda tu semana</h3>${miniWeek()}</div></div>`;
 }
 function miniWeek(){
-  return `<div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">${DAYS.map((d,i)=>`<div><div class="small" style="font-weight:800;text-align:center;margin-bottom:6px">${d.slice(0,3)}</div>${S.blocks.filter(b=>b.day===i).sort((a,b)=>a.slot-b.slot).map(b=>`<div class="blk ${b.kind}" style="margin-bottom:6px;font-size:10.5px">${esc(b.title)}</div>`).join('')}</div>`).join('')}</div>`;
+  return `<div class="wklist">${DAYS.map((d,i)=>{ const bs=S.blocks.filter(b=>b.day===i).sort((a,b)=>a.slot-b.slot); return bs.length?`<div class="wkrow"><span>${d.slice(0,3)}</span><div>${bs.map(b=>`<div class="blk ${b.kind}">${esc(b.title)}</div>`).join('')}</div></div>`:''; }).join('')}</div>`;
 }
 
 /* ---------- horarios ---------- */

@@ -599,6 +599,13 @@ h1,h2,h3{letter-spacing:-.02em}
 .enter :is(.bar,.mini span) i{animation:fill .8s .2s cubic-bezier(.2,.8,.3,1) backwards;transform-origin:left}
 @keyframes fill{from{transform:scaleX(0)}}
 
+.appi{width:46px;height:46px;border-radius:12px;border:2px solid var(--navy-d);display:grid;place-items:center;flex:none;font-family:var(--display);font-weight:800;font-size:17px;transform:rotate(-4deg)}
+.appi.sm{width:38px;height:38px;font-size:14px;border-radius:10px}
+.a-c{background:var(--coral);color:var(--ink)} .a-t{background:var(--teal);color:#fff} .a-g{background:var(--gold);color:var(--ink)} .a-n{background:var(--navy);color:#fff}
+.toolgroup{margin:0 0 12px;font-size:20px}
+.tools+.toolgroup{margin-top:30px}
+.filebar{display:flex;gap:8px;flex-wrap:wrap}
+.toast{z-index:95}
 @media (max-width:900px){
   .t-cta,.t-match,.t-day,.t-next,.t-week{grid-column:span 12}
   .t-pomo,.t-streak{grid-column:span 6}
@@ -713,6 +720,37 @@ const SLOTS = ['7:00–9:00 am','9:00–11:00 am','11:00 am–1:00 pm','2:00–4
 const PLACE_SUGGEST = {mj:'Biblioteca central, piso 2', val:'Sala de estudio del bloque C', jac:'Virtual, por videollamada', cam:'Virtual, por videollamada', sam:'Biblioteca central, piso 3', lau:'Virtual, por videollamada', dan:'Virtual, por videollamada'};
 const OFFERS = ['Te invito el almuerzo','Te ayudo con otra materia','Te pago la sesión','Estudiamos juntos, sin nada a cambio'];
 const REPORT_REASONS = ['No se presentó a la sesión','Comportamiento irrespetuoso o acoso','Perfil falso o no es estudiante','Pide dinero o datos personales','Otro motivo'];
+const TOOLS = [
+  {id:'canva', n:'Canva', a:'Cv', c:'a-t', g:'Diseño', d:'Tus diseños y presentaciones', file:1},
+  {id:'ai', n:'Illustrator', full:'Adobe Illustrator', a:'Ai', c:'a-g', g:'Diseño', d:'Ilustraciones y vectores', file:1},
+  {id:'ps', n:'Photoshop', full:'Adobe Photoshop', a:'Ps', c:'a-n', g:'Diseño', d:'Edición de imágenes', file:1},
+  {id:'id', n:'InDesign', full:'Adobe InDesign', a:'Id', c:'a-c', g:'Diseño', d:'Publicaciones y revistas', file:1},
+  {id:'pr', n:'Premiere', full:'Adobe Premiere Pro', a:'Pr', c:'a-n', g:'Diseño', d:'Edición de video', file:1},
+  {id:'word', n:'Word', full:'Microsoft Word', a:'W', c:'a-n', g:'Documentos', d:'Guiones, ensayos e informes', file:1},
+  {id:'excel', n:'Excel', full:'Microsoft Excel', a:'X', c:'a-t', g:'Documentos', d:'Cronogramas y presupuestos', file:1},
+  {id:'ppt', n:'PowerPoint', full:'Microsoft PowerPoint', a:'P', c:'a-c', g:'Documentos', d:'Presentaciones de clase', file:1},
+  {id:'drive', n:'Drive', full:'Google Drive', a:'Dr', c:'a-g', g:'Nube y organización', d:'Documentos y apuntes', file:1},
+  {id:'calendar', n:'Calendar', full:'Google Calendar', a:'Ca', c:'a-t', g:'Nube y organización', d:'Tus bloques y sesiones', perm:'Studyhub podrá ver tus eventos y agregar tus bloques de estudio. No cambia ni borra lo que ya tienes.'},
+  {id:'notion', n:'Notion', a:'N', c:'a-n', g:'Nube y organización', d:'Tus páginas de estudio', file:1},
+  {id:'chatgpt', n:'Asistente de IA', a:'IA', c:'a-c', g:'Nube y organización', d:'Resume tus notas y genera práctica', perm:'El asistente solo leerá las notas que le envíes, cuando se lo pidas.'}
+];
+const FILES = [
+  {id:'f1', tool:'canva', t:'Moodboard del universo narrativo', s:'Narrativas Transmedia', w:'Hoy'},
+  {id:'f2', tool:'canva', t:'Presentación de avances', s:'Diseño Estratégico', w:'Ayer'},
+  {id:'f3', tool:'word', t:'Guion, versión 3', s:'Guion', w:'Hoy'},
+  {id:'f4', tool:'word', t:'Ensayo sobre el signo', s:'Semiótica', w:'Hace 2 días'},
+  {id:'f5', tool:'drive', t:'Carpeta de referentes', s:'Narrativas Transmedia', w:'Ayer'},
+  {id:'f6', tool:'excel', t:'Cronograma de la entrega', s:'Diseño Estratégico', w:'Hace 3 días'},
+  {id:'f7', tool:'ai', t:'Mapa de personajes', s:'Narrativas Transmedia', w:'Hace 3 días'},
+  {id:'f8', tool:'ps', t:'Fotos retocadas para la entrega', s:'Fotografía', w:'Lunes'},
+  {id:'f9', tool:'id', t:'Revista del proyecto final', s:'Diseño Estratégico', w:'Lunes'},
+  {id:'f10', tool:'pr', t:'Teaser del proyecto', s:'Narrativas Transmedia', w:'Lunes'},
+  {id:'f11', tool:'ppt', t:'Sustentación final', s:'Guion', w:'Viernes'},
+  {id:'f12', tool:'notion', t:'Plan del semestre', s:'Marketing Estratégico', w:'Viernes'}
+];
+const toolOf = id => TOOLS.find(t=>t.id===id);
+const appIcon = (t, sm) => `<span class="appi ${t.c} ${sm?'sm':''}" aria-hidden="true">${t.a}</span>`;
+const myFiles = subject => FILES.filter(f=>S.tools[f.tool] && (!subject || f.s===subject));
 const RHYTHMS = [[25,5,'25 / 5 min'],[50,10,'50 / 10 min']];
 const GROUPS = [
   {id:'g1', name:'Preparación de la entrega', members:['mj','val'], cap:4, day:1, slot:3, place:'Biblioteca central, sala grupal 3', pct:84,
@@ -754,7 +792,7 @@ function fresh(){
       {id:4,name:'Guion',notes:[{d:'Hace 3 días',t:'Estructura en tres actos: planteamiento, nudo y desenlace.'}]}
     ],
     openBook:null,
-    tools:{calendar:true, drive:true, chatgpt:false, notion:false},
+    tools:{calendar:true, drive:true, canva:true, word:true},
     links:[
       {t:'Guía para hacer mapas de plataformas',s:'Narrativas Transmedia',k:'PDF'},
       {t:'Proyectos transmedia de referencia',s:'Narrativas Transmedia',k:'Drive'},
@@ -793,8 +831,8 @@ function fresh(){
 let S = fresh();
 /* Guarda la demo en este navegador para que no se pierda al recargar. */
 const KEY = 'studyhub-demo-v1';
-try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, more:false}); }catch(e){}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:3, s:{...S, rating:null, report:null, live:null}})); }catch(e){} }
+try{ const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if(saved && saved.v===3) S = Object.assign(fresh(), saved.s, {rating:null, report:null, live:null, connect:null, more:false}); S.tools=Object.assign(fresh().tools, S.tools); }catch(e){}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({v:3, s:{...S, rating:null, report:null, live:null, connect:null}})); }catch(e){} }
 const root = document.getElementById('root');
 const subjName = () => S.subject === 'custom' ? (S.customSubject || 'Otra materia') : SUBJECTS.find(x=>x.id===S.subject).name;
 const cand = () => CANDS.find(c=>c.id===S.cand);
@@ -900,7 +938,7 @@ function vApp(){
       </div>
       <nav class="nav">${nav}<button class="bottom ${S.page==='perfil'?'on':''}" data-a="nav" data-v="perfil">${ic('user')}<span>Perfil</span></button></nav>
     </aside>
-    <main class="main">${page()}</main>${S.rating?vRate():''}${S.report?vReport():''}${S.live?vLive():''}
+    <main class="main">${page()}</main>${S.rating?vRate():''}${S.report?vReport():''}${S.live?vLive():''}${S.connect?vConnect():''}
     <nav class="tabbar" aria-label="Navegación">${TABS.map(([id,label,icn])=>`<button class="${S.page===id&&!S.more?'on':''}" data-a="nav" data-v="${id}" aria-current="${S.page===id?'page':'false'}">${ic(icn,22)}<span>${label}</span>${id==='match'&&S.sessions.filter(x=>!x.rating).length&&!solo?`<span class="badge">${S.sessions.filter(x=>!x.rating).length}</span>`:''}</button>`).join('')}<button class="${MORE.some(m=>m[0]===S.page)||S.more?'on':''}" data-a="more" aria-expanded="${!!S.more}">${ic('plus',22)}<span>Más</span></button></nav>
     <div class="sheet ${S.more?'open':''}" data-a="closemore"><div class="box" role="dialog" aria-label="Más opciones"><div class="grab"></div>${MORE.map(([id,label,icn])=>`<button class="it" data-a="nav" data-v="${id}">${ic(icn,20,'var(--accent)')}${label}</button>`).join('')}</div></div>
   </div>`;
@@ -1190,10 +1228,14 @@ function pHorarios(){
 }
 
 /* ---------- links ---------- */
+function linkBadge(x){
+  const t = TOOLS.find(y=>y.n===x.k);
+  return t ? appIcon(t,true) : `<span class="appi sm a-g" style="font-size:10px" aria-hidden="true">${esc(x.k)}</span>`;
+}
 function linkList(){
   const q = S.linkQ.toLowerCase();
   const l = S.links.filter(x=>!q || (x.t+' '+x.s+' '+x.k).toLowerCase().includes(q));
-  return l.length ? l.map(x=>`<div class="item"><span class="avatar" style="background:var(--accent-soft);color:var(--accent);width:38px;height:38px;font-size:11px;font-family:var(--body)">${esc(x.k)}</span><div class="grow"><strong>${esc(x.t)}</strong><small>${esc(x.s)}</small></div><button class="btn btn-line btn-sm" data-a="openlink">Abrir</button></div>`).join('') : `<div class="empty">No hay recursos que coincidan con “${esc(S.linkQ)}”.</div>`;
+  return l.length ? l.map(x=>`<div class="item">${linkBadge(x)}<div class="grow"><strong>${esc(x.t)}</strong><small>${esc(x.s)}</small></div><button class="btn btn-line btn-sm" data-a="openlink">${TOOLS.some(t=>t.n===x.k)?`Abrir en ${esc(x.k)}`:'Abrir'}</button></div>`).join('') : `<div class="empty">No hay recursos que coincidan con “${esc(S.linkQ)}”.</div>`;
 }
 function pLinks(){
   return head('Links de estudio','Guarda y encuentra los recursos que usas para cada materia.') +
@@ -1203,17 +1245,31 @@ function pLinks(){
     <form class="panel" id="f-link"><h3>Agregar recurso</h3>
       <div class="field"><label for="ln-t">Nombre</label><input class="input" id="ln-t" placeholder="Ej: Referentes de guion"></div>
       <div class="field"><label for="ln-s">Materia</label><select class="select" id="ln-s">${SUBJECTS.map(s=>`<option>${esc(s.name)}</option>`).join('')}</select></div>
-      <div class="field"><label for="ln-k">Tipo</label><select class="select" id="ln-k"><option>PDF</option><option>Video</option><option>Guía</option><option>Drive</option></select></div>
+      <div class="field"><label for="ln-k">Tipo</label><select class="select" id="ln-k"><option>PDF</option><option>Video</option><option>Guía</option>${TOOLS.filter(t=>t.file && S.tools[t.id]).map(t=>`<option>${esc(t.n)}</option>`).join('')}</select></div>
       <button class="btn btn-accent btn-block" type="submit">Guardar link</button>
     </form></div>`;
 }
 
 /* ---------- tools ---------- */
+function fileRow(f, compact){
+  const t = toolOf(f.tool), saved = S.links.some(x=>x.t===f.t);
+  return `<div class="item">${appIcon(t,true)}<div class="grow"><strong>${esc(f.t)}</strong><small>${esc(f.s)}${compact?'':` · ${esc(f.w)}`}</small></div><div class="filebar"><button class="btn btn-line btn-sm" data-a="openfile" data-v="${f.id}">Abrir en ${esc(t.n)}</button>${compact?'':saved?`<span class="tag ver">En Links</span>`:`<button class="btn btn-gold btn-sm" data-a="savefile" data-v="${f.id}">Guardar en Links</button>`}</div></div>`;
+}
 function pTools(){
-  const T = [['calendar','Google Calendar','Sincroniza tus bloques y sesiones','cal'],['drive','Google Drive','Adjunta documentos y apuntes','drive'],['chatgpt','Asistente de IA','Resume tus notas y genera práctica','spark'],['notion','Notion','Importa tus páginas de estudio','doc']];
-  return head('Herramientas','Conecta lo que ya usas para organizar tu estudio en un solo lugar.') +
-  `<div class="tools">${T.map(([k,n,d,icn])=>`<div class="tool"><span class="ti">${ic(icn,22,'#2F3C7E')}</span><div class="grow"><strong>${n}</strong><small>${d}</small></div>${S.tools[k]?`<button class="btn btn-sm on-badge" data-a="tool" data-v="${k}" aria-pressed="true">${ic('check',14,'var(--green)',2.6)} Conectado</button>`:`<button class="btn btn-accent btn-sm" data-a="tool" data-v="${k}" aria-pressed="false">Conectar</button>`}</div>`).join('')}</div>
-  <p class="small muted" style="margin-top:16px">Haz clic en “Conectado” para desconectar una herramienta.</p>`;
+  const groups = [...new Set(TOOLS.map(t=>t.g))], on = TOOLS.filter(t=>S.tools[t.id]).length, files = myFiles();
+  return head('Herramientas',`Conecta lo que ya usas y encuentra tus archivos por materia. Tienes ${on} conectada${on===1?'':'s'}.`) +
+  groups.map(g=>`<h3 class="toolgroup">${g}</h3><div class="tools">${TOOLS.filter(t=>t.g===g).map(t=>`<div class="tool">${appIcon(t)}<div class="grow"><strong>${esc(t.full||t.n)}</strong><small>${esc(t.d)}</small></div>${S.tools[t.id]?`<button class="btn btn-sm on-badge" data-a="tool" data-v="${t.id}" aria-pressed="true" aria-label="${esc(t.n)} conectado. Desconectar">${ic('check',14,'var(--green)',2.6)} Conectado</button>`:`<button class="btn btn-accent btn-sm" data-a="connect" data-v="${t.id}" aria-label="Conectar ${esc(t.n)}">Conectar</button>`}</div>`).join('')}</div>`).join('') +
+  `<h3 class="toolgroup" style="margin-top:30px">Tus archivos recientes</h3><div class="list" style="max-width:860px">${files.length?files.map(f=>fileRow(f)).join(''):'<div class="empty">Conecta una herramienta y aquí aparecen tus archivos, ordenados por materia.</div>'}</div>
+  <p class="small muted" style="margin-top:16px">Haz clic en “Conectado” para desconectar una herramienta. En este prototipo las conexiones y los archivos son de ejemplo.</p>`;
+}
+function vConnect(){
+  const t = toolOf(S.connect);
+  return `<div class="modal" data-a="cxclose"><div class="box" role="dialog" aria-modal="true" aria-labelledby="cx-title" tabindex="-1">
+    ${appIcon(t)}
+    <h2 id="cx-title" style="margin:14px 0 6px">Conectar ${esc(t.full||t.n)}</h2>
+    <p class="muted" style="margin:0 0 16px">${esc(t.perm||'Studyhub podrá ver los nombres de tus archivos para que los encuentres por materia. No los edita, no publica nada y nadie más los ve.')}</p>
+    <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="cxok">Permitir</button><button class="btn btn-line" data-a="cxcancel">Ahora no</button></div>
+  </div></div>`;
 }
 
 /* ---------- notebooks ---------- */
@@ -1343,6 +1399,7 @@ function vLive(){
     <div class="tbar"><i id="lv-bar" style="width:${(1-L.left/total)*100}%"></i></div>
     <div class="rounds" id="lv-rounds">${L.rounds} ronda${L.rounds===1?'':'s'} de concentración completada${L.rounds===1?'':'s'}</div>
     <div class="actions" style="justify-content:center;margin-top:16px"><button class="btn btn-accent" data-a="lvtoggle">${L.running?'Pausar':L.left===total?'Empezar':'Seguir'}</button><button class="btn btn-line" data-a="lvskip">${L.phase==='focus'?'Pasar a descanso':'Volver a concentrarse'}</button></div>
+    ${myFiles(L.title).length?`<p class="label-caps" style="margin:20px 0 8px">Tus archivos de esta materia</p><div class="list">${myFiles(L.title).map(f=>fileRow(f,true)).join('')}</div>`:''}
     <p class="label-caps" style="margin:20px 0 8px">Antes de empezar</p>
     <div class="choice">${[['phone',L.solo?'Celular en silencio y lejos':'Celulares guardados'],['goal','Objetivo claro'],['water','Agua y materiales a la mano']].map(([k,l])=>`<label><input type="checkbox" data-a="lvcheck" data-v="${k}" ${L.checks[k]?'checked':''}><span>${l}</span></label>`).join('')}</div>
     <div class="actions"><button class="btn btn-primary" data-a="lvend">Terminar ${L.solo?'bloque':'sesión'}</button><button class="btn btn-line" data-a="lvclose">Salir sin terminar</button></div>
@@ -1454,7 +1511,13 @@ document.addEventListener('click', e=>{
     case 'cancelblock': S.addBlock=null; render(); break;
     case 'delblock': S.blocks=S.blocks.filter(b=>b.id!=v); render(); toast('Bloque eliminado'); break;
     case 'openlink': toast('En la plataforma real, esto abre el recurso'); break;
-    case 'tool': S.tools[v]=!S.tools[v]; render(); toast(S.tools[v]?'Herramienta conectada':'Herramienta desconectada'); break;
+    case 'tool': S.tools[v]=false; render(); toast(`${toolOf(v).n} desconectado`); break;
+    case 'connect': openModal({connect:v}); break;
+    case 'cxclose': if(e.target===el){ S.connect=null; render(); } break;
+    case 'cxcancel': S.connect=null; render(); break;
+    case 'cxok': { const t=toolOf(S.connect); S.tools[t.id]=true; S.connect=null; render(); celebrate(innerWidth/2, innerHeight/3); toast(`${t.n} conectado`); break; }
+    case 'openfile': { const f=FILES.find(x=>x.id===v); toast(`Aquí se abriría «${f.t}» en ${toolOf(f.tool).n}`); break; }
+    case 'savefile': { const f=FILES.find(x=>x.id===v); S.links.unshift({t:f.t, s:f.s, k:toolOf(f.tool).n}); render(); toast('Guardado en Links'); break; }
     case 'openbook': go({openBook:+v}); break;
     case 'closebook': go({openBook:null}); break;
     case 'editprof': S.draft = JSON.parse(JSON.stringify({name:S.user.name, ...S.me})); S.errors={}; go({editProfile:true}); break;
@@ -1587,7 +1650,8 @@ document.addEventListener('submit', e=>{
 });
 document.addEventListener('keydown', e=>{
   if(e.key!=='Escape') return;
-  if(S.report){ S.report=null; render(); }
+  if(S.connect){ S.connect=null; render(); }
+  else if(S.report){ S.report=null; render(); }
   else if(S.rating){ S.rating=null; render(); }
   else if(S.live){ S.live=null; render(); toast('Saliste de la sesión sin terminarla'); }
   else if(S.more){ S.more=false; render(); }

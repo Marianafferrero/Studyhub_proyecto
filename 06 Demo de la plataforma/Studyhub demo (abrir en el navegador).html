@@ -225,6 +225,8 @@ h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-0
 .sess{border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;background:var(--paper)}
 .sess .line{display:flex;gap:10px;align-items:center;color:var(--ink-2);font-size:13.5px}
 .note{background:#F4F5FB;border-radius:10px;padding:12px 14px;color:var(--navy);font-size:12.5px;font-weight:600}
+.groupnudge{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px;font-size:14px}
+.ctabtns{display:flex;gap:10px;flex-wrap:wrap}
 
 /* calendar */
 .calwrap{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:14px}
@@ -1082,7 +1084,7 @@ function pHomeAcomp(){
   const next = nextBlock();
   return head(`Hola, ${esc(first())}`, 'Tu semana de estudio de un vistazo.') +
   `<div class="bento">
-    <section class="tile t-cta"><div><h2>¿Qué vas a estudiar hoy?</h2><p>Elige la materia y te mostramos quién es compatible contigo antes de que te comprometas.</p></div><button class="btn btn-primary" data-a="startmatch">${ic('match',18)} Buscar compañero</button></section>
+    <section class="tile t-cta"><div><h2>¿Qué vas a estudiar hoy?</h2><p>Elige la materia y te mostramos quién es compatible contigo antes de que te comprometas.</p></div><div class="ctabtns"><button class="btn btn-primary" data-a="startmatch">${ic('match',18)} Buscar compañero</button><button class="btn btn-gold" data-a="startgroup">Buscar un grupo</button></div></section>
     ${best?`<button class="tile t-match" data-a="homecand" data-v="${best.id}"><small>Tu mejor match hoy</small><span class="big">${best.pct}%</span><strong>${esc(best.name)} · ${esc(uniOf(best.uni).short)}</strong><span class="mini">${best.brk.map(([k,v])=>`<div>${esc(k.replace('Nivel de conocimiento','Nivel'))}<span><i style="width:${v*100}%"></i></span></div>`).join('')}</span></button>`:''}
     ${focusTile(next)}
     ${streakTile('')}
@@ -1147,8 +1149,11 @@ function mMateria(){
   `<form class="search" id="f-subj"><span aria-hidden="true">${ic('search',16,'#6a7190')}</span><label class="hidden" for="subj-q">Buscar materia</label><input id="subj-q" placeholder="Busca una materia o escribe un tema específico…" value="${esc(S.subject==='custom'?S.customSubject:'')}"><button class="btn btn-line btn-sm" type="submit">Usar</button></form>
   <p class="label-caps">Materias frecuentes en tu facultad</p>
   <div class="subjects">${cards}<button class="subj add ${S.subject==='custom'?'on':''}" data-a="focussearch">${ic('plus',20)}<strong style="font-size:13px">${S.subject==='custom'?esc(S.customSubject):'Otra materia'}</strong></button></div>
-  <div class="actions"><button class="btn btn-primary" data-a="find">Buscar compatibles en ${esc(subjName())}</button></div>`;
+  <p class="label-caps" style="margin-top:22px">¿Cómo quieres estudiar?</p>${matchSwitch()}
+  <div class="actions" style="margin-top:0"><button class="btn btn-primary" data-a="find">${S.matchType==='grupo'?`Buscar grupos de ${esc(subjName())}`:`Buscar compatibles en ${esc(subjName())}`}</button></div>`;
 }
+/* Grupos visibles para la materia y la universidad elegidas (los mismos que muestra mGroups). */
+const groupsInScope = () => GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id) && g.members.every(m=>inUni(CANDS.find(c=>c.id===m))));
 const VERIFIED = `<span class="tag ver">${ic('check',11,'currentColor',3)} Correo institucional verificado</span>`;
 const norm = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 const uniOf = id => UNIS.find(u=>u.id===id) || UNIS[0];
@@ -1186,7 +1191,7 @@ function groupCard(g, mine){
   </article>`;
 }
 function mGroups(){
-  const list = GROUPS.filter(g=>!g.members.some(m=>S.blocked.includes(m)) && !S.sessions.some(s=>s.cid===g.id) && g.members.every(m=>inUni(CANDS.find(c=>c.id===m))));
+  const list = groupsInScope();
   const mine = S.myGroups.filter(g=>g.subject===subjName());
   const form = S.newGroup ? `<form class="panel" id="f-group" style="margin-bottom:18px;max-width:720px"><h3>Crear un grupo de ${esc(subjName())}</h3>
       <div class="field"><label for="gr-name">Nombre del grupo</label><input class="input" id="gr-name" placeholder="Ej: Repaso de la entrega 2"></div>
@@ -1219,7 +1224,12 @@ function mResults(){
       <button class="btn btn-line btn-sm" data-a="viewcand" data-v="${c.id}">Ver perfil y compatibilidad</button>
     </article>`).join('') : inScope.length ? `<div class="empty">Ningún perfil cumple todos los filtros. Quita alguno para ver más opciones.</div>` : `<div class="empty">Todavía no hay estudiantes de ${esc(uniWhere())} en esta materia.<br><button class="btn btn-line btn-sm" style="margin-top:12px" data-a="uni" data-v="all">Ver todas las universidades</button></div>`;
   return `<button class="back" data-a="step" data-v="materia">${ic('back',16)} Cambiar materia</button>` + head(esc(subjName()), `${list.length} persona${list.length===1?'':'s'} compatible${list.length===1?'':'s'} en ${esc(uniWhere())}. Ordenadas por compatibilidad, no por disponibilidad.`) + stepper() +
-  matchSwitch() + uniBar() + `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>`;
+  matchSwitch() + uniBar() + `<div class="chips" role="group" aria-label="Filtros">${chips}</div><div class="cands">${cards}</div>` + groupNudge();
+}
+/* Aviso para quien prefiere grupo: en la validación del 2026-11-09 la opción quedaba escondida en el interruptor. */
+function groupNudge(){
+  const n = groupsInScope().length;
+  return `<div class="note groupnudge"><span>¿Prefieres estudiar en grupo? ${n?`Hay ${n} grupo${n===1?'':'s'} de 3 o 4 personas en ${esc(uniWhere())}.`:'Puedes crear uno de 3 o 4 personas.'}</span><button class="btn btn-primary btn-sm" data-a="mtype" data-v="grupo">${n?'Ver grupos':'Crear un grupo'}</button></div>`;
 }
 function mProfile(){
   const c = cand();
@@ -1418,7 +1428,8 @@ function searchBox(){
 function gsCatalog(){
   const nb = nextBlock(), i=[];
   const add=(t,sub,icn,run,kw='')=>i.push({t,sub,icn,run,kw});
-  add('Buscar compañero','Acción','match',()=>toPage('match',{mode:'acompanado',step:'materia'}),'match estudiar con alguien grupo');
+  add('Buscar compañero','Acción','match',()=>toPage('match',{mode:'acompanado',step:'materia',matchType:'uno'}),'match estudiar con alguien');
+  add('Buscar un grupo de estudio','Acción','match',()=>toPage('match',{mode:'acompanado',step:'materia',matchType:'grupo'}),'grupo grupal unirme crear');
   add('Mis tableros','Mi biblioteca','spark',()=>toPage('tableros'));
   add('Subir archivos, carpetas o notas','Tu IA','plus',()=>toPage('ia',{aiView:'sources'}),'documentos contenido cargar pasar');
   add('Hablar con tu IA','Tu IA','spark',()=>toPage('ia'),'asistente chat');
@@ -1824,7 +1835,8 @@ document.addEventListener('click', e=>{
     case 'nav': S.openBook=null; S.addBlock=null; S.board=null; S.aiView=null; S.more=false; S.editProfile=false; S.draft=null; { const dest = v==='biblio' ? S.libTab : v; go({page:dest, libTab:LIB.includes(dest)?dest:S.libTab}); } break;
     case 'more': S.more=!S.more; render(); break;
     case 'closemore': if(e.target===el){ S.more=false; render(); } break;
-    case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[]}); break;
+    case 'startmatch': S.mode='acompanado'; go({page:'match', step:'materia', filters:[], matchType:'uno', newGroup:false}); break;
+    case 'startgroup': S.mode='acompanado'; go({page:'match', step:'materia', filters:[], matchType:'grupo', newGroup:false}); break;
     case 'subject': S.subject=v; render(); break;
     case 'focussearch': { const i=document.getElementById('subj-q'); i && i.focus(); break; }
     case 'find': go({step:'results'}); break;

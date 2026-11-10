@@ -2,7 +2,7 @@
 capa: 6 · Mejoras
 tipo: instrumento de validación
 fecha: 2026-11-09
-estado: aplicado en Jotform; 7 respuestas registradas; mejora por aplicar
+estado: aplicado en Jotform; 7 respuestas registradas; mejora aplicada en la demo
 ---
 # Validación de Studyhub · Formulario
 
@@ -113,8 +113,15 @@ Nadie marcó «en desacuerdo» ni «muy en desacuerdo».
 - Encuesta autoaplicada en línea: lo que dicen haber logrado no se observó, y la demo usa datos de ejemplo.
 - Una persona de Finanzas de 3.º–4.º semestre coincide en perfil con un entrevistado; no se sabe si es la misma.
 
-**Mejora elegida y por qué:** por confirmar con la autora. Propuesta: hacer más claro el paso de unirse a un grupo, porque es la única tarea que falló y que además se nombró como confusión.
+**Mejora elegida y por qué:** hacer más claro el paso de unirse a un grupo, porque es la única tarea que falló y que además se nombró como confusión. Aprobada por la autora el 2026-11-09. Ver [[Registro de decisiones]].
 
-**Qué cambió en el prototipo:** pendiente.
+**Qué cambió en el prototipo (2026-11-09):**
+- En el paso Materia aparece «¿Cómo quieres estudiar?», con las opciones «Con una persona» y «En grupo pequeño». Al elegir grupo, el botón dice «Buscar grupos de [materia]».
+- El Inicio tiene un segundo botón, «Buscar un grupo», junto a «Buscar compañero».
+- Los resultados 1 a 1 terminan con un aviso: «¿Prefieres estudiar en grupo? Hay N grupos…», con un botón para verlos.
+- El buscador general incluye la acción «Buscar un grupo de estudio».
+- Probado en computador y a 375 px de ancho: las tres rutas llevan a los grupos, y unirse termina en «Sesión confirmada».
+
+**Pendiente:** no se volvió a probar con usuarios después del cambio.
 
 Relacionado: [[Limites y sesgos]] · [[Registro de decisiones]]

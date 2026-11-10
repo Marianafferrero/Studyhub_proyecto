@@ -2,7 +2,7 @@
 capa: 6 · Mejoras
 tipo: instrumento de validación
 fecha: 2026-11-09
-estado: listo para montar en Google Forms
+estado: aplicado en Jotform; 7 respuestas registradas; mejora por aplicar
 ---
 # Validación de Studyhub · Formulario
 
@@ -58,16 +58,63 @@ Intenta hacer estas 5 tareas, sin ayuda:
 - Si es en persona, míralas usarlo sin ayudar y anota dónde se traban.
 - Si comparten computador, abre cada prueba en una ventana de incógnito, porque la demo guarda el avance en el navegador.
 
-## Resultados (llenar con las respuestas reales)
+## Resultados (evidencia, 2026-11-09)
 
-| Participante | Carrera | Tareas logradas (de 5) | Comentario positivo | Opción de mejora |
-|---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
+Respuestas en Jotform, exportadas el 2026-11-09: **7 participantes**, aplicado en línea y sin observación. Fuente: `Prueba_de_Studyhub2026-11-09_19_58_45.xlsx`, guardado fuera del repositorio.
 
-**Mejora elegida y por qué:**
+| Participante | Universidad · carrera | Prefiere | Tareas logradas | Comentario positivo | Opción de mejora |
+|---|---|---|---|---|---|
+| 1 | Autónoma de Manizales · Diseño Industrial | Solo | 5 de 5 (2 con dificultad) | «toda la interfaz» | «que la plataforma obtenga toda la información de la web como una IA» |
+| 2 | Icesi · Diseño de Medios Interactivos | Solo | 4 de 5 (no logró unirse a un grupo) | «El UI de la página está super bien y la calidez que transmite» | «la saturación y aplicación de color» |
+| 3 | Colegiatura · Narrativas Transmedia | Solo | 5 de 5 | «Su estética divertida y es muy intuitiva» | «Nada» |
+| 4 | Colegiatura · Diseño de Modas | Acompañado | 5 de 5 (1 con dificultad) | «La organización» | «nada» |
+| 5 | Colegiatura · Diseño de Modas | Acompañado | 5 de 5 | «Es muy fácil de manejar, y poder conectar con otras personas genera más conocimiento» | «Nada» |
+| 6 | Icesi · Mercadeo | Solo | 4 de 4 respondidas (1 con dificultad; dejó la tarea 5 sin responder) | «Horario y poder ordenar todos los espacios» | «Quizás los tableros» |
+| 7 | EAFIT · Finanzas | Solo | 4 de 5 (no logró buscar compañero) | «Su estilo visual» | «Algunos detalles técnicos de elementos visuales que a veces se bugean» |
 
-**Qué cambió en el prototipo:**
+### Por tarea
+
+| Tarea | Fácil | Con dificultad | No lo logró |
+|---|---|---|---|
+| 1 · Buscar compañero y solicitar sesión | 5 | 1 | 1 |
+| 2 · Unirse a un grupo | 5 | 1 | 1 |
+| 3 · Crear y encontrar un tablero | 7 | 0 | 0 |
+| 4 · Quiz de Fotografía | 5 | 2 | 0 |
+| 5 · Modo Solo | 6 | 0 | 0 (1 sin respuesta) |
+
+### Opinión (7 respuestas)
+
+| Afirmación | Muy de acuerdo | De acuerdo | Neutral |
+|---|---|---|---|
+| La plataforma da ganas de usarla | 7 | 0 | 0 |
+| Entendí por qué alguien es compatible conmigo | 6 | 0 | 1 |
+| Fue fácil encontrar lo que necesitaba | 2 | 5 | 0 |
+| Confiaría en estudiar con alguien que encontré aquí | 2 | 4 | 1 |
+| Tu IA me sería útil para estudiar | 4 | 1 | 2 |
+| La usaría en lugar de organizarme por WhatsApp | 3 | 1 | 3 |
+
+Nadie marcó «en desacuerdo» ni «muy en desacuerdo».
+
+- **Qué pesa más al elegir compañero:** nivel parecido (3), compromiso (2), concentración (1), horarios (1).
+- **Con cuántas personas estudiar:** las 7 respondieron «con una persona».
+- **Prefieren estudiar:** solo (5), acompañados (2).
+
+## Lectura (interpretación)
+
+- **Comentario positivo más repetido:** lo visual. 4 de 7 nombran la interfaz, la estética o el estilo; 2 destacan la organización y el horario.
+- **Opción de mejora:** 3 de 7 no mejorarían nada, y las otras 4 piden cosas distintas: color, tableros, fallas visuales e IA con información de la web. Ninguna se repite. Por eso la mejora se elige cruzando con las tareas: **unirse a un grupo** es la única que falló y además se nombró como confusión («si, no unirme a un grupo de estudio»). Buscar compañero también tuvo un fallo, pero nadie lo comentó.
+- **Las tres capas se sostienen:** nivel, compromiso y concentración suman 6 de 7 en lo que más pesa, y solo 1 eligió horarios. Coincide con [[Hallazgos]].
+- **Tensión con el brief:** las 7 personas prefieren estudiar con una sola persona, mientras el brief exige grupos ([[Brief del cliente]]). Los grupos se mantienen por la restricción, pero el match 1 a 1 queda como el camino principal.
+- **Tu IA y WhatsApp son lo más tibio:** 2 y 3 respuestas neutrales. La propuesta de que la IA busque en la web va contra la decisión de que solo use tu material; se registra, pero no se aplica.
+
+## Límites
+
+- Muestra pequeña y concentrada en diseño: 5 de 7 son de carreras de diseño y 3 de 7 son de Colegiatura.
+- Encuesta autoaplicada en línea: lo que dicen haber logrado no se observó, y la demo usa datos de ejemplo.
+- Una persona de Finanzas de 3.º–4.º semestre coincide en perfil con un entrevistado; no se sabe si es la misma.
+
+**Mejora elegida y por qué:** por confirmar con la autora. Propuesta: hacer más claro el paso de unirse a un grupo, porque es la única tarea que falló y que además se nombró como confusión.
+
+**Qué cambió en el prototipo:** pendiente.
 
 Relacionado: [[Limites y sesgos]] · [[Registro de decisiones]]
